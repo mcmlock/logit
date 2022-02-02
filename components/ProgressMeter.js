@@ -20,6 +20,7 @@ const ProgressMeter = props => {
                     toggleTimeLog={toggleTimeLog}
                     meterId={props.meter.id}
                     createTimeLog={props.createTimeLog}
+                    recordTime={props.recordTime}
                 />
 
                 <View style={styles.titleRow}>

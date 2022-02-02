@@ -52,14 +52,36 @@ class Main extends Component {
             }
             this.state.logs.push(newLog);
             this.setState({ logs: this.state.logs });
-            console.log(this.state.logs);
         }
+
+        const recordTime = (meterId, hoursRecorded, minutesRecorded, positive) => {
+            const meter = this.state.progressMeters.filter(meter => meter.id === meterId)[0];
+
+            let totalHours = Number(hoursRecorded) + Number((minutesRecorded / 60).toFixed(2));
+            console.log(totalHours);
+            let record;
+            if (positive) {
+                record = meter.progressMade + totalHours;
+            }
+            else {
+                record = meter.progressMade - totalHours;
+                if (record < 0) {
+                    record = 0;
+                }
+            }
+            const updatedEvent = {...meter, progressMade: record};
+            this.state.progressMeters = this.state.progressMeters.filter(meter => meter.id !== meterId);
+            this.state.progressMeters.push(updatedEvent);
+            this.setState({ progressMeters: this.state.progressMeters});
+            console.log(this.state.progressMeters);
+        } 
 
         const progressMeters = this.state.progressMeters.map(meter => {
             return (
                 <ProgressMeter
                     meter={meter}
                     createTimeLog={createTimeLog}
+                    recordTime={recordTime}
                 />
             );
         });

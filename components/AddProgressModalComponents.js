@@ -53,9 +53,8 @@ export const TimeLogger = props => {
                                 const year = new Date().getFullYear() - 2000;
                                 const hour = new Date().getHours();
                                 const minute = new Date().getMinutes();
-                                const hoursRecorded = Number(hourInput);
-                                const minutesRecorded = Number((Number(minuteInput) / 60).toFixed(2));
-                                props.createTimeLog(props.meterId, hoursRecorded, minutesRecorded, true, month, day, year, hour, minute);
+                                props.createTimeLog(props.meterId, Number(hourInput), Number(minuteInput), true, month, day, year, hour, minute);
+                                props.recordTime(props.meterId, Number(hourInput), Number(minuteInput), true);
                             }}
                         />
                     </View>
