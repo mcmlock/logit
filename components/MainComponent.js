@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Button, ScrollView, SafeAreaView, Text } from 'react-native';
-import CreateProgressMeter from './CreateProgressMeterComponent';
-import ProgressMeter from './ProgressMeter';
+import StackNavigator from './StackNavigator';
 
 class Main extends Component {
     constructor(props) {
@@ -11,15 +9,10 @@ class Main extends Component {
             idTracker: 0,
             progressMeters: [],
             logs: [],
-            createModalOpen: false
         };
     };
 
     render() {
-
-        const toggleCreateModal = () => {
-            this.setState({ createModalOpen: !this.state.createModalOpen });
-        };
 
         const createProgressMeter = barProperties => {
             const progressMeter = {
@@ -76,51 +69,16 @@ class Main extends Component {
             console.log(this.state.progressMeters);
         } 
 
-        const progressMeters = this.state.progressMeters.map(meter => {
-            return (
-                <ProgressMeter
-                    meter={meter}
-                    createTimeLog={createTimeLog}
-                    recordTime={recordTime}
-                />
-            );
-        });
-
         return (
-            <View style={styles.container}>
-                <CreateProgressMeter
-                    visible={this.state.createModalOpen}
-                    toggleModal={toggleCreateModal}
-                    createProgressMeter={createProgressMeter}
-                />
-                <SafeAreaView>
-                    <ScrollView style={{ height: '100%' }}>
-                        {progressMeters}
-                    </ScrollView>
-                    <View style={styles.createBtn}>
-                        <Button
-                            title="Open Modal"
-                            onPress={() => toggleCreateModal()}
-                        />
-                    </View>
-                </SafeAreaView>
-
-            </View>
+            <StackNavigator
+                progressMeters={this.state.progressMeters}
+                logs={this.state.logs}
+                createProgressMeter={createProgressMeter}
+                createTimeLog={createTimeLog}
+                recordTime={recordTime}
+            />
         );
-    }
-
+    };
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
-    createBtn: {
-        position: 'absolute',
-        bottom: 70.0,
-        right: 10.0,
-        zIndex: 1
-    }
-})
 
 export default Main;

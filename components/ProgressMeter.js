@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { TimeLogger } from './AddProgressModalComponents';
+import { TimeLogger } from './AddProgressModal';
 
 const ProgressMeter = props => {
 
-    let progress = (props.meter.progressMade / props.meter.goal) * 280;
+    let progress = (props.meter.progressMade / props.meter.goal) * 260;
 
     const [timeLogOpen, setTimeLogOpen] = useState(false);
     const toggleTimeLog = () => {
@@ -14,7 +14,7 @@ const ProgressMeter = props => {
 
     return (
         <View>
-            <View>
+            <View style={styles.container}>
                 <TimeLogger
                     visible={timeLogOpen}
                     toggleTimeLog={toggleTimeLog}
@@ -24,19 +24,24 @@ const ProgressMeter = props => {
                 />
 
                 <View style={styles.titleRow}>
-                    <Text>{props.meter.title}</Text>
+                    <Text style={styles.titleText}>{props.meter.title}</Text>
                     {props.meter.hasDueDate &&
-                        <Text>{props.meter.month}/{props.meter.day}/{props.meter.year}</Text>
+                        <Text style={styles.titleText}>{props.meter.month}/{props.meter.day}/{props.meter.year}</Text>
                     }
                 </View>
                 <View style={{ flexDirection: 'row' }}>
-                    <View style={styles.outerLayer}> 
-                        <View style={{ width: progress, height: 32, backgroundColor: 'blue' }} />
-                        <Text style={styles.progress} >{props.meter.progressMade} / {props.meter.goal}</Text>
+                    <View style={styles.outerLayer}>
+                        <View style={{ width: progress, height: 36, backgroundColor: 'blue' }} />
+                        <Text style={styles.progress}>{props.meter.progressMade} / {props.meter.goal}</Text>
                     </View>
-                    <View>
+                    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
                         <Icon
                             name="plus"
+                            type='font-awesome'
+                            onPress={() => toggleTimeLog()}
+                        />
+                        <Icon
+                            name="eye"
                             type='font-awesome'
                             onPress={() => toggleTimeLog()}
                         />
@@ -48,20 +53,37 @@ const ProgressMeter = props => {
 };
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        marginHorizontal: 24.0,
+        marginVertical: 16.0,
+        paddingHorizontal: 6.0,
+        paddingVertical: 10.0,
+        borderWidth: 1.0,
+    },
     titleRow: {
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginBottom: 14.0
+    },
+    titleText: {
+        fontSize: 26.0
     },
     outerLayer: {
         marginVertical: 0,
         marginHorizontal: 0,
-        height: 36.0,
-        width: 280.0,
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        height: 40.0,
+        width: 260.0,
         borderWidth: 2.0,
         borderRadius: 4.0
     },
     progress: {
-        position: 'absolute'
+        position: 'absolute',
+        alignSelf: 'flex-end',
+        paddingRight: 12.0,
+        fontSize: 16.0
     }
 });
 

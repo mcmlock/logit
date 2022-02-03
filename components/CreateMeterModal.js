@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Modal, TouchableHighlight, View, Text, TextInput, SafeAreaView, Button } from 'react-native';
-import { DayPicker, MonthPicker } from './DatePickerComponents';
+import { DayPicker, MonthPicker } from './DatePickers';
 
 const CreateProgressMeter = props => {
 
@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
     textInput: {
         margin: 10.0,
         padding: 5.0,
-        width: 150.0,
+        width: 170.0,
         fontSize: 26.0,
         borderStyle: 'solid',
         borderColor: "#000",

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Modal, Text, View, Button, TextInput, SafeAreaView } from 'react-native';
-import { Icon } from 'react-native-elements/dist/icons/Icon';
+import { Icon } from 'react-native-elements';
 
 export const TimeLogger = props => {
 
@@ -13,7 +13,7 @@ export const TimeLogger = props => {
             visible={props.visible}
         >
             <View style={styles.modal}>
-                <SafeAreaView>
+                <View style={{borderWidth: 1, paddingHorizontal: 40.0, paddingVertical: 15.0, borderRadius: 5.0}}>
                     <View style={styles.inputRow}>
                         <TextInput
                             placeholder='HH'
@@ -21,7 +21,7 @@ export const TimeLogger = props => {
                             value={hourInput}
                             onChangeText={value => setHourInput(value)}
                         />
-                        <Text>:</Text>
+                        <Text style={{fontSize: 26.0, fontWeight: 'bold', paddingHorizontal: 5.0}}>:</Text>
                         <TextInput
                             placeholder='MM'
                             style={styles.textInput}
@@ -29,7 +29,7 @@ export const TimeLogger = props => {
                             onChangeText={value => setMinuteInput(value)}
                         />
                     </View>
-                    <View style={{flexDirection: 'row', marginHorizontal: 50.0, justifyContent: 'space-between'}}>
+                    <View style={{flexDirection: 'row', marginHorizontal: 50.0, justifyContent: 'space-between', paddingBottom: 40}}>
                         <Icon
                             name='minus'
                             type='font-awesome'
@@ -62,7 +62,7 @@ export const TimeLogger = props => {
                         title="Back"
                         onPress={() => props.toggleTimeLog()}
                     />
-                </SafeAreaView>
+                </View>
             </View>
         </Modal>
     );
@@ -72,14 +72,21 @@ const styles = StyleSheet.create({
     modal: {
         flex: 1,
         justifyContent: 'center',
-        alignContent: 'center'
+        alignItems: 'center',
+        marginHorizontal: 50.0,
     },
     inputRow: {
         flexDirection: 'row',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 20.0
     },
     textInput: {
-        width: 100.0,
-        borderWidth: 1
+        height: 50.0,
+        width: 80.0,
+        borderWidth: 1,
+        textAlign: 'center',
+        fontSize: 26.0,
+        borderRadius: 10.0
     }
 })
