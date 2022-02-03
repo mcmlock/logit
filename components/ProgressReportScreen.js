@@ -65,7 +65,9 @@ const ProgressReportScreen = props => {
     let dateValue = monthValue + dayValue + yearValue;
 
     // Gathering the data for the chart
-    const past30 = props.logs.filter(log => log.meterId === props.selectedMeter && log.dateValue >= dateValue - (1440 * 30));
+    const logs = props.logs.filter(log => log.meterId === props.selectedMeter);
+
+    const past30 = props.logs.filter(log => log.meterId === props.selectedMeter && log.dateValue >= dateValue - (1440 * 29));
     let yScale = 1;
     if (yMax === 1) {
         yScale = 1;
@@ -87,7 +89,7 @@ const ProgressReportScreen = props => {
                 <Text style={{ fontSize: 20.0 }}>{yScale}</Text>
             </View>
             <View style={styles.graph}>
-                <PlotPoints past30={past30} dateValue={dateValue} yMax={yMax} setYMax={setYMax} />
+                <PlotPoints logs={logs} dateValue={dateValue} yMax={yMax} setYMax={setYMax} />
                 <LineGraph past30={past30} dateValue={dateValue} yMax={yMax} />
             </View>
             <Button

@@ -63,7 +63,7 @@ const CreateProgressMeter = props => {
                                     style={styles.textInput} 
                                     onChangeText={value => setGoal(Number(value))}
                                 />
-                                <Text style={styles.labelText} >Hours</Text>
+                                <Text style={styles.labelText}>Hours</Text>
                             </View>
                         }
                         {units === 'dollars' &&

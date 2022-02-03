@@ -4,7 +4,32 @@ import Svg, { Line } from 'react-native-svg';
 
 const { width, height } = Dimensions.get('window');
 
-export const PlotPoints = ({ past30, dateValue, yMax, setYMax }) => {
+export const PlotPoints = ({ logs, past30, dateValue, yMax, setYMax }) => {
+
+    let numOfPoints = 1;
+    let full30 = logs.filter(log => log.dateValue <= dateValue - (1440 * 29)).length ? true : false;
+    if (full30) {
+        numOfPoints = 30;
+    } else {
+        for (i = 28; i >= 0; i--) {
+            if (logs.filter(log => log.dateValue === dateValue - (1440 * i)).length) {
+                numOfPoints = i + 1;
+                break;
+            }  
+        }
+    }
+    const toChart = logs.filter(log => log.dateValue >= dateValue - (1440 * numOfPoints));
+    const yValues = [];
+    for (i = numOfPoints; i >= 0; i--) {
+        let dayLogs = toChart.filter(log => log.dateValue === dateValue - (1440 * i));
+        const dayValue = dayLogs.reduce(function(dayValue, log) {
+            const updatedVal = dayValue + log.hoursRecorded + (log.minutesRecorded / 60);
+            return updatedVal;
+        }, 0);
+        yValues.push(dayValue);
+    }
+
+    /*
     const day30 = past30.filter(log => log.dateValue === dateValue);
     let value30 = 0;
     for (i = 0; i < day30.length; i++) {
@@ -28,7 +53,7 @@ export const PlotPoints = ({ past30, dateValue, yMax, setYMax }) => {
     for (i = 0; i < day27.length; i++) {
         value27 += day27[i].hoursRecorded + (day27[i].minutesRecorded / 60);
         if (value27 > yMax) { setYMax(value27) };
-    }
+    } */
 
     // Caculatindg the scale of the graph
     let yScale;
@@ -48,45 +73,7 @@ export const PlotPoints = ({ past30, dateValue, yMax, setYMax }) => {
 
     return (
         <View style={styles.container}>
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'flex-end',
-                    height: value27 / yScale * height * .25
-                }}
-            >
-                <View style={styles.point} />
-            </View>
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'flex-end',
-                    height: value28 / yScale * height * .25
-                }}
-            >
-                <View style={styles.point} />
-            </View>
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    height: value29 / yScale * height * .25
-                }}
-            >
-                <View style={styles.point} />
-            </View>
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    height: value30 / yScale * height * .25,
-                }}
-            >
-                <View style={styles.point}/>
-            </View>
-            <View style={{ flex: 1 }} />
+            
         </View>
     );
 }
@@ -213,3 +200,43 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     }
 })
+
+/*<View
+                style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'flex-end',
+                    height: value27 / yScale * height * .25
+                }}
+            >
+                <View style={styles.point} />
+            </View>
+            <View
+                style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'flex-end',
+                    height: value28 / yScale * height * .25
+                }}
+            >
+                <View style={styles.point} />
+            </View>
+            <View
+                style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    height: value29 / yScale * height * .25
+                }}
+            >
+                <View style={styles.point} />
+            </View>
+            <View
+                style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    height: value30 / yScale * height * .25,
+                }}
+            >
+                <View style={styles.point}/>
+            </View>
+            <View style={{ flex: 1 }} /> */
