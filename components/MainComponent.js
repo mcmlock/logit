@@ -24,6 +24,28 @@ class Main extends Component {
             logs: [
                 {
                     meterId: 0,
+                    hoursRecorded: 6,
+                    minutesRecorded: 35,
+                    month: 1,
+                    day: 31,
+                    year: 22,
+                    hour: 3,
+                    minutes: 40,
+                    dateValue: 11613600
+                },
+                {
+                    meterId: 0,
+                    hoursRecorded: 6,
+                    minutesRecorded: 35,
+                    month: 1,
+                    day: 31,
+                    year: 22,
+                    hour: 3,
+                    minutes: 40,
+                    dateValue: 11613600
+                },
+                {
+                    meterId: 0,
                     hoursRecorded: 2,
                     minutesRecorded: 15,
                     month: 2,
