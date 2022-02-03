@@ -54,14 +54,7 @@ export const PlotPoints = ({ past30, dateValue, yMax, setYMax }) => {
                     height: value28 / yScale * 220
                 }}
             >
-                <View
-                    style={{
-                        borderWidth: 1,
-                        height: 10.0,
-                        width: 10.0,
-                        borderRadius: '50%'
-                    }}
-                />
+                <View style={styles.point} />
             </View>
             <View
                 style={{
@@ -70,32 +63,17 @@ export const PlotPoints = ({ past30, dateValue, yMax, setYMax }) => {
                     height: value29 / yScale * 220
                 }}
             >
-                <View
-                    style={{
-                        borderWidth: 1,
-                        marginLeft: 'auto',
-                        height: 10.0,
-                        width: 10.0,
-                        borderRadius: '50%'
-                    }}
-                />
+                <View style={styles.point} />
             </View>
             <View
                 style={{
                     flex: 1,
                     flexDirection: 'row',
                     height: value29 / yScale * 220,
+                    paddingTop: (value29 / yScale * 220) - (value30 / yScale * 220),
                 }}
             >
-                <View style={{
-                    borderWidth: 1,
-                    marginTop: (value29 / yScale * 220) - (value30 / yScale * 220),
-                    marginLeft: 'auto',
-                    height: 10.0,
-                    width: 10.0,
-                    borderRadius: '50%'
-                }}
-                />
+                <View style={styles.point} />
             </View>
             <View style={{ flex: 1 }} />
         </View>
@@ -130,18 +108,18 @@ export const LineGraph = ({ past30, dateValue, yMax }) => {
     };
     const determineBottomOffset = (leftVal, rightVal) => {
         if (rightVal >= leftVal) {
-            return leftVal / yScale * 220 - 5;
+            return leftVal / yScale * 220 - 2.5;
         } else {
-            return rightVal / yScale * 220 - 5;
+            return rightVal / yScale * 220 - 2.5;
         }
     }
     const drawLine = (leftVal, rightVal) => {
         if (rightVal >= leftVal) {
-            return <Line x1={0} y1={determineHeight(leftVal, rightVal)} x2={1 / 4 * 340} y2={0} stroke="red" strokeWidth="1.6" />
+            return <Line x1={0} y1={determineHeight(leftVal, rightVal)} x2={1 / 4 * 340} y2={0} stroke="#666" strokeWidth="1.6" />
         } else if (leftVal >= rightVal) {
-            return <Line x1={0} y1={0} x2={1 / 4 * 340} y2={determineHeight(leftVal, rightVal)} stroke="red" strokeWidth="1.6" />
+            return <Line x1={0} y1={0} x2={1 / 4 * 340} y2={determineHeight(leftVal, rightVal)} stroke="#666" strokeWidth="1.6" />
         } else {
-            return <Line x1={0} y1={0} x2={1 / 4 * 340} y2={0} stroke="red" strokeWidth="1.6" />
+            return <Line x1={0} y1={0} x2={1 / 4 * 340} y2={0} stroke="#666" strokeWidth="1.6" />
         }
     }
 
@@ -173,7 +151,7 @@ export const LineGraph = ({ past30, dateValue, yMax }) => {
                 width={1 / 4 * 340}
                 style={{
                     position: 'absolute',
-                    left: (1 / 4 * 340 - 5),
+                    left: (1 / 4 * 340 - 2.5),
                     bottom: determineBottomOffset(value28, value29),
                 }}
             >
@@ -184,7 +162,7 @@ export const LineGraph = ({ past30, dateValue, yMax }) => {
                 width={1 / 4 * 340}
                 style={{
                     position: 'absolute',
-                    left: (2 / 4 * 340 - 5),
+                    left: (2 / 4 * 340 - 2.5),
                     bottom: determineBottomOffset(value29, value30),
                 }}
             >
@@ -201,5 +179,13 @@ const styles = StyleSheet.create({
         width: 340.0,
         flexDirection: 'row',
         alignItems: 'flex-end',
+    },
+    point: {
+        borderWidth: 1,
+        marginLeft: 'auto',
+        backgroundColor: 'black',
+        height: 5.0,
+        width: 5.0,
+        borderRadius: 5
     }
 })
