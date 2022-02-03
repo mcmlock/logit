@@ -1,6 +1,8 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 import Svg, { Line } from 'react-native-svg';
+
+const { width, height } = Dimensions.get('window');
 
 export const PlotPoints = ({ past30, dateValue, yMax, setYMax }) => {
     const day30 = past30.filter(log => log.dateValue === dateValue);
@@ -51,7 +53,7 @@ export const PlotPoints = ({ past30, dateValue, yMax, setYMax }) => {
                     flex: 1,
                     flexDirection: 'row',
                     justifyContent: 'flex-end',
-                    height: value28 / yScale * 220
+                    height: value27 / yScale * height * .25
                 }}
             >
                 <View style={styles.point} />
@@ -60,7 +62,8 @@ export const PlotPoints = ({ past30, dateValue, yMax, setYMax }) => {
                 style={{
                     flex: 1,
                     flexDirection: 'row',
-                    height: value29 / yScale * 220
+                    justifyContent: 'flex-end',
+                    height: value28 / yScale * height * .25
                 }}
             >
                 <View style={styles.point} />
@@ -69,11 +72,19 @@ export const PlotPoints = ({ past30, dateValue, yMax, setYMax }) => {
                 style={{
                     flex: 1,
                     flexDirection: 'row',
-                    height: value29 / yScale * 220,
-                    paddingTop: (value29 / yScale * 220) - (value30 / yScale * 220),
+                    height: value29 / yScale * height * .25
                 }}
             >
                 <View style={styles.point} />
+            </View>
+            <View
+                style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    height: value30 / yScale * height * .25,
+                }}
+            >
+                <View style={styles.point}/>
             </View>
             <View style={{ flex: 1 }} />
         </View>
@@ -99,27 +110,27 @@ export const LineGraph = ({ past30, dateValue, yMax }) => {
 
     const determineHeight = (leftVal, rightVal) => {
         if (rightVal > leftVal) {
-            return (rightVal / yScale * 220) - (leftVal / yScale * 220);
+            return (rightVal / yScale * height * .25) - (leftVal / yScale * height * .25);
         } else if (leftVal > rightVal) {
-            return (leftVal / yScale * 220) - (rightVal / yScale * 220);
+            return (leftVal / yScale * height * .25) - (rightVal / yScale * height * .25);
         } else {
             return 1.6; // Width of the stroke
         }
     };
     const determineBottomOffset = (leftVal, rightVal) => {
         if (rightVal >= leftVal) {
-            return leftVal / yScale * 220 - 2.5;
+            return leftVal / yScale * (height * .25);
         } else {
-            return rightVal / yScale * 220 - 2.5;
+            return rightVal / yScale * (height * .25);
         }
     }
     const drawLine = (leftVal, rightVal) => {
         if (rightVal >= leftVal) {
-            return <Line x1={0} y1={determineHeight(leftVal, rightVal)} x2={1 / 4 * 340} y2={0} stroke="#666" strokeWidth="1.6" />
+            return <Line x1={0} y1={determineHeight(leftVal, rightVal)} x2={1 / 5 * width * .85} y2={0} stroke="#666" strokeWidth="1.6" />
         } else if (leftVal >= rightVal) {
-            return <Line x1={0} y1={0} x2={1 / 4 * 340} y2={determineHeight(leftVal, rightVal)} stroke="#666" strokeWidth="1.6" />
+            return <Line x1={0} y1={0} x2={1 / 5 * width * .85} y2={determineHeight(leftVal, rightVal)} stroke="#666" strokeWidth="1.6" />
         } else {
-            return <Line x1={0} y1={0} x2={1 / 4 * 340} y2={0} stroke="#666" strokeWidth="1.6" />
+            return <Line x1={0} y1={0} x2={1 / 5 * width * .85} y2={0} stroke="#666" strokeWidth="1.6" />
         }
     }
 
@@ -147,11 +158,22 @@ export const LineGraph = ({ past30, dateValue, yMax }) => {
     return (
         <View style={styles.container}>
             <Svg
-                height={determineHeight(value28, value29)}
-                width={1 / 4 * 340}
+                height={determineHeight(value27, value28)}
+                width={1 / 5 * width * .85}
                 style={{
                     position: 'absolute',
-                    left: (1 / 4 * 340 - 2.5),
+                    left: (1 / 5 * width * .85),
+                    bottom: determineBottomOffset(value27, value28),
+                }}
+            >
+                {drawLine(value27, value28)}
+            </Svg>
+            <Svg
+                height={determineHeight(value28, value29)}
+                width={1 / 5 * width * .85}
+                style={{
+                    position: 'absolute',
+                    left: (2 / 5 * width * .85),
                     bottom: determineBottomOffset(value28, value29),
                 }}
             >
@@ -159,10 +181,10 @@ export const LineGraph = ({ past30, dateValue, yMax }) => {
             </Svg>
             <Svg
                 height={determineHeight(value29, value30)}
-                width={1 / 4 * 340}
+                width={1 / 5 * width * .85}
                 style={{
                     position: 'absolute',
-                    left: (2 / 4 * 340 - 2.5),
+                    left: (3 / 5 * width * .85),
                     bottom: determineBottomOffset(value29, value30),
                 }}
             >
@@ -175,17 +197,19 @@ export const LineGraph = ({ past30, dateValue, yMax }) => {
 const styles = StyleSheet.create({
     container: {
         position: 'absolute',
-        height: 220.0,
-        width: 340.0,
+        height: (height * .25),
+        width: (width * .85),
         flexDirection: 'row',
         alignItems: 'flex-end',
     },
     point: {
-        borderWidth: 1,
+        position: 'absolute',
+        top: -2.5,
+        right: -2.5,
         marginLeft: 'auto',
         backgroundColor: 'black',
         height: 5.0,
         width: 5.0,
-        borderRadius: 5
+        borderRadius: 5,
     }
 })

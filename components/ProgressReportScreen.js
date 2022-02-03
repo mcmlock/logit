@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { StyleSheet, SafeAreaView, View, Text, Button } from 'react-native';
+import { Dimensions, StyleSheet, SafeAreaView, View, Text, Button } from 'react-native';
 import { PlotPoints, LineGraph } from './LineGraph';
+
+const { width, height } = Dimensions.get('window');
 
 const ProgressReportScreen = props => {
 
@@ -64,25 +66,25 @@ const ProgressReportScreen = props => {
 
     // Gathering the data for the chart
     const past30 = props.logs.filter(log => log.meterId === props.selectedMeter && log.dateValue >= dateValue - (1440 * 30));
-    let yMaxScale = 1;
+    let yScale = 1;
     if (yMax === 1) {
-        yMaxScale = 1;
+        yScale = 1;
     } else if (yMax < 50) {
-        yMaxScale = (Math.floor(yMax / 5) + 1) * 5;
+        yScale = (Math.floor(yMax / 5) + 1) * 5;
     } else if (yMax < 100) {
-       yMaxScale = (Math.floor(yMax / 25) + 1) * 25;
+        yScale = (Math.floor(yMax / 25) + 1) * 25;
     } else if (yMax < 500) {
-        yMaxScale = (Math.floor(yMax / 50) + 1) * 50;
+        yScale = (Math.floor(yMax / 50) + 1) * 50;
     } else if (yMax < 1000) {
-        yMaxScale = (Math.floor(yMax / 100) + 1) * 100;
+        yScale = (Math.floor(yMax / 100) + 1) * 100;
     } else {
-        yMaxScale = (Math.floor(yMax / 1000) + 1) * 1000;
+        yScale = (Math.floor(yMax / 1000) + 1) * 1000;
     }
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={{ width: 340.0, marginBottom: 12.0, alignItems: 'flex-start' }}>
-                <Text style={{fontSize: 20.0}}>{yMaxScale}</Text>
+            <View style={{ width: '85%', alignItems: 'flex-start' }}>
+                <Text style={{ fontSize: 20.0 }}>{yScale}</Text>
             </View>
             <View style={styles.graph}>
                 <PlotPoints past30={past30} dateValue={dateValue} yMax={yMax} setYMax={setYMax} />
@@ -101,15 +103,17 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
-        marginTop: 100.0
+        marginTop: 100.0,
     },
     graph: {
-        height: 220.0,
-        width: 340.0,
+        marginVertical: 15.0,
+        width: (width * .85),
+        height: (height * .25),
         flexDirection: 'row',
         alignItems: 'flex-end',
         borderLeftWidth: 2,
         borderBottomWidth: 2,
+
     },
 });
 
