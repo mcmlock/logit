@@ -8,17 +8,11 @@ const ProgressMeter = props => {
     const logs = props.logs.filter(log => log.meterId === props.meter.id);
     let hoursOutput = 0;
     for (i = 0; i < logs.length; i++) {
-        if (logs[i].positive) {
-            hoursOutput += logs[i].hoursRecorded + (logs[i].minutesRecorded / 60);
-        } else {
-            hoursOutput -= (logs[i].hoursRecorded + (logs[i].minutesRecorded / 60));
-            if (hoursOutput < 0) {
-                hoursOutput = 0;
-            }
-        }
+        hoursOutput += logs[i].hoursRecorded + (logs[i].minutesRecorded / 60);
     }
     let totalHours = hoursOutput.toFixed(2);
-    let progress = (totalHours / props.meter.goal) * 260;
+    let progress = (totalHours / props.meter.goal) * 256;
+    if (progress > 256) {progress = 256};
 
     const [timeLogOpen, setTimeLogOpen] = useState(false);
     const toggleTimeLog = () => {

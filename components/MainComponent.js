@@ -26,7 +26,6 @@ class Main extends Component {
                     meterId: 0,
                     hoursRecorded: 2,
                     minutesRecorded: 15,
-                    positive: true,
                     month: 2,
                     day: 1,
                     year: 22,
@@ -38,7 +37,6 @@ class Main extends Component {
                     meterId: 0,
                     hoursRecorded: 1,
                     minutesRecorded: 5,
-                    positive: true,
                     month: 2,
                     day: 2,
                     year: 22,
@@ -50,7 +48,6 @@ class Main extends Component {
                     meterId: 0,
                     hoursRecorded: 3,
                     minutesRecorded: 0,
-                    positive: true,
                     month: 2,
                     day: 2,
                     year: 22,
@@ -62,7 +59,6 @@ class Main extends Component {
                     meterId: 0,
                     hoursRecorded: 2,
                     minutesRecorded: 44,
-                    positive: true,
                     month: 2,
                     day: 3,
                     year: 22,
@@ -97,7 +93,7 @@ class Main extends Component {
             this.setState({ idTracker: (this.state.idTracker + 1), progressMeter: this.state.progressMeters });
         }
 
-        const createTimeLog = (meterId, hoursRecorded, minutesRecorded, positive, month, day, year, hour, minutes) => {
+        const createTimeLog = (meterId, hoursRecorded, minutesRecorded, month, day, year, hour, minutes) => {
 
             // Calculating the day value
             let monthValue;
@@ -154,7 +150,6 @@ class Main extends Component {
                 meterId: meterId,
                 hoursRecorded: hoursRecorded,
                 minutesRecorded: minutesRecorded,
-                positive: positive,
                 month: month,
                 day: day,
                 year: year,

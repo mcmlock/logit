@@ -29,21 +29,7 @@ export const TimeLogger = props => {
                             onChangeText={value => setMinuteInput(value)}
                         />
                     </View>
-                    <View style={{flexDirection: 'row', marginHorizontal: 50.0, justifyContent: 'space-between', paddingBottom: 40}}>
-                        <Icon
-                            name='minus'
-                            type='font-awesome'
-                            onPress={() => {
-                                const month = new Date().getMonth() + 1;
-                                const day = new Date().getDate();
-                                const year = new Date().getFullYear() - 2000;
-                                const hour = new Date().getHours();
-                                const minute = new Date().getMinutes();
-                                const hoursRecorded = Number(hourInput);
-                                const minutesRecorded = Number((Number(minuteInput) / 60).toFixed(2));
-                                props.createTimeLog(props.meterId, hoursRecorded, minutesRecorded, false, month, day, year, hour, minute);
-                            }}
-                        />
+                    <View style={{marginHorizontal: 50.0, justifyContent: 'center', marginBottom: 40}}>
                         <Icon
                             name='plus'
                             type='font-awesome'
@@ -53,8 +39,7 @@ export const TimeLogger = props => {
                                 const year = new Date().getFullYear() - 2000;
                                 const hour = new Date().getHours();
                                 const minute = new Date().getMinutes();
-                                props.createTimeLog(props.meterId, Number(hourInput), Number(minuteInput), true, month, day, year, hour, minute);
-                                props.recordTime(props.meterId, Number(hourInput), Number(minuteInput), true);
+                                props.createTimeLog(props.meterId, Number(hourInput), Number(minuteInput), month, day, year, hour, minute);
                             }}
                         />
                     </View>
@@ -79,7 +64,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 20.0
+        marginBottom: 30.0
     },
     textInput: {
         height: 50.0,
