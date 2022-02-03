@@ -2,26 +2,46 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import Svg, { Line } from 'react-native-svg';
 
-export const PlotPoints = ({ past30, dateValue }) => {
+export const PlotPoints = ({ past30, dateValue, yMax, setYMax }) => {
     const day30 = past30.filter(log => log.dateValue === dateValue);
     let value30 = 0;
     for (i = 0; i < day30.length; i++) {
         value30 += day30[i].hoursRecorded + (day30[i].minutesRecorded / 60);
+        if (value30 > yMax) { setYMax(value30) };
     }
     const day29 = past30.filter(log => log.dateValue === dateValue - 1440);
     let value29 = 0;
     for (i = 0; i < day29.length; i++) {
         value29 += day29[i].hoursRecorded + (day29[i].minutesRecorded / 60);
+        if (value29 > yMax) { setYMax(value29) };
     }
     const day28 = past30.filter(log => log.dateValue === dateValue - (1440 * 2));
     let value28 = 0;
     for (i = 0; i < day28.length; i++) {
         value28 += day28[i].hoursRecorded + (day28[i].minutesRecorded / 60);
+        if (value28 > yMax) { setYMax(value28) };
     }
     const day27 = past30.filter(date => date === dateValue - (1440 * 3));
     let value27 = 0;
     for (i = 0; i < day27.length; i++) {
         value27 += day27[i].hoursRecorded + (day27[i].minutesRecorded / 60);
+        if (value27 > yMax) { setYMax(value27) };
+    }
+
+    // Caculatindg the scale of the graph
+    let yScale;
+    if (yMax === 1) {
+        yScale = 1;
+    } else if (yMax < 50) {
+        yScale = (Math.floor(yMax / 5) + 1) * 5;
+    } else if (yMax < 100) {
+        yScale = (Math.floor(yMax / 25) + 1) * 25;
+    } else if (yMax < 500) {
+        yScale = (Math.floor(yMax / 50) + 1) * 50;
+    } else if (yMax < 1000) {
+        yScale = (Math.floor(yMax / 100) + 1) * 100;
+    } else {
+        yScale = (Math.floor(yMax / 1000) + 1) * 1000;
     }
 
     return (
@@ -31,7 +51,7 @@ export const PlotPoints = ({ past30, dateValue }) => {
                     flex: 1,
                     flexDirection: 'row',
                     justifyContent: 'flex-end',
-                    height: value28 / 5 * 220
+                    height: value28 / yScale * 220
                 }}
             >
                 <View
@@ -47,7 +67,7 @@ export const PlotPoints = ({ past30, dateValue }) => {
                 style={{
                     flex: 1,
                     flexDirection: 'row',
-                    height: value29 / 5 * 220
+                    height: value29 / yScale * 220
                 }}
             >
                 <View
@@ -64,12 +84,12 @@ export const PlotPoints = ({ past30, dateValue }) => {
                 style={{
                     flex: 1,
                     flexDirection: 'row',
-                    height: value29 / 5 * 220,
+                    height: value29 / yScale * 220,
                 }}
             >
                 <View style={{
                     borderWidth: 1,
-                    marginTop: (value29 / 5 * 220) - (value30 / 5 * 220),
+                    marginTop: (value29 / yScale * 220) - (value30 / yScale * 220),
                     marginLeft: 'auto',
                     height: 10.0,
                     width: 10.0,
@@ -82,22 +102,37 @@ export const PlotPoints = ({ past30, dateValue }) => {
     );
 }
 
-export const LineGraph = ({ past30, dateValue }) => {
+export const LineGraph = ({ past30, dateValue, yMax }) => {
+    // Caculatindg the scale of the graph
+    let yScale;
+    if (yMax === 1) {
+        yScale = 1;
+    } else if (yMax < 50) {
+        yScale = (Math.floor(yMax / 5) + 1) * 5;
+    } else if (yMax < 100) {
+        yScale = (Math.floor(yMax / 25) + 1) * 25;
+    } else if (yMax < 500) {
+        yScale = (Math.floor(yMax / 50) + 1) * 50;
+    } else if (yMax < 1000) {
+        yScale = (Math.floor(yMax / 100) + 1) * 100;
+    } else {
+        yScale = (Math.floor(yMax / 1000) + 1) * 1000;
+    }
 
     const determineHeight = (leftVal, rightVal) => {
         if (rightVal > leftVal) {
-            return (rightVal / 5 * 220) - (leftVal / 5 * 220);
+            return (rightVal / yScale * 220) - (leftVal / yScale * 220);
         } else if (leftVal > rightVal) {
-            return (leftVal / 5 * 220) - (rightVal / 5 * 220);
+            return (leftVal / yScale * 220) - (rightVal / yScale * 220);
         } else {
             return 1.6; // Width of the stroke
         }
     };
     const determineBottomOffset = (leftVal, rightVal) => {
         if (rightVal >= leftVal) {
-            return leftVal / 5 * 220 - 5;
+            return leftVal / yScale * 220 - 5;
         } else {
-            return rightVal / 5 * 220 - 5;
+            return rightVal / yScale * 220 - 5;
         }
     }
     const drawLine = (leftVal, rightVal) => {
