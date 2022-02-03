@@ -6,18 +6,23 @@ import ProgressMeter from './ProgressMeter';
 
 const HomeScreen = props => {
 
+    const navigation = useNavigation();
     const [createOpen, setCreateOpen] = useState(false);
 
     const toggleCreateModal = () => {
         setCreateOpen(!createOpen);
     };
 
+    const viewProgressReport = () => {navigation.navigate('Progress Report')}
+
     const progressMeters = props.progressMeters.map(meter => {
         return (
             <ProgressMeter
+                logs={props.logs}
                 meter={meter}
+                selectMeter={props.selectMeter}
+                viewProgressReport={viewProgressReport}
                 createTimeLog={props.createTimeLog}
-                recordTime={props.recordTime}
             />
         );
     });

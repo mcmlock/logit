@@ -1,31 +1,31 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './HomeScreen';
-import ProgressViewerScreen from './ProgressViewerScreen';
+import ProgressReportScreen from './ProgressReportScreen';
 
 const Stack = createStackNavigator();
 
 const StackNavigator = props => {
     const HomeComponent = () => (
         <HomeScreen
-        progressMeters={props.progressMeters}
-        logs={props.logs}
-        createProgressMeter={props.createProgressMeter}
-        createTimeLog={props.createTimeLog}
-        recordTime={props.recordTime}
+            progressMeters={props.progressMeters}
+            logs={props.logs}
+            selectMeter={props.selectMeter}
+            createProgressMeter={props.createProgressMeter}
+            createTimeLog={props.createTimeLog}
         />
     );
 
-    const ProgressViewerComponent = () => (
-        <ProgressViewerScreen
+    const ProgressReportComponent = () => (
+        <ProgressReportScreen
 
         />
     );
 
     return (
-        <Stack.Navigator initialRouteName='Home' screenOptions={{animationEnabled: false}}>
+        <Stack.Navigator initialRouteName='Home' screenOptions={{ animationEnabled: false }}>
             <Stack.Screen name="Home" component={HomeComponent} options={{ headerShown: false }} />
-            <Stack.Screen name="Progress Viewer" component={ProgressViewerComponent} options={{ headerShown: false }} />
+            <Stack.Screen name="Progress Report" component={ProgressReportComponent} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }

@@ -5,7 +5,20 @@ import { TimeLogger } from './AddProgressModal';
 
 const ProgressMeter = props => {
 
-    let progress = (props.meter.progressMade / props.meter.goal) * 260;
+    const logs = props.logs.filter(log => log.meterId === props.meter.id);
+    let hoursOutput = 0;
+    for (i = 0; i < logs.length; i++) {
+        if (logs[i].positive) {
+            hoursOutput += logs[i].hoursRecorded + (logs[i].minutesRecorded / 60);
+        } else {
+            hoursOutput -= (logs[i].hoursRecorded + (logs[i].minutesRecorded / 60));
+            if (hoursOutput < 0) {
+                hoursOutput = 0;
+            }
+        }
+    }
+    let totalHours = Number(hoursOutput).toFixed(2);
+    let progress = (totalHours / props.meter.goal) * 260;
 
     const [timeLogOpen, setTimeLogOpen] = useState(false);
     const toggleTimeLog = () => {
@@ -32,7 +45,7 @@ const ProgressMeter = props => {
                 <View style={{ flexDirection: 'row' }}>
                     <View style={styles.outerLayer}>
                         <View style={{ width: progress, height: 36, backgroundColor: 'blue' }} />
-                        <Text style={styles.progress}>{props.meter.progressMade} / {props.meter.goal}</Text>
+                        <Text style={styles.progress}>{totalHours} / {props.meter.goal}</Text>
                     </View>
                     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
                         <Icon
@@ -43,7 +56,10 @@ const ProgressMeter = props => {
                         <Icon
                             name="eye"
                             type='font-awesome'
-                            onPress={() => toggleTimeLog()}
+                            onPress={() => {
+                                props.selectMeter(props.meter.id);
+                                props.viewProgressReport();
+                            }}
                         />
                     </View>
                 </View>

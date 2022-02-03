@@ -7,12 +7,74 @@ class Main extends Component {
 
         this.state = {
             idTracker: 0,
-            progressMeters: [],
-            logs: [],
+            selectedMeter: null,
+            progressMeters: [
+                {
+                    id: 0,
+                    title: 'Learn Programming',
+                    units: 'hours',
+                    goal: 500,
+                    customUnits: '',
+                    hasDueDate: true,
+                    month: 4,
+                    day: 4,
+                    year: 22
+                }
+            ],
+            logs: [
+                {
+                    meterId: 0,
+                    hoursRecorded: 2,
+                    minutesRecorded: 15,
+                    positive: true,
+                    month: 2,
+                    day: 2,
+                    year: 22,
+                    hour: 3,
+                    minutes: 40
+                },
+                {
+                    meterId: 0,
+                    hoursRecorded: 1,
+                    minutesRecorded: 5,
+                    positive: false,
+                    month: 2,
+                    day: 2,
+                    year: 22,
+                    hour: 6,
+                    minutes: 23
+                },
+                {
+                    meterId: 0,
+                    hoursRecorded: 3,
+                    minutesRecorded: 0,
+                    positive: true,
+                    month: 2,
+                    day: 3,
+                    year: 22,
+                    hour: 5,
+                    minutes: 20
+                },
+                {
+                    meterId: 0,
+                    hoursRecorded: 2,
+                    minutesRecorded: 44,
+                    positive: true,
+                    month: 2,
+                    day: 4,
+                    year: 22,
+                    hour: 8,
+                    minutes: 10
+                }
+            ],
         };
     };
 
     render() {
+
+        const selectMeter = meterId => {
+            this.setState({ selectedMeter: meterId })
+        }
 
         const createProgressMeter = barProperties => {
             const progressMeter = {
@@ -47,35 +109,13 @@ class Main extends Component {
             this.setState({ logs: this.state.logs });
         }
 
-        const recordTime = (meterId, hoursRecorded, minutesRecorded, positive) => {
-            const meter = this.state.progressMeters.filter(meter => meter.id === meterId)[0];
-
-            let totalHours = Number(hoursRecorded) + Number((minutesRecorded / 60).toFixed(2));
-            console.log(totalHours);
-            let record;
-            if (positive) {
-                record = meter.progressMade + totalHours;
-            }
-            else {
-                record = meter.progressMade - totalHours;
-                if (record < 0) {
-                    record = 0;
-                }
-            }
-            const updatedEvent = {...meter, progressMade: record};
-            this.state.progressMeters = this.state.progressMeters.filter(meter => meter.id !== meterId);
-            this.state.progressMeters.push(updatedEvent);
-            this.setState({ progressMeters: this.state.progressMeters});
-            console.log(this.state.progressMeters);
-        } 
-
         return (
             <StackNavigator
                 progressMeters={this.state.progressMeters}
                 logs={this.state.logs}
+                selectMeter={selectMeter}
                 createProgressMeter={createProgressMeter}
                 createTimeLog={createTimeLog}
-                recordTime={recordTime}
             />
         );
     };
