@@ -17,7 +17,7 @@ const ProgressMeter = props => {
             }
         }
     }
-    let totalHours = Number(hoursOutput).toFixed(2);
+    let totalHours = hoursOutput.toFixed(2);
     let progress = (totalHours / props.meter.goal) * 260;
 
     const [timeLogOpen, setTimeLogOpen] = useState(false);
