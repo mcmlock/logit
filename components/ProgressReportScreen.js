@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Dimensions, StyleSheet, SafeAreaView, View, Text, Button } from 'react-native';
 import { PlotPoints, LineGraph } from './LineGraph';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const { width, height } = Dimensions.get('window');
 
@@ -77,9 +78,20 @@ const ProgressReportScreen = props => {
         yScale = (Math.floor(yMax / 50) + 1) * 50;
     } else if (yMax < 1000) {
         yScale = (Math.floor(yMax / 100) + 1) * 100;
+    } else if (yMax < 5000) {
+        yScale = (Math.floor(yMax / 500) + 1) * 500;
     } else {
         yScale = (Math.floor(yMax / 1000) + 1) * 1000;
     }
+
+    const logs = props.logs.filter(log => log.meterId === props.selectedMeter).map(log => {
+        return (
+            <View>
+                <Text>{log.hoursRecorded} hours {log.minutesRecorded} minutes on {log.month}/{log.year}/{log.day} 
+                @ {log.hour}:{log.minutes}</Text>
+            </View>
+        )
+    })
 
     return (
         <SafeAreaView style={styles.container}>
@@ -89,6 +101,12 @@ const ProgressReportScreen = props => {
             <View style={styles.graph}>
                 <PlotPoints past30={past30} dateValue={dateValue} yMax={yMax} setYMax={setYMax} />
                 <LineGraph past30={past30} dateValue={dateValue} yMax={yMax} />
+            </View>
+            <ScrollView style={styles.logs}>
+                {logs}
+            </ScrollView>
+            <View style={{height: height * .4}}>
+
             </View>
             <Button
                 title="Back"
@@ -113,8 +131,12 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
         borderLeftWidth: 2,
         borderBottomWidth: 2,
-
     },
+    logs: {
+        width: (width * .8),
+        height: (height * .1),
+        borderWidth: 1
+    }
 });
 
 export default ProgressReportScreen;
