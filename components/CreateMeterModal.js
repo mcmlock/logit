@@ -114,7 +114,7 @@ const CreateProgressMeter = props => {
                                 <TextInput
                                     value={`${year}`}
                                     style={styles.textInput}
-                                    onChangeText={value => setTitle(value)}
+                                    onChangeText={value => setYear(value)}
                                 />
                             </View>
                         }
@@ -122,11 +122,16 @@ const CreateProgressMeter = props => {
                     {showMonthPicker &&
                         <MonthPicker
                             setMonth={setMonth}
+                            setDay={setDay}
+                            dayValue={day}
+                            yearValue={year}
                         />
                     }
                     {showDayPicker &&
                         <DayPicker
                             setDay={setDay}
+                            monthValue={month}
+                            yearValue={year}
                         />
                     }
                     {/*<View style={styles.colorRow}>
@@ -161,7 +166,6 @@ const CreateProgressMeter = props => {
                             title="Create"
                             onPress={() => {
                                 const barProperties = {
-                                    // id:
                                     title: title,
                                     units: units,
                                     progressMade: progressMade,

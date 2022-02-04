@@ -31,15 +31,15 @@ export const DayPicker = props => {
             break;
         case 2:
             if (props.yearValue % 4 === 0) {
-                showRow = false;
-                show30 = false;
-                show31 = false;
-                lastDay = 28;
-            } else {
                 showRow = true;
                 show30 = false;
                 show31 = false;
                 lastDay = 29;
+            } else {
+                showRow = false;
+                show30 = false;
+                show31 = false;
+                lastDay = 28;
             }
             break;
     }
@@ -155,6 +155,38 @@ export const DayPicker = props => {
 };
 
 export const MonthPicker = props => {
+    let lastDay = 31;
+    switch (props.monthValue) {
+        case 1:
+        case 3:
+        case 5:
+        case 7:
+        case 8:
+        case 10:
+        case 12:
+            lastDay = 31;
+            break;
+        case 4:
+        case 6:
+        case 9:
+        case 11:
+            lastDay = 30;
+            break;
+        case 2:
+            if (props.yearValue % 4 === 0) {
+                lastDay = 29;
+            } else {
+                lastDay = 28;
+            }
+            break;
+    }
+
+    const adjustLastDay = lastDay => {
+        if (lastDay < props.dayValue) {
+            props.setDay(lastDay);
+        };
+    }
+
     return (
         <View style={styles.monthSelectView}>
             <View style={styles.monthRow}>

@@ -6,7 +6,7 @@ class Main extends Component {
         super(props);
 
         this.state = {
-            idTracker: 0,
+            idTracker: 1,
             selectedMeter: null,
             progressMeters: [
                 {
