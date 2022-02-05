@@ -1,5 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import StackNavigator from './StackNavigator';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import ImageLoader from 'react-native-web/dist/cjs/modules/ImageLoader';
+
+const load = async (obj) => {
+    try {
+        let state = await AsyncStorage.getItem("State");
+        
+        if (state !== null) {
+            obj.setState(JSON.parse(state))
+        }
+    } catch (err) {
+        alert(err);
+    }
+}
 
 class Main extends Component {
     constructor(props) {
@@ -224,7 +238,19 @@ class Main extends Component {
         };
     };
 
+    componentDidMount() {
+        load(this);
+    }
+
     render() {
+
+        const save = async () => {
+            try {
+                await AsyncStorage.setItem("State", JSON.stringify(this.state));
+            } catch (err) {
+                alert(err);
+            }
+        }
 
         const selectMeter = meterId => {
             this.setState({ selectedMeter: meterId })
@@ -245,6 +271,7 @@ class Main extends Component {
             };
             this.state.progressMeters.push(progressMeter);
             this.setState({ idTracker: (this.state.idTracker + 1), progressMeter: this.state.progressMeters });
+            save();
         }
 
         const createTimeLog = (meterId, hoursRecorded, minutesRecorded, month, day, year, hour, minutes) => {
@@ -313,6 +340,7 @@ class Main extends Component {
             }
             this.state.logs.push(newLog);
             this.setState({ logs: this.state.logs });
+            save();
         }
 
         return (

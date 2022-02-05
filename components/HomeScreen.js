@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, View, Button, ScrollView, SafeAreaView} from 'react-native';
 import CreateProgressMeter from './CreateMeterModal';
