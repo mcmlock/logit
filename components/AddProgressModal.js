@@ -13,7 +13,7 @@ export const TimeLogger = props => {
             visible={props.visible}
         >
             <View style={styles.modal}>
-                <View style={{borderWidth: 1, paddingHorizontal: 40.0, paddingVertical: 15.0, borderRadius: 5.0}}>
+                <View style={{borderWidth: 1, paddingHorizontal: 40.0, paddingVertical: 15.0, borderRadius: 5.0, backgroundColor: '#fff'}}>
                     <View style={styles.inputRow}>
                         <TextInput
                             placeholder='HH'
