@@ -1,7 +1,6 @@
 import React, { Component, useEffect } from 'react';
 import StackNavigator from './StackNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import ImageLoader from 'react-native-web/dist/cjs/modules/ImageLoader';
 
 const load = async (obj) => {
     try {
@@ -274,6 +273,13 @@ class Main extends Component {
             save();
         }
 
+        const deleteProgressMeter = meterId => {
+            this.state.progressMeters = this.state.progressMeters.filter(meter => meter.id !== meterId);
+            this.state.logs = this.state.logs.filter(log => log.meterId !== meterId);
+            this.setState({ progressMeters: this.state.progressMeters, logs: this.state.logs});
+            save();
+        }
+
         const createTimeLog = (meterId, hoursRecorded, minutesRecorded, month, day, year, hour, minutes) => {
 
             // Calculating the day value
@@ -350,6 +356,7 @@ class Main extends Component {
                 selectMeter={selectMeter}
                 selectedMeter={this.state.selectedMeter}
                 createProgressMeter={createProgressMeter}
+                deleteProgressMeter={deleteProgressMeter}
                 createTimeLog={createTimeLog}
             />
         );

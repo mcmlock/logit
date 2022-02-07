@@ -704,7 +704,7 @@ export const LineGraph = ({ past30, dateValue, yMax }) => {
     return (
         <View style={styles.container}>
             <Svg
-                height={determineHeight(value1, value12)}
+                height={determineHeight(value1, value2)}
                 width={1 / 31 * width * .85}
                 style={{
                     position: 'absolute',

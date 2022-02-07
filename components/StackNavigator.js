@@ -13,7 +13,6 @@ const StackNavigator = props => {
             selectMeter={props.selectMeter}
             createProgressMeter={props.createProgressMeter}
             createTimeLog={props.createTimeLog}
-     //       load={props.load}
         />
     );
 
@@ -23,7 +22,7 @@ const StackNavigator = props => {
         <ProgressReportScreen
             selectedMeter={props.selectedMeter}
             logs={props.logs}
-        //    load={props.load}
+            deleteProgressMeter={props.deleteProgressMeter}
         />
     );
 

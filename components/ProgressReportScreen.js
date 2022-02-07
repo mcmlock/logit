@@ -105,9 +105,16 @@ const ProgressReportScreen = props => {
             <ScrollView style={styles.logs}>
                 {logs}
             </ScrollView>
-            <View style={{height: height * .4}}>
+            <View style={{height: height * .35}}>
 
             </View>
+            <Button
+                title="Delete"
+                onPress={() => {
+                    props.deleteProgressMeter(props.selectedMeter);
+                    navigation.navigate('Home');
+                }}
+                />
             <Button
                 title="Back"
                 onPress={() => navigation.navigate('Home')}
