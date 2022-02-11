@@ -84,11 +84,27 @@ const ProgressReportScreen = props => {
         yScale = (Math.floor(yMax / 1000) + 1) * 1000;
     }
 
+    // Caculating the 7, 30, and All Time averages
+    const past7 = props.logs.filter(log => log.meterId === props.selectedMeter && log.dateValue >= dateValue - (1440 * 6));
+    const sevenDayAvg = (past7.reduce((prevVal, currentVal) => prevVal + currentVal.hoursRecorded + (currentVal.minutesRecorded / 60), 0) / 7).toFixed(2);
+    const thirtyDayAvg = (past30.reduce((prevVal, currentVal) => prevVal + currentVal.hoursRecorded + (currentVal.minutesRecorded / 60), 0) / 30).toFixed(2);
+    const pastEver = props.logs.filter(log => log.meterId === props.selectedMeter);
+    // This way the divisor will always be at least one
+    let oldestDateValue = dateValue - 1440;
+    for (let i = 0; i < pastEver.length; i++) {
+        if (oldestDateValue > pastEver[i].dateValue) {
+            oldestDateValue = pastEver[i].dateValue;
+        }
+    }
+    const divisor = (dateValue - oldestDateValue) / 1440;
+    const allTimeAvg = (pastEver.reduce((prevVal, currentVal) => prevVal + currentVal.hoursRecorded + (currentVal.minutesRecorded / 60), 0) / divisor).toFixed(2);
+
+    // Getting logs for the selected meter
     const logs = props.logs.filter(log => log.meterId === props.selectedMeter).map(log => {
         return (
             <View>
-                <Text>{log.hoursRecorded} hours {log.minutesRecorded} minutes on {log.month}/{log.year}/{log.day} 
-                @ {log.hour}:{log.minutes}</Text>
+                <Text>{log.hoursRecorded} hours {log.minutesRecorded} minutes on {log.month}/{log.year}/{log.day}
+                    @ {log.hour}:{log.minutes}</Text>
             </View>
         )
     })
@@ -102,10 +118,24 @@ const ProgressReportScreen = props => {
                 <PlotPoints past30={past30} dateValue={dateValue} yMax={yMax} setYMax={setYMax} />
                 <LineGraph past30={past30} dateValue={dateValue} yMax={yMax} />
             </View>
+            <View style={styles.averagesView}>
+                <View>
+                    <Text style={styles.avgText}>{allTimeAvg}</Text>
+                    <Text>All Time Avg</Text>
+                </View>
+                <View>
+                    <Text style={styles.avgText}>{thirtyDayAvg}</Text>
+                    <Text>30 Day Avg</Text>
+                </View>
+                <View>
+                    <Text style={styles.avgText}>{sevenDayAvg}</Text>
+                    <Text>7 Time Avg</Text>
+                </View>
+            </View>
             <ScrollView style={styles.logs}>
                 {logs}
             </ScrollView>
-            <View style={{height: height * .35}}>
+            <View style={{ height: height * .25 }}>
 
             </View>
             <Button
@@ -114,7 +144,7 @@ const ProgressReportScreen = props => {
                     props.deleteProgressMeter(props.selectedMeter);
                     navigation.navigate('Home');
                 }}
-                />
+            />
             <Button
                 title="Back"
                 onPress={() => navigation.navigate('Home')}
@@ -139,10 +169,20 @@ const styles = StyleSheet.create({
         borderLeftWidth: 2,
         borderBottomWidth: 2,
     },
+    averagesView: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        width: (width * .85),
+    },
     logs: {
         width: (width * .8),
         height: (height * .1),
         borderWidth: 1
+    },
+    avgText: {
+        fontSize: 20.0,
+        textAlign: 'center'
     }
 });
 
