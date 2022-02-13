@@ -10,6 +10,7 @@ const ProgressReportScreen = props => {
 
     const navigation = useNavigation();
     const [yMax, setYMax] = useState(1);
+  //  const [point, selectPoint] = useState(-1);
 
     // Calculating current day value
     let month = new Date().getMonth() + 1;
@@ -115,6 +116,56 @@ const ProgressReportScreen = props => {
             </View>
     */
 
+    // Finding the date from a month ago
+    let lastMonth = month - 1;
+    if (lastMonth === 0) {lastMonth = 12};
+    let lastDay = day - 29;
+    const findLastDay = lastDay => {
+        switch (lastMonth) {
+            case 1:
+            case 3:
+            case 5:
+            case 7: 
+            case 8:
+            case 10:
+            case 12:
+                if (lastDay !== 0) {
+                    return 31 + lastDay;
+                } else {
+                    return 31;
+                }
+                break;
+            case 2:
+                if (year % 4 === 0) {
+                    if (lastDay !== 0) {
+                        return 29 + lastDay;
+                    } else {
+                        return 29;
+                    }
+                } else {
+                    if(lastDay !== 0) {
+                        return 28 + lastDay;
+                    } else {
+                        return 28;
+                    }
+                }
+                break;
+            case 4:
+            case 6:
+            case 9: 
+            case 11:
+                if (lastDay !== 0) {
+                    return 30 + lastDay;
+                } else {
+                    return 30;
+                }
+                break;
+        }
+    }
+    if (lastDay <= 0) {
+       lastDay = findLastDay(lastDay);
+    }
+    
     // Getting logs for the selected meter
     const logs = props.logs.filter(log => log.meterId === props.selectedMeter).map(log => {
         return (
@@ -127,17 +178,28 @@ const ProgressReportScreen = props => {
 
     return (
         <SafeAreaView style={styles.container}>
+            <View>
+                <Text style={styles.header}>Past 30 Days</Text>
+            </View>
             <View style={{ width: '85%', alignItems: 'flex-start' }}>
                 <Text style={{ fontSize: 20.0 }}>{yScale}</Text>
             </View>
-            <View style={styles.graph}>
-                <PlotPoints past30={past30} dateValue={dateValue} yMax={yMax} setYMax={setYMax} />
-                <LineGraph past30={past30} dateValue={dateValue} yMax={yMax} />
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View>
+                    <Text style={{transform: [{rotate: '270deg'}], fontSize: 18.0}}>Hours</Text>
+                </View>
+                <View style={styles.graph}>
+                    <PlotPoints past30={past30} dateValue={dateValue} yMax={yMax} setYMax={setYMax} />
+                    <LineGraph past30={past30} dateValue={dateValue} yMax={yMax} />
+                </View>
+            </View>
+            <View>
+                <Text style={{fontSize: 18.0, marginBottom: 20.0}}>{lastMonth}/{lastDay} - {month}/{day}</Text>
             </View>
             <ScrollView style={styles.logs}>
                 {logs}
             </ScrollView>
-            <View style={{ height: height * .25 }}>
+            <View style={{ height: height * .20 }}>
 
             </View>
             <Button
@@ -162,8 +224,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 100.0,
     },
+    header: {
+        fontSize: 24.0,
+    },
     graph: {
-        marginVertical: 15.0,
+        marginTop: 15.0,
+        marginBottom: 10.0,
         width: (width * .85),
         height: (height * .25),
         flexDirection: 'row',

@@ -16,8 +16,6 @@ const StackNavigator = props => {
         />
     );
 
-    console.log(props.logs);
-
     const ProgressReportComponent = () => (
         <ProgressReportScreen
             selectedMeter={props.selectedMeter}
