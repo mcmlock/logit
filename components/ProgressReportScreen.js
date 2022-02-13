@@ -92,9 +92,12 @@ const SelectedPointInfo = props => {
         }
         selectedDay = minutesLeft / 1440;
 
+        const dayLogs = props.logs.filter(log => log.dateValue === props.point);
+        const daysContribution = (dayLogs.reduce((prevVal, currentVal) => prevVal + currentVal.hoursRecorded + (currentVal.minutesRecorded / 60), 0)).toFixed(2);
+
         return (
-            <View>
-                <Text>{selectedMonth}/{selectedDay}: Hours Logged</Text>
+            <View style={{alignSelf: 'flex-start', marginLeft: (width * .1), marginBottom: 10.0}}>
+                <Text style={{fontSize: 18.0}}>{daysContribution} Hours Logged on {selectedMonth}/{selectedDay}</Text>
             </View>
         );
     };
@@ -112,7 +115,6 @@ const ProgressReportScreen = props => {
             </View>
         )
     });
-    console.log(props.logs);
 
     const navigation = useNavigation();
     const [yMax, setYMax] = useState(1);
@@ -297,7 +299,7 @@ const ProgressReportScreen = props => {
                 <View>
                     <Text style={{ fontSize: 18.0, marginBottom: 20.0 }}>{lastMonth}/{lastDay} - {month}/{day}</Text>
                 </View>
-                {point > 0 && <SelectedPointInfo point={point + 1440}/>}
+                {point > 0 && <SelectedPointInfo point={point + 1440} logs={props.logs.filter(log => log.meterId === props.selectedMeter)}/>}
                 <ScrollView style={styles.logs}>
                     {logs}
                 </ScrollView>
