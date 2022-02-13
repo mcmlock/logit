@@ -85,6 +85,7 @@ const ProgressReportScreen = props => {
     }
 
     // Caculating the 7, 30, and All Time averages
+    /*
     const past7 = props.logs.filter(log => log.meterId === props.selectedMeter && log.dateValue >= dateValue - (1440 * 6));
     const sevenDayAvg = (past7.reduce((prevVal, currentVal) => prevVal + currentVal.hoursRecorded + (currentVal.minutesRecorded / 60), 0) / 7).toFixed(2);
     const thirtyDayAvg = (past30.reduce((prevVal, currentVal) => prevVal + currentVal.hoursRecorded + (currentVal.minutesRecorded / 60), 0) / 30).toFixed(2);
@@ -98,6 +99,21 @@ const ProgressReportScreen = props => {
     }
     const divisor = (dateValue - oldestDateValue) / 1440;
     const allTimeAvg = (pastEver.reduce((prevVal, currentVal) => prevVal + currentVal.hoursRecorded + (currentVal.minutesRecorded / 60), 0) / divisor).toFixed(2);
+<View style={styles.averagesView}>
+                <View>
+                    <Text style={styles.avgText}>{allTimeAvg}</Text>
+                    <Text>All Time Avg</Text>
+                </View>
+                <View>
+                    <Text style={styles.avgText}>{thirtyDayAvg}</Text>
+                    <Text>30 Day Avg</Text>
+                </View>
+                <View>
+                    <Text style={styles.avgText}>{sevenDayAvg}</Text>
+                    <Text>7 Time Avg</Text>
+                </View>
+            </View>
+    */
 
     // Getting logs for the selected meter
     const logs = props.logs.filter(log => log.meterId === props.selectedMeter).map(log => {
@@ -117,20 +133,6 @@ const ProgressReportScreen = props => {
             <View style={styles.graph}>
                 <PlotPoints past30={past30} dateValue={dateValue} yMax={yMax} setYMax={setYMax} />
                 <LineGraph past30={past30} dateValue={dateValue} yMax={yMax} />
-            </View>
-            <View style={styles.averagesView}>
-                <View>
-                    <Text style={styles.avgText}>{allTimeAvg}</Text>
-                    <Text>All Time Avg</Text>
-                </View>
-                <View>
-                    <Text style={styles.avgText}>{thirtyDayAvg}</Text>
-                    <Text>30 Day Avg</Text>
-                </View>
-                <View>
-                    <Text style={styles.avgText}>{sevenDayAvg}</Text>
-                    <Text>7 Time Avg</Text>
-                </View>
             </View>
             <ScrollView style={styles.logs}>
                 {logs}
