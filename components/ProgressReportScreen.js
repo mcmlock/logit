@@ -93,12 +93,15 @@ const SelectedPointInfo = props => {
         selectedDay = minutesLeft / 1440;
 
         const dayLogs = props.logs.filter(log => log.dateValue === props.point - 1440);
-        console.log(dayLogs);
         const daysContribution = (dayLogs.reduce((prevVal, currentVal) => prevVal + currentVal.hoursRecorded + (currentVal.minutesRecorded / 60), 0)).toFixed(2);
+        const hours = Math.floor(daysContribution);
+        const minutesDec = daysContribution - hours;
+        const minutes = Math.ceil(minutesDec * 60);
+        const timeLogged = `${hours}:${minutes}`;
 
         return (
-            <View style={{alignSelf: 'flex-start', marginLeft: (width * .1), marginBottom: 10.0}}>
-                <Text style={{fontSize: 18.0}}>{daysContribution} Hours Logged on {selectedMonth}/{selectedDay}</Text>
+            <View style={{ alignSelf: 'flex-start', marginLeft: (width * .1), marginBottom: 10.0 }}>
+                <Text style={{ fontSize: 18.0 }}>{timeLogged} Hours Logged on {selectedMonth}/{selectedDay}</Text>
             </View>
         );
     };
@@ -114,7 +117,7 @@ const ProgressReportScreen = props => {
                 <Text>{log.hoursRecorded} hours {log.minutesRecorded} minutes on {log.month}/{log.year}/{log.day}
                     @ {log.hour}:{log.minutes}</Text>
             </View>
-        )
+        );
     });
 
     const navigation = useNavigation();
@@ -276,12 +279,79 @@ const ProgressReportScreen = props => {
         lastDay = findLastDay(lastDay);
     }
 
+    // Making the goal string
+    const goalString = props.hasDueDate ? `${props.goal} Hours by ${props.dueMonth}/${props.dueDay}/${props.dueYear}` : `${props.goal} Hours`;
+
+    // Calculating the daily target
+    // Calculating current day value
+    let dueMonthValue;
+    switch (props.dueMonth) {
+        case 2:
+            dueMonthValue = 31 * 1440;
+            break;
+        case 3:
+            dueMonthValue = 59 * 1440;
+            break;
+        case 4:
+            dueMonthValue = 90 * 1440;
+            break;
+        case 5:
+            dueMonthValue = 120 * 1440;
+            break;
+        case 6:
+            dueMonthValue = 151 * 1440;
+            break;
+        case 7:
+            dueMonthValue = 181 * 1440;
+            break;
+        case 8:
+            dueMonthValue = 212 * 1440;
+            break;
+        case 9:
+            dueMonthValue = 242 * 1440;
+            break;
+        case 10:
+            dueMonthValue = 273 * 1440;
+            break;
+        case 11:
+            dueMonthValue = 303 * 1440;
+            break;
+        case 12:
+            dueMonthValue = 334 * 1440;
+            break;
+        default:
+            dueMonthValue = 0;
+            break;
+    }
+    let dueDayValue;
+    if (props.dueDay > 1) {
+        dueDayValue = (props.dueDay - 1) * 1440;
+    } else {
+        dueDayValue = 0;
+    }
+    let dueYearValue = props.dueYear * 1440 * 365;
+    const dueLeapYears = Math.floor(props.dueYear / 4);
+    dueYearValue += dueLeapYears * 1440;
+    let dueDateValue = dueMonthValue + dueDayValue + dueYearValue;
+    const daysLeft = (dueDateValue - dateValue) / 1440;
+    const pastEver = props.logs.filter(log => log.meterId === props.selectedMeter);
+    const totalTimeLogged = (pastEver.reduce((prevVal, currentVal) => prevVal + currentVal.hoursRecorded + (currentVal.minutesRecorded / 60), 0)).toFixed(2)
+    const dailyTargetDec = (props.goal - totalTimeLogged) / daysLeft;
+    const dailyHour = Math.floor(dailyTargetDec);
+    const minutesDec = dailyTargetDec - dailyHour;
+    const dailyMinute = Math.ceil(minutesDec * 60);
+    const dailyTarget = `${dailyHour}:${dailyMinute}`;
+
     return (
         <TouchableWithoutFeedback onPress={() => {
             selectPoint(0);
             setLogs(allLogs);
         }}>
             <SafeAreaView style={styles.container}>
+                <View style={{ marginBottom: 15.0 }}>
+                    <Text style={{ fontSize: 30.0, textAlign: 'center' }}>{props.meterTitle}</Text>
+                    <Text style={{ fontSize: 24.0, textAlign: 'center' }}>{goalString}</Text>
+                </View>
                 <View>
                     <Text style={styles.header}>Past 30 Days</Text>
                 </View>
@@ -300,21 +370,24 @@ const ProgressReportScreen = props => {
                 <View>
                     <Text style={{ fontSize: 18.0, marginBottom: 20.0 }}>{lastMonth}/{lastDay} - {month}/{day}</Text>
                 </View>
-                {point > 0 && <SelectedPointInfo point={point + 1440} logs={props.logs.filter(log => log.meterId === props.selectedMeter)}/>}
-                <ScrollView style={styles.logs}>
-                    {logs}
-                </ScrollView>
-                <Button
-                    title="Delete"
-                    onPress={() => {
-                        props.deleteProgressMeter(props.selectedMeter);
-                        navigation.navigate('Home');
-                    }}
-                />
-                <Button
-                    title="Back"
-                    onPress={() => navigation.navigate('Home')}
-                />
+                <View style={{ alignSelf: 'flex-start', marginLeft: (width * .1), marginBottom: 10.0 }}>
+                    <Text style={{ fontSize: 18.0 }}>Days Left: {daysLeft}</Text>
+                    <Text style={{ fontSize: 18.0 }}>Necessary Daily Contribution: {dailyTarget} Hours</Text>
+                </View>
+                {point > 0 && <SelectedPointInfo point={point + 1440} logs={props.logs.filter(log => log.meterId === props.selectedMeter)} />}
+                <View style={{ marginTop: 'auto', marginBottom: 20.0 }}>
+                    <Button
+                        title="Delete"
+                        onPress={() => {
+                            props.deleteProgressMeter(props.selectedMeter);
+                            navigation.navigate('Home');
+                        }}
+                    />
+                    <Button
+                        title="Back"
+                        onPress={() => navigation.navigate('Home')}
+                    />
+                </View>
             </SafeAreaView>
         </TouchableWithoutFeedback>
     );
@@ -328,7 +401,7 @@ const styles = StyleSheet.create({
         marginTop: 100.0,
     },
     header: {
-        fontSize: 24.0,
+        fontSize: 22.0,
     },
     graph: {
         marginTop: 15.0,
