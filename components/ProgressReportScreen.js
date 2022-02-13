@@ -11,10 +11,8 @@ const SelectedPointInfo = props => {
         let selectedMonth;
         let selectedDay;
         let minutesLeft = props.point;
-        console.log(minutesLeft);
         const year = Math.floor(minutesLeft / (1440 * 365));
         minutesLeft -= (year * 1440 * 365);
-        console.log(minutesLeft);
         const leapYears = Math.floor(year / 4);
         minutesLeft -= leapYears * 1440;
         if (year / 4 === 0) {
@@ -34,7 +32,7 @@ const SelectedPointInfo = props => {
                 selectedMonth = 8;
                 minutesLeft -= 306720;
             } else if (minutesLeft > 262080) {
-                selectedMonth = 7; 
+                selectedMonth = 7;
                 minutesLeft -= 262080;
             } else if (minutesLeft > 218880) {
                 selectedMonth = 6;
@@ -71,7 +69,7 @@ const SelectedPointInfo = props => {
                 selectedMonth = 8;
                 minutesLeft -= 305280;
             } else if (minutesLeft > 260640) {
-                selectedMonth = 7; 
+                selectedMonth = 7;
                 minutesLeft -= 260640;
             } else if (minutesLeft > 217440) {
                 selectedMonth = 6;
@@ -93,21 +91,33 @@ const SelectedPointInfo = props => {
             }
         }
         selectedDay = minutesLeft / 1440;
-        
+
         return (
             <View>
                 <Text>{selectedMonth}/{selectedDay}: Hours Logged</Text>
             </View>
-        ); 
+        );
     };
     return <View />
 }
 
 const ProgressReportScreen = props => {
 
+    // Getting logs for the selected meter
+    const allLogs = props.logs.filter(log => log.meterId === props.selectedMeter).map(log => {
+        return (
+            <View>
+                <Text>{log.hoursRecorded} hours {log.minutesRecorded} minutes on {log.month}/{log.year}/{log.day}
+                    @ {log.hour}:{log.minutes}</Text>
+            </View>
+        )
+    });
+    console.log(props.logs);
+
     const navigation = useNavigation();
     const [yMax, setYMax] = useState(1);
     const [point, selectPoint] = useState(0);
+    const [logs, setLogs] = useState(allLogs);
 
     // Calculating current day value
     let month = new Date().getMonth() + 1;
@@ -215,14 +225,14 @@ const ProgressReportScreen = props => {
 
     // Finding the date from a month ago
     let lastMonth = month - 1;
-    if (lastMonth === 0) {lastMonth = 12};
+    if (lastMonth === 0) { lastMonth = 12 };
     let lastDay = day - 29;
     const findLastDay = lastDay => {
         switch (lastMonth) {
             case 1:
             case 3:
             case 5:
-            case 7: 
+            case 7:
             case 8:
             case 10:
             case 12:
@@ -240,7 +250,7 @@ const ProgressReportScreen = props => {
                         return 29;
                     }
                 } else {
-                    if(lastDay !== 0) {
+                    if (lastDay !== 0) {
                         return 28 + lastDay;
                     } else {
                         return 28;
@@ -249,7 +259,7 @@ const ProgressReportScreen = props => {
                 break;
             case 4:
             case 6:
-            case 9: 
+            case 9:
             case 11:
                 if (lastDay !== 0) {
                     return 30 + lastDay;
@@ -260,57 +270,50 @@ const ProgressReportScreen = props => {
         }
     }
     if (lastDay <= 0) {
-       lastDay = findLastDay(lastDay);
+        lastDay = findLastDay(lastDay);
     }
-    
-    // Getting logs for the selected meter
-    const logs = props.logs.filter(log => log.meterId === props.selectedMeter).map(log => {
-        return (
-            <View>
-                <Text>{log.hoursRecorded} hours {log.minutesRecorded} minutes on {log.month}/{log.year}/{log.day}
-                    @ {log.hour}:{log.minutes}</Text>
-            </View>
-        )
-    })
 
     return (
-        <TouchableWithoutFeedback onPress={() => selectPoint(0)}>
-        <SafeAreaView style={styles.container}>
-            <View>
-                <Text style={styles.header}>Past 30 Days</Text>
-            </View>
-            <View style={{ width: '85%', alignItems: 'flex-start' }}>
-                <Text style={{ fontSize: 20.0 }}>{yScale}</Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <TouchableWithoutFeedback onPress={() => {
+            selectPoint(0);
+            setLogs(allLogs);
+        }}>
+            <SafeAreaView style={styles.container}>
                 <View>
-                    <Text style={{transform: [{rotate: '270deg'}], fontSize: 18.0}}>Hours</Text>
+                    <Text style={styles.header}>Past 30 Days</Text>
                 </View>
-                <View style={styles.graph}>
-                    <LineGraph past30={past30} dateValue={dateValue} yMax={yMax} />
-                    <PlotPoints past30={past30} dateValue={dateValue} yMax={yMax} setYMax={setYMax} selectPoint={selectPoint}/>
+                <View style={{ width: '85%', alignItems: 'flex-start' }}>
+                    <Text style={{ fontSize: 20.0 }}>{yScale}</Text>
                 </View>
-            </View>
-            <View>
-                <Text style={{fontSize: 18.0, marginBottom: 20.0}}>{lastMonth}/{lastDay} - {month}/{day}</Text>
-            </View>
-            {point > 0 && <SelectedPointInfo point={point + 1440}/>}
-            <ScrollView style={styles.logs}>
-                {logs}
-            </ScrollView>
-            <Button
-                title="Delete"
-                onPress={() => {
-                    props.deleteProgressMeter(props.selectedMeter);
-                    navigation.navigate('Home');
-                }}
-            />
-            <Button
-                title="Back"
-                onPress={() => navigation.navigate('Home')}
-            />
-                    </SafeAreaView>
-            </TouchableWithoutFeedback>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View>
+                        <Text style={{ transform: [{ rotate: '270deg' }], fontSize: 18.0 }}>Hours</Text>
+                    </View>
+                    <View style={styles.graph}>
+                        <LineGraph past30={past30} dateValue={dateValue} yMax={yMax} />
+                        <PlotPoints past30={past30} dateValue={dateValue} yMax={yMax} setYMax={setYMax} logs={props.logs.filter(log => log.meterId === props.selectedMeter)} setLogs={setLogs} selectPoint={selectPoint} />
+                    </View>
+                </View>
+                <View>
+                    <Text style={{ fontSize: 18.0, marginBottom: 20.0 }}>{lastMonth}/{lastDay} - {month}/{day}</Text>
+                </View>
+                {point > 0 && <SelectedPointInfo point={point + 1440}/>}
+                <ScrollView style={styles.logs}>
+                    {logs}
+                </ScrollView>
+                <Button
+                    title="Delete"
+                    onPress={() => {
+                        props.deleteProgressMeter(props.selectedMeter);
+                        navigation.navigate('Home');
+                    }}
+                />
+                <Button
+                    title="Back"
+                    onPress={() => navigation.navigate('Home')}
+                />
+            </SafeAreaView>
+        </TouchableWithoutFeedback>
     );
 };
 
