@@ -27,7 +27,6 @@ const Point = props => {
                     });
                     props.setLogs(pointLogs);
                     props.selectPoint(props.dateValue)
-                    console.log(props.allLogs);
                 }}>
                     <View style={styles.point} />
                 </TouchableOpacity>

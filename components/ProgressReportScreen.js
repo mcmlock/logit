@@ -92,7 +92,8 @@ const SelectedPointInfo = props => {
         }
         selectedDay = minutesLeft / 1440;
 
-        const dayLogs = props.logs.filter(log => log.dateValue === props.point);
+        const dayLogs = props.logs.filter(log => log.dateValue === props.point - 1440);
+        console.log(dayLogs);
         const daysContribution = (dayLogs.reduce((prevVal, currentVal) => prevVal + currentVal.hoursRecorded + (currentVal.minutesRecorded / 60), 0)).toFixed(2);
 
         return (
