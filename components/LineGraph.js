@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
+import { Dimensions, StyleSheet, View, TouchableOpacity } from 'react-native';
 import Svg, { Line } from 'react-native-svg';
 
 const { width, height } = Dimensions.get('window');
@@ -15,7 +15,9 @@ const Point = props => {
                     height: props.value / props.yScale * height * .25
                 }}
             >
-                <View style={styles.point} />
+                <TouchableOpacity style={{padding: 10.0}} onPress={() => props.selectPoint(props.dateValue)}>
+                    <View style={styles.point} />
+                </TouchableOpacity>
             </View>
         );
     }
@@ -31,7 +33,7 @@ const Point = props => {
     );
 }
 
-export const PlotPoints = ({ past30, dateValue, yMax, setYMax }) => {
+export const PlotPoints = ({ past30, dateValue, yMax, setYMax, selectPoint }) => {
 
     const findDayLogs = daysFromToday => {
         return past30.filter(log => log.dateValue === dateValue - (1440 * daysFromToday))
@@ -123,36 +125,36 @@ export const PlotPoints = ({ past30, dateValue, yMax, setYMax }) => {
 
     return (
         <View style={styles.container}>
-            <Point value={value1} yScale={yScale} />
-            <Point value={value2} yScale={yScale} />
-            <Point value={value3} yScale={yScale} />
-            <Point value={value4} yScale={yScale} />
-            <Point value={value5} yScale={yScale} />
-            <Point value={value6} yScale={yScale} />
-            <Point value={value7} yScale={yScale} />
-            <Point value={value8} yScale={yScale} />
-            <Point value={value9} yScale={yScale} />
-            <Point value={value10} yScale={yScale} />
-            <Point value={value11} yScale={yScale} />
-            <Point value={value12} yScale={yScale} />
-            <Point value={value13} yScale={yScale} />
-            <Point value={value14} yScale={yScale} />
-            <Point value={value15} yScale={yScale} />
-            <Point value={value16} yScale={yScale} />
-            <Point value={value17} yScale={yScale} />
-            <Point value={value18} yScale={yScale} />
-            <Point value={value19} yScale={yScale} />
-            <Point value={value20} yScale={yScale} />
-            <Point value={value21} yScale={yScale} />
-            <Point value={value22} yScale={yScale} />
-            <Point value={value23} yScale={yScale} />
-            <Point value={value24} yScale={yScale} />
-            <Point value={value25} yScale={yScale} />
-            <Point value={value26} yScale={yScale} />
-            <Point value={value27} yScale={yScale} />
-            <Point value={value28} yScale={yScale} />
-            <Point value={value29} yScale={yScale} />
-            <Point value={value30} yScale={yScale} />
+            <Point value={value1} yScale={yScale} dateValue={dateValue - 1440 * 29} selectPoint={selectPoint}/>
+            <Point value={value2} yScale={yScale} dateValue={dateValue - 1440 * 28} selectPoint={selectPoint}/>
+            <Point value={value3} yScale={yScale} dateValue={dateValue - 1440 * 27} selectPoint={selectPoint}/>
+            <Point value={value4} yScale={yScale} dateValue={dateValue - 1440 * 26} selectPoint={selectPoint}/>
+            <Point value={value5} yScale={yScale} dateValue={dateValue - 1440 * 25} selectPoint={selectPoint}/>
+            <Point value={value6} yScale={yScale} dateValue={dateValue - 1440 * 24} selectPoint={selectPoint}/>
+            <Point value={value7} yScale={yScale} dateValue={dateValue - 1440 * 23} selectPoint={selectPoint}/>
+            <Point value={value8} yScale={yScale} dateValue={dateValue - 1440 * 22} selectPoint={selectPoint}/>
+            <Point value={value9} yScale={yScale} dateValue={dateValue - 1440 * 21} selectPoint={selectPoint}/>
+            <Point value={value10} yScale={yScale} dateValue={dateValue - 1440 * 20} selectPoint={selectPoint}/>
+            <Point value={value11} yScale={yScale} dateValue={dateValue - 1440 * 19} selectPoint={selectPoint}/>
+            <Point value={value12} yScale={yScale} dateValue={dateValue - 1440 * 18} selectPoint={selectPoint}/>
+            <Point value={value13} yScale={yScale} dateValue={dateValue - 1440 * 17} selectPoint={selectPoint}/>
+            <Point value={value14} yScale={yScale} dateValue={dateValue - 1440 * 16} selectPoint={selectPoint}/>
+            <Point value={value15} yScale={yScale} dateValue={dateValue - 1440 * 15} selectPoint={selectPoint}/>
+            <Point value={value16} yScale={yScale} dateValue={dateValue - 1440 * 14} selectPoint={selectPoint}/>
+            <Point value={value17} yScale={yScale} dateValue={dateValue - 1440 * 13} selectPoint={selectPoint}/>
+            <Point value={value18} yScale={yScale} dateValue={dateValue - 1440 * 12} selectPoint={selectPoint}/>
+            <Point value={value19} yScale={yScale} dateValue={dateValue - 1440 * 11} selectPoint={selectPoint}/>
+            <Point value={value20} yScale={yScale} dateValue={dateValue - 1440 * 10} selectPoint={selectPoint}/>
+            <Point value={value21} yScale={yScale} dateValue={dateValue - 1440 * 9} selectPoint={selectPoint}/>
+            <Point value={value22} yScale={yScale} dateValue={dateValue - 1440 * 8} selectPoint={selectPoint}/>
+            <Point value={value23} yScale={yScale} dateValue={dateValue - 1440 * 7} selectPoint={selectPoint}/>
+            <Point value={value24} yScale={yScale} dateValue={dateValue - 1440 * 6} selectPoint={selectPoint}/>
+            <Point value={value25} yScale={yScale} dateValue={dateValue - 1440 * 5} selectPoint={selectPoint}/>
+            <Point value={value26} yScale={yScale} dateValue={dateValue - 1440 * 4} selectPoint={selectPoint}/>
+            <Point value={value27} yScale={yScale} dateValue={dateValue - 1440 * 3} selectPoint={selectPoint}/>
+            <Point value={value28} yScale={yScale} dateValue={dateValue - 1440 * 2} selectPoint={selectPoint}/>
+            <Point value={value29} yScale={yScale} dateValue={dateValue - 1440 * 1} selectPoint={selectPoint}/>
+            <Point value={value30} yScale={yScale} dateValue={dateValue} selectPoint={selectPoint}/>
             <View style={{ flex: 1 }} />
         </View>
     );
@@ -333,12 +335,12 @@ const styles = StyleSheet.create({
     },
     point: {
         position: 'absolute',
-        top: -1.5,
-        right: -1.5,
+        top: -2.0,
+        right: -2.0,
         marginLeft: 'auto',
         backgroundColor: 'black',
-        height: 3.0,
-        width: 3.0,
+        height: 4.0,
+        width: 4.0,
         borderRadius: 5,
     }
 })

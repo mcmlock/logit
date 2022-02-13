@@ -1,16 +1,113 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { Dimensions, StyleSheet, SafeAreaView, View, Text, Button } from 'react-native';
+import { Dimensions, StyleSheet, SafeAreaView, View, Text, Button, TouchableWithoutFeedback } from 'react-native';
 import { PlotPoints, LineGraph } from './LineGraph';
 import { ScrollView } from 'react-native-gesture-handler';
 
 const { width, height } = Dimensions.get('window');
 
+const SelectedPointInfo = props => {
+    if (props.point !== 0) {
+        let selectedMonth;
+        let selectedDay;
+        let minutesLeft = props.point;
+        console.log(minutesLeft);
+        const year = Math.floor(minutesLeft / (1440 * 365));
+        minutesLeft -= (year * 1440 * 365);
+        console.log(minutesLeft);
+        const leapYears = Math.floor(year / 4);
+        minutesLeft -= leapYears * 1440;
+        if (year / 4 === 0) {
+            if (minutesLeft > 482400) {
+                selectedMonth = 12;
+                minutesLeft -= 482400;
+            } else if (minutesLeft > 439200) {
+                selectedMonth = 11;
+                minutesLeft -= 439200;
+            } else if (minutesLeft > 394560) {
+                selectedMonth = 10;
+                minutesLeft -= 394560;
+            } else if (minutesLeft > 351360) {
+                selectedMonth = 9;
+                minutesLeft -= 351360;
+            } else if (minutesLeft > 306720) {
+                selectedMonth = 8;
+                minutesLeft -= 306720;
+            } else if (minutesLeft > 262080) {
+                selectedMonth = 7; 
+                minutesLeft -= 262080;
+            } else if (minutesLeft > 218880) {
+                selectedMonth = 6;
+                minutesLeft -= 218880;
+            } else if (minutesLeft > 174240) {
+                selectedMonth = 5;
+                minutesLeft -= 174240;
+            } else if (minutesLeft > 131040) {
+                selectedMonth = 4;
+                minutesLeft -= 131040;
+            } else if (minutesLeft > 86400) {
+                selectedMonth = 3;
+                minutesLeft -= 86400;
+            } else if (minutesLeft > 44640) {
+                selectedMonth = 2;
+                minutesLeft -= 44640
+            } else {
+                selectedMonth = 1;
+            }
+        } else {
+            if (minutesLeft > 480960) {
+                selectedMonth = 12;
+                minutesLeft -= 480960;
+            } else if (minutesLeft > 437760) {
+                selectedMonth = 11;
+                minutesLeft -= 437760;
+            } else if (minutesLeft > 393120) {
+                selectedMonth = 10;
+                minutesLeft -= 393120;
+            } else if (minutesLeft > 349920) {
+                selectedMonth = 9;
+                minutesLeft -= 349920;
+            } else if (minutesLeft > 305280) {
+                selectedMonth = 8;
+                minutesLeft -= 305280;
+            } else if (minutesLeft > 260640) {
+                selectedMonth = 7; 
+                minutesLeft -= 260640;
+            } else if (minutesLeft > 217440) {
+                selectedMonth = 6;
+                minutesLeft -= 217440;
+            } else if (minutesLeft > 172800) {
+                selectedMonth = 5;
+                minutesLeft -= 172800;
+            } else if (minutesLeft > 129600) {
+                selectedMonth = 4;
+                minutesLeft -= 129600;
+            } else if (minutesLeft > 84960) {
+                selectedMonth = 3;
+                minutesLeft -= 84960;
+            } else if (minutesLeft > 44640) {
+                selectedMonth = 2;
+                minutesLeft -= 44640
+            } else {
+                selectedMonth = 1;
+            }
+        }
+        selectedDay = minutesLeft / 1440;
+        
+        return (
+            <View>
+                <Text>{selectedMonth}/{selectedDay}: Hours Logged</Text>
+            </View>
+        ); 
+    };
+    return <View />
+}
+
 const ProgressReportScreen = props => {
 
     const navigation = useNavigation();
     const [yMax, setYMax] = useState(1);
-  //  const [point, selectPoint] = useState(-1);
+    const [point, selectPoint] = useState(0);
 
     // Calculating current day value
     let month = new Date().getMonth() + 1;
@@ -177,6 +274,7 @@ const ProgressReportScreen = props => {
     })
 
     return (
+        <TouchableWithoutFeedback onPress={() => selectPoint(0)}>
         <SafeAreaView style={styles.container}>
             <View>
                 <Text style={styles.header}>Past 30 Days</Text>
@@ -189,19 +287,17 @@ const ProgressReportScreen = props => {
                     <Text style={{transform: [{rotate: '270deg'}], fontSize: 18.0}}>Hours</Text>
                 </View>
                 <View style={styles.graph}>
-                    <PlotPoints past30={past30} dateValue={dateValue} yMax={yMax} setYMax={setYMax} />
                     <LineGraph past30={past30} dateValue={dateValue} yMax={yMax} />
+                    <PlotPoints past30={past30} dateValue={dateValue} yMax={yMax} setYMax={setYMax} selectPoint={selectPoint}/>
                 </View>
             </View>
             <View>
                 <Text style={{fontSize: 18.0, marginBottom: 20.0}}>{lastMonth}/{lastDay} - {month}/{day}</Text>
             </View>
+            {point > 0 && <SelectedPointInfo point={point + 1440}/>}
             <ScrollView style={styles.logs}>
                 {logs}
             </ScrollView>
-            <View style={{ height: height * .20 }}>
-
-            </View>
             <Button
                 title="Delete"
                 onPress={() => {
@@ -213,7 +309,8 @@ const ProgressReportScreen = props => {
                 title="Back"
                 onPress={() => navigation.navigate('Home')}
             />
-        </SafeAreaView >
+                    </SafeAreaView>
+            </TouchableWithoutFeedback>
     );
 };
 
@@ -245,7 +342,6 @@ const styles = StyleSheet.create({
     },
     logs: {
         width: (width * .8),
-        height: (height * .1),
         borderWidth: 1
     },
     avgText: {
