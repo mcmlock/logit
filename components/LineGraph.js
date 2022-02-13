@@ -5,6 +5,20 @@ import Svg, { Line } from 'react-native-svg';
 const { width, height } = Dimensions.get('window');
 
 const Point = props => {
+    if (props.value) {
+        return (
+            <View
+                style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'flex-end',
+                    height: props.value / props.yScale * height * .25
+                }}
+            >
+                <View style={styles.point} />
+            </View>
+        );
+    }
     return (
         <View
             style={{
@@ -13,10 +27,8 @@ const Point = props => {
                 justifyContent: 'flex-end',
                 height: props.value / props.yScale * height * .25
             }}
-        >
-            <View style={styles.point} />
-        </View>
-    )
+        />
+    );
 }
 
 export const PlotPoints = ({ past30, dateValue, yMax, setYMax }) => {
@@ -181,11 +193,11 @@ export const LineGraph = ({ past30, dateValue, yMax }) => {
     }
     const drawLine = (leftVal, rightVal) => {
         if (rightVal >= leftVal) {
-            return <Line x1={0} y1={determineHeight(leftVal, rightVal)} x2={1 / 31 * width * .85} y2={0} stroke="#666" strokeWidth="1.6" />
+            return <Line x1={0} y1={determineHeight(leftVal, rightVal)} x2={1 / 31 * width * .85} y2={0} stroke="#666" strokeWidth="1.4" />
         } else if (leftVal >= rightVal) {
-            return <Line x1={0} y1={0} x2={1 / 31 * width * .85} y2={determineHeight(leftVal, rightVal)} stroke="#666" strokeWidth="1.6" />
+            return <Line x1={0} y1={0} x2={1 / 31 * width * .85} y2={determineHeight(leftVal, rightVal)} stroke="#666" strokeWidth="1.4" />
         } else {
-            return <Line x1={0} y1={0} x2={1 / 31 * width * .85} y2={0} stroke="#666" strokeWidth="1.6" />
+            return <Line x1={0} y1={0} x2={1 / 31 * width * .85} y2={0} stroke="#666" strokeWidth="1.4" />
         }
     }
     const GraphLine = props => {
