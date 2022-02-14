@@ -137,36 +137,36 @@ export const PlotPoints = ({ past30, dateValue, yMax, setYMax, selectPoint, logs
 
     return (
         <View style={styles.container}>
-            <Point value={value1} yScale={yScale} dateValue={dateValue - 1440 * 29} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value2} yScale={yScale} dateValue={dateValue - 1440 * 28} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value3} yScale={yScale} dateValue={dateValue - 1440 * 27} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value4} yScale={yScale} dateValue={dateValue - 1440 * 26} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value5} yScale={yScale} dateValue={dateValue - 1440 * 25} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value6} yScale={yScale} dateValue={dateValue - 1440 * 24} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value7} yScale={yScale} dateValue={dateValue - 1440 * 23} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value8} yScale={yScale} dateValue={dateValue - 1440 * 22} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value9} yScale={yScale} dateValue={dateValue - 1440 * 21} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value10} yScale={yScale} dateValue={dateValue - 1440 * 20} selectPoint={selectPoint} logs={logs}setLogs={setLogs}/>
-            <Point value={value11} yScale={yScale} dateValue={dateValue - 1440 * 19} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value12} yScale={yScale} dateValue={dateValue - 1440 * 18} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value13} yScale={yScale} dateValue={dateValue - 1440 * 17} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value14} yScale={yScale} dateValue={dateValue - 1440 * 16} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value15} yScale={yScale} dateValue={dateValue - 1440 * 15} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value16} yScale={yScale} dateValue={dateValue - 1440 * 14} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value17} yScale={yScale} dateValue={dateValue - 1440 * 13} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value18} yScale={yScale} dateValue={dateValue - 1440 * 12} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value19} yScale={yScale} dateValue={dateValue - 1440 * 11} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value20} yScale={yScale} dateValue={dateValue - 1440 * 10} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value21} yScale={yScale} dateValue={dateValue - 1440 * 9} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value22} yScale={yScale} dateValue={dateValue - 1440 * 8} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value23} yScale={yScale} dateValue={dateValue - 1440 * 7} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value24} yScale={yScale} dateValue={dateValue - 1440 * 6} selectPoint={selectPoint} alogs={logs} setLogs={setLogs}/>
-            <Point value={value25} yScale={yScale} dateValue={dateValue - 1440 * 5} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value26} yScale={yScale} dateValue={dateValue - 1440 * 4} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value27} yScale={yScale} dateValue={dateValue - 1440 * 3} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value28} yScale={yScale} dateValue={dateValue - 1440 * 2} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value29} yScale={yScale} dateValue={dateValue - 1440 * 1} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
-            <Point value={value30} yScale={yScale} dateValue={dateValue} selectPoint={selectPoint} logs={logs} setLogs={setLogs}/>
+            <Point value={value1} yScale={yScale} dateValue={dateValue - 1440 * 29} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value2} yScale={yScale} dateValue={dateValue - 1440 * 28} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value3} yScale={yScale} dateValue={dateValue - 1440 * 27} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value4} yScale={yScale} dateValue={dateValue - 1440 * 26} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value5} yScale={yScale} dateValue={dateValue - 1440 * 25} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value6} yScale={yScale} dateValue={dateValue - 1440 * 24} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value7} yScale={yScale} dateValue={dateValue - 1440 * 23} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value8} yScale={yScale} dateValue={dateValue - 1440 * 22} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value9} yScale={yScale} dateValue={dateValue - 1440 * 21} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value10} yScale={yScale} dateValue={dateValue - 1440 * 20} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value11} yScale={yScale} dateValue={dateValue - 1440 * 19} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value12} yScale={yScale} dateValue={dateValue - 1440 * 18} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value13} yScale={yScale} dateValue={dateValue - 1440 * 17} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value14} yScale={yScale} dateValue={dateValue - 1440 * 16} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value15} yScale={yScale} dateValue={dateValue - 1440 * 15} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value16} yScale={yScale} dateValue={dateValue - 1440 * 14} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value17} yScale={yScale} dateValue={dateValue - 1440 * 13} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value18} yScale={yScale} dateValue={dateValue - 1440 * 12} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value19} yScale={yScale} dateValue={dateValue - 1440 * 11} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value20} yScale={yScale} dateValue={dateValue - 1440 * 10} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value21} yScale={yScale} dateValue={dateValue - 1440 * 9} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value22} yScale={yScale} dateValue={dateValue - 1440 * 8} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value23} yScale={yScale} dateValue={dateValue - 1440 * 7} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value24} yScale={yScale} dateValue={dateValue - 1440 * 6} selectPoint={selectPoint} alogs={logs} setLogs={setLogs} />
+            <Point value={value25} yScale={yScale} dateValue={dateValue - 1440 * 5} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value26} yScale={yScale} dateValue={dateValue - 1440 * 4} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value27} yScale={yScale} dateValue={dateValue - 1440 * 3} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value28} yScale={yScale} dateValue={dateValue - 1440 * 2} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value29} yScale={yScale} dateValue={dateValue - 1440 * 1} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
+            <Point value={value30} yScale={yScale} dateValue={dateValue} selectPoint={selectPoint} logs={logs} setLogs={setLogs} />
             <View style={{ flex: 1 }} />
         </View>
     );
@@ -206,12 +206,14 @@ export const LineGraph = ({ past30, dateValue, yMax }) => {
         }
     }
     const drawLine = (leftVal, rightVal) => {
-        if (rightVal >= leftVal) {
+        if (rightVal > leftVal) {
             return <Line x1={0} y1={determineHeight(leftVal, rightVal)} x2={1 / 31 * width * .85} y2={0} stroke="#666" strokeWidth="1.4" />
-        } else if (leftVal >= rightVal) {
+        } else if (leftVal > rightVal) {
             return <Line x1={0} y1={0} x2={1 / 31 * width * .85} y2={determineHeight(leftVal, rightVal)} stroke="#666" strokeWidth="1.4" />
         } else {
-            return <Line x1={0} y1={0} x2={1 / 31 * width * .85} y2={0} stroke="#666" strokeWidth="1.4" />
+            if (leftVal !== 0 && rightVal !== 0) {
+                return <Line x1={0} y1={0} x2={1 / 31 * width * .85} y2={0} stroke="#666" strokeWidth="1.4" />
+            }
         }
     }
     const GraphLine = props => {
@@ -355,4 +357,4 @@ const styles = StyleSheet.create({
         width: 4.0,
         borderRadius: 5,
     }
-})
+});

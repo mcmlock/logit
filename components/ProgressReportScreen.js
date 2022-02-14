@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { Dimensions, StyleSheet, SafeAreaView, View, Text, Button, TouchableWithoutFeedback } from 'react-native';
+import { Dimensions, StyleSheet, SafeAreaView, View, Text, Button, TouchableWithoutFeedback, ScrollView, TextInput } from 'react-native';
 import { PlotPoints, LineGraph } from './LineGraph';
-import { ScrollView } from 'react-native-gesture-handler';
 
 const { width, height } = Dimensions.get('window');
 
@@ -97,11 +96,10 @@ const SelectedPointInfo = props => {
         const hours = Math.floor(daysContribution);
         const minutesDec = daysContribution - hours;
         const minutes = Math.ceil(minutesDec * 60);
-        const timeLogged = `${hours}:${minutes}`;
 
         return (
             <View style={{ alignSelf: 'flex-start', marginLeft: (width * .1), marginBottom: 10.0 }}>
-                <Text style={{ fontSize: 18.0 }}>{timeLogged} Hours Logged on {selectedMonth}/{selectedDay}</Text>
+                <Text style={{ fontSize: 18.0 }}>{hours} H {minutes} M on {selectedMonth}/{selectedDay}</Text>
             </View>
         );
     };
@@ -197,6 +195,15 @@ const ProgressReportScreen = props => {
     } else {
         yScale = (Math.floor(yMax / 1000) + 1) * 1000;
     }
+
+    // Calculating the remaining time
+    const pastEver = props.logs.filter(log => log.meterId === props.selectedMeter);
+    const totalTimeLogged = (pastEver.reduce((prevVal, currentVal) => prevVal + currentVal.hoursRecorded + (currentVal.minutesRecorded / 60), 0)).toFixed(2);
+    const totalHoursLogged = Math.floor(totalTimeLogged);
+    const totalMinutesLogged = Math.ceil((totalTimeLogged - totalHoursLogged) * 60);
+    const remainingTime = props.goal - totalTimeLogged;
+    const remainingHours = Math.floor(remainingTime);
+    const remainingMinutes = Math.ceil((remainingTime - remainingHours) * 60);
 
     // Caculating the 7, 30, and All Time averages
     /*
@@ -334,13 +341,10 @@ const ProgressReportScreen = props => {
     dueYearValue += dueLeapYears * 1440;
     let dueDateValue = dueMonthValue + dueDayValue + dueYearValue;
     const daysLeft = (dueDateValue - dateValue) / 1440;
-    const pastEver = props.logs.filter(log => log.meterId === props.selectedMeter);
-    const totalTimeLogged = (pastEver.reduce((prevVal, currentVal) => prevVal + currentVal.hoursRecorded + (currentVal.minutesRecorded / 60), 0)).toFixed(2)
     const dailyTargetDec = (props.goal - totalTimeLogged) / daysLeft;
-    const dailyHour = Math.floor(dailyTargetDec);
-    const minutesDec = dailyTargetDec - dailyHour;
-    const dailyMinute = Math.ceil(minutesDec * 60);
-    const dailyTarget = `${dailyHour}:${dailyMinute}`;
+    const dailyTargetHr = Math.floor(dailyTargetDec);
+    const minutesDec = dailyTargetDec - dailyTargetHr;
+    const dailyTargetMin = Math.ceil(minutesDec * 60);
 
     return (
         <TouchableWithoutFeedback onPress={() => {
@@ -358,21 +362,28 @@ const ProgressReportScreen = props => {
                 <View style={{ width: '85%', alignItems: 'flex-start' }}>
                     <Text style={{ fontSize: 20.0 }}>{yScale}</Text>
                 </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', height: '25%' }}>
                     <View>
                         <Text style={{ transform: [{ rotate: '270deg' }], fontSize: 18.0 }}>Hours</Text>
                     </View>
-                    <View style={styles.graph}>
-                        <LineGraph past30={past30} dateValue={dateValue} yMax={yMax} />
-                        <PlotPoints past30={past30} dateValue={dateValue} yMax={yMax} setYMax={setYMax} logs={props.logs.filter(log => log.meterId === props.selectedMeter)} setLogs={setLogs} selectPoint={selectPoint} />
+                    <View style={styles.graphContainer}>
+                        <ScrollView horizontal={true} contentContainerStyle={styles.graph}>
+                            <LineGraph past30={past30} dateValue={dateValue} yMax={yMax} />
+                            <PlotPoints past30={past30} dateValue={dateValue} yMax={yMax} setYMax={setYMax} logs={props.logs.filter(log => log.meterId === props.selectedMeter)} setLogs={setLogs} selectPoint={selectPoint} />
+                        </ScrollView>
                     </View>
                 </View>
-                <View>
-                    <Text style={{ fontSize: 18.0, marginBottom: 20.0 }}>{lastMonth}/{lastDay} - {month}/{day}</Text>
+                <View style={{flexDirection: 'row',  marginBottom: 20.0}}>
+                    <TextInput style={styles.dateInput} />
+                    <Text>/</Text>
+                    <TextInput style={styles.dateInput} />
+                    <Text>/</Text>
+                    <TextInput style={styles.dateInput} />
                 </View>
                 <View style={{ alignSelf: 'flex-start', marginLeft: (width * .1), marginBottom: 10.0 }}>
+                    <Text style={{ fontSize: 18.0 }}>Logged: {totalHoursLogged} H {totalMinutesLogged} M Remaining: {remainingHours} H {remainingMinutes} M</Text>
                     <Text style={{ fontSize: 18.0 }}>Days Left: {daysLeft}</Text>
-                    <Text style={{ fontSize: 18.0 }}>Necessary Daily Contribution: {dailyTarget} Hours</Text>
+                    <Text style={{ fontSize: 18.0 }}>Suggested Daily Contribution: {dailyTargetHr} H {dailyTargetMin} M</Text>
                 </View>
                 {point > 0 && <SelectedPointInfo point={point + 1440} logs={props.logs.filter(log => log.meterId === props.selectedMeter)} />}
                 <View style={{ marginTop: 'auto', marginBottom: 20.0 }}>
@@ -403,15 +414,18 @@ const styles = StyleSheet.create({
     header: {
         fontSize: 22.0,
     },
-    graph: {
+    graphContainer: {
         marginTop: 15.0,
         marginBottom: 10.0,
+        borderLeftWidth: 2,
+        paddingBottom: -3,
+        borderBottomWidth: 2
+    },
+    graph: {
         width: (width * .85),
-        height: (height * .25),
+       // height: (height * .25),
         flexDirection: 'row',
         alignItems: 'flex-end',
-        borderLeftWidth: 2,
-        borderBottomWidth: 2,
     },
     averagesView: {
         flex: 1,
@@ -426,6 +440,11 @@ const styles = StyleSheet.create({
     avgText: {
         fontSize: 20.0,
         textAlign: 'center'
+    },
+    dateInput: {
+        borderWidth: 0.8,
+        borderRadius: 4,
+        fontSize: 18.0
     }
 });
 
