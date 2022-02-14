@@ -212,8 +212,8 @@ const ProgressReportScreen = props => {
 
     const navigation = useNavigation();
     const [yMax, setYMax] = useState(1);
-    const [point, selectPoint] = useState(0);
-    const [logs, setLogs] = useState(allLogs);
+    const [point, selectPoint] = useState(dateValue);
+    const [logs, setLogs] = useState(0);
     const [startMonth, setStartMonth] = useState(sMonth);
     const [startDay, setStartDay] = useState(sDay);
     const [startYear, setStartYear] = useState(sYear);
@@ -225,10 +225,9 @@ const ProgressReportScreen = props => {
     const startDateValue = calcDateValue(startMonth, startDay, startYear);
     const endDateValue = calcDateValue(endMonth, endDay, endYear);
     const dateRange = ((endDateValue - startDateValue) / 1440) + 1;
-    const rangeString = dateRange % 7 === 0 ? `${dateRange / 7} Weeks` : `${dateRange} Days`;
 
     // Gathering the data for the chart
-    const past30 = props.logs.filter(log => log.meterId === props.selectedMeter && log.dateValue >= dateValue - (1440 * 29));
+    const logsInRange = props.logs.filter(log => log.meterId === props.selectedMeter && log.dateValue >= startDateValue && log.dateValue <= endDateValue);
     let yScale = 1;
     if (yMax === 1) {
         yScale = 1;
@@ -246,14 +245,25 @@ const ProgressReportScreen = props => {
         yScale = (Math.floor(yMax / 1000) + 1) * 1000;
     }
 
+    // Finding the time recorded in the date range
+    const timeInRange = (logsInRange.reduce((prevVal, currentVal) => prevVal + currentVal.hoursRecorded + (currentVal.minutesRecorded / 60), 0)).toFixed(2);
+    let hoursInRange = Math.floor(timeInRange);
+    let minutesInRange = Math.round((timeInRange - hoursInRange) * 60);
+    if (minutesInRange === 60) {
+        hoursInRange++;
+        minutesInRange = 0;
+    }
+    const timeInRangeString = ``
+    const rangeString = dateRange % 7 === 0 ? `${hoursInRange} H ${minutesInRange} M In ${dateRange / 7} Weeks` : `${hoursInRange} H ${minutesInRange} M In ${dateRange} Days`;
+
     // Calculating the remaining time
     const pastEver = props.logs.filter(log => log.meterId === props.selectedMeter);
     const totalTimeLogged = (pastEver.reduce((prevVal, currentVal) => prevVal + currentVal.hoursRecorded + (currentVal.minutesRecorded / 60), 0)).toFixed(2);
     const totalHoursLogged = Math.floor(totalTimeLogged);
-    const totalMinutesLogged = Math.ceil((totalTimeLogged - totalHoursLogged) * 60);
+    const totalMinutesLogged = Math.round((totalTimeLogged - totalHoursLogged) * 60);
     const remainingTime = props.goal - totalTimeLogged;
     const remainingHours = Math.floor(remainingTime);
-    const remainingMinutes = Math.ceil((remainingTime - remainingHours) * 60);
+    const remainingMinutes = Math.round((remainingTime - remainingHours) * 60);
 
     // Making the goal string
     const goalString = props.hasDueDate ? `${props.goal} Hours by ${props.dueMonth}/${props.dueDay}/${props.dueYear}` : `${props.goal} Hours`;
@@ -310,17 +320,16 @@ const ProgressReportScreen = props => {
     let dueDateValue = dueMonthValue + dueDayValue + dueYearValue;
     const daysLeft = (dueDateValue - dateValue) / 1440;
     const dailyTargetDec = (props.goal - totalTimeLogged) / daysLeft;
-    const dailyTargetHr = Math.floor(dailyTargetDec);
+    let dailyTargetHr = Math.floor(dailyTargetDec);
     const minutesDec = dailyTargetDec - dailyTargetHr;
-    const dailyTargetMin = Math.ceil(minutesDec * 60);
-
-
+    let dailyTargetMin = Math.round(minutesDec * 60);
+    if (dailyTargetMin % 60 === 0) {
+        dailyTargetHr += 1;
+        dailyTargetMin = 0;
+    }
 
     return (
-        <TouchableWithoutFeedback onPress={() => {
-            selectPoint(0);
-            setLogs(allLogs);
-        }}>
+        
             <SafeAreaView style={styles.container}>
                 <View style={{ marginBottom: 15.0 }}>
                     <Text style={{ fontSize: 30.0, textAlign: 'center' }}>{props.meterTitle}</Text>
@@ -332,14 +341,14 @@ const ProgressReportScreen = props => {
                 <View style={{ width: '85%', alignItems: 'flex-start' }}>
                     <Text style={{ fontSize: 20.0 }}>{yScale}</Text>
                 </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center', height: '25%' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', height: (height * .25) }}>
                     <View>
                         <Text style={{ transform: [{ rotate: '270deg' }], fontSize: 18.0 }}>Hours</Text>
                     </View>
                     <View style={styles.graphContainer}>
                         <ScrollView horizontal={true} contentContainerStyle={styles.graph}>
-                            <LineGraph past30={past30} dateValue={dateValue} yMax={yMax} />
-                            <PlotPoints past30={past30} dateValue={dateValue} yMax={yMax} setYMax={setYMax} logs={props.logs.filter(log => log.meterId === props.selectedMeter)} setLogs={setLogs} selectPoint={selectPoint} />
+                            <LineGraph logs={logsInRange} dateRange={dateRange} dateValue={endDateValue} yMax={yMax} />
+                            <PlotPoints logs={logsInRange} dateRange={dateRange} dateValue={endDateValue} yMax={yMax} setYMax={setYMax} setLogs={setLogs} selectPoint={selectPoint} />
                         </ScrollView>
                     </View>
                 </View>
@@ -380,12 +389,13 @@ const ProgressReportScreen = props => {
                         </View>
                     </TouchableOpacity>
                 </View>
+                <SelectedPointInfo point={point + 1440} logs={props.logs.filter(log => log.meterId === props.selectedMeter)} />
                 <View style={{ alignSelf: 'flex-start', marginLeft: (width * .1), marginBottom: 10.0 }}>
-                    <Text style={{ fontSize: 18.0 }}>Logged: {totalHoursLogged} H {totalMinutesLogged} M Remaining: {remainingHours} H {remainingMinutes} M</Text>
+                    <Text style={{ fontSize: 18.0 }}>Logged: {totalHoursLogged} H {totalMinutesLogged} M</Text>
+                    <Text style={{fontSize: 18.0}}>Remaining: {remainingHours} H {remainingMinutes} M</Text>
                     <Text style={{ fontSize: 18.0 }}>Days Left: {daysLeft}</Text>
                     <Text style={{ fontSize: 18.0 }}>Suggested Daily Contribution: {dailyTargetHr} H {dailyTargetMin} M</Text>
                 </View>
-                {point > 0 && <SelectedPointInfo point={point + 1440} logs={props.logs.filter(log => log.meterId === props.selectedMeter)} />}
                 <View style={{ marginTop: 'auto', marginBottom: 20.0 }}>
                     <Button
                         title="Delete"
@@ -400,7 +410,7 @@ const ProgressReportScreen = props => {
                     />
                 </View>
             </SafeAreaView>
-        </TouchableWithoutFeedback>
+
     );
 };
 
@@ -417,13 +427,13 @@ const styles = StyleSheet.create({
     graphContainer: {
         marginTop: 15.0,
         marginBottom: 10.0,
+        marginRight: 20.0,
         borderLeftWidth: 2,
-        paddingBottom: -3,
+        paddingBottom: -2,
         borderBottomWidth: 2
     },
     graph: {
         width: (width * .85),
-        // height: (height * .25),
         flexDirection: 'row',
         alignItems: 'flex-end',
     },
