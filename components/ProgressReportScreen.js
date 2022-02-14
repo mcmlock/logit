@@ -1,9 +1,61 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { Dimensions, StyleSheet, SafeAreaView, View, Text, Button, TouchableWithoutFeedback, ScrollView, TextInput } from 'react-native';
+import { Dimensions, StyleSheet, SafeAreaView, View, Text, Button, TouchableWithoutFeedback, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import { PlotPoints, LineGraph } from './LineGraph';
 
 const { width, height } = Dimensions.get('window');
+
+const calcDateValue = (month, day, year) => {
+    let monthValue;
+    switch (month) {
+        case 2:
+            monthValue = 31 * 1440;
+            break;
+        case 3:
+            monthValue = 59 * 1440;
+            break;
+        case 4:
+            monthValue = 90 * 1440;
+            break;
+        case 5:
+            monthValue = 120 * 1440;
+            break;
+        case 6:
+            monthValue = 151 * 1440;
+            break;
+        case 7:
+            monthValue = 181 * 1440;
+            break;
+        case 8:
+            monthValue = 212 * 1440;
+            break;
+        case 9:
+            monthValue = 242 * 1440;
+            break;
+        case 10:
+            monthValue = 273 * 1440;
+            break;
+        case 11:
+            monthValue = 303 * 1440;
+            break;
+        case 12:
+            monthValue = 334 * 1440;
+            break;
+        default:
+            monthValue = 0;
+            break;
+    }
+    let dayValue;
+    if (day > 1) {
+        dayValue = (day - 1) * 1440;
+    } else {
+        dayValue = 0;
+    }
+    let yearValue = year * 1440 * 365;
+    const leapYears = Math.floor(year / 4);
+    yearValue += leapYears * 1440;
+    return monthValue + dayValue + yearValue;
+}
 
 const SelectedPointInfo = props => {
     if (props.point !== 0) {
@@ -118,64 +170,62 @@ const ProgressReportScreen = props => {
         );
     });
 
+    // Calculating current day value
+    let month = new Date().getMonth() + 1;
+    let day = new Date().getDate();
+    let year = new Date().getFullYear() - 2000;
+    let dateValue = calcDateValue(month, day, year);
+
+    // Finding the date from two weeks ago
+    let sDay = day - 13;
+    let sMonth = month;
+    let sYear = year;
+    if (sDay <= 0) {
+        if (month === 1) {
+            sMonth = 12;
+            sDay = 31 + sDay;
+            sYear -= 1;
+        } else {
+            sMonth = month - 1;
+            switch (sMonth) {
+                case 1:
+                case 3:
+                case 5:
+                case 7:
+                case 8:
+                case 10:
+                    sDay = 31 + sDay;
+                    break;
+                case 2:
+                    if (year % 4 === 0) {
+                        sDay = 29 + sDay;
+                    } else {
+                        sDay = 28 + sDay;
+                    }
+                    break;
+            }
+        }
+    } else {
+        sMonth = month;
+        sYear = year;
+    }
+
     const navigation = useNavigation();
     const [yMax, setYMax] = useState(1);
     const [point, selectPoint] = useState(0);
     const [logs, setLogs] = useState(allLogs);
+    const [startMonth, setStartMonth] = useState(sMonth);
+    const [startDay, setStartDay] = useState(sDay);
+    const [startYear, setStartYear] = useState(sYear);
+    const [endMonth, setEndMonth] = useState(month);
+    const [endDay, setEndDay] = useState(day);
+    const [endYear, setEndYear] = useState(year);
 
-    // Calculating current day value
-    let month = new Date().getMonth() + 1;
-    let monthValue;
-    switch (month) {
-        case 2:
-            monthValue = 31 * 1440;
-            break;
-        case 3:
-            monthValue = 59 * 1440;
-            break;
-        case 4:
-            monthValue = 90 * 1440;
-            break;
-        case 5:
-            monthValue = 120 * 1440;
-            break;
-        case 6:
-            monthValue = 151 * 1440;
-            break;
-        case 7:
-            monthValue = 181 * 1440;
-            break;
-        case 8:
-            monthValue = 212 * 1440;
-            break;
-        case 9:
-            monthValue = 242 * 1440;
-            break;
-        case 10:
-            monthValue = 273 * 1440;
-            break;
-        case 11:
-            monthValue = 303 * 1440;
-            break;
-        case 12:
-            monthValue = 334 * 1440;
-            break;
-        default:
-            monthValue = 0;
-            break;
-    }
-    let day = new Date().getDate();
-    let dayValue;
-    if (day > 1) {
-        dayValue = (day - 1) * 1440;
-    } else {
-        dayValue = 0;
-    }
-    let year = new Date().getFullYear() - 2000;
-    let yearValue = year * 1440 * 365;
-    const leapYears = Math.floor(year / 4);
-    yearValue += leapYears * 1440;
-    let dateValue = monthValue + dayValue + yearValue;
+    // Calculating the time between the start and end dates for the graph header
+    const startDateValue = calcDateValue(startMonth, startDay, startYear);
+    const endDateValue = calcDateValue(endMonth, endDay, endYear);
+    const dateRange = ((endDateValue - startDateValue) / 1440) + 1;
+    const rangeString = dateRange % 7 === 0 ? `${dateRange / 7} Weeks` : `${dateRange} Days`;
 
     // Gathering the data for the chart
     const past30 = props.logs.filter(log => log.meterId === props.selectedMeter && log.dateValue >= dateValue - (1440 * 29));
@@ -205,92 +255,10 @@ const ProgressReportScreen = props => {
     const remainingHours = Math.floor(remainingTime);
     const remainingMinutes = Math.ceil((remainingTime - remainingHours) * 60);
 
-    // Caculating the 7, 30, and All Time averages
-    /*
-    const past7 = props.logs.filter(log => log.meterId === props.selectedMeter && log.dateValue >= dateValue - (1440 * 6));
-    const sevenDayAvg = (past7.reduce((prevVal, currentVal) => prevVal + currentVal.hoursRecorded + (currentVal.minutesRecorded / 60), 0) / 7).toFixed(2);
-    const thirtyDayAvg = (past30.reduce((prevVal, currentVal) => prevVal + currentVal.hoursRecorded + (currentVal.minutesRecorded / 60), 0) / 30).toFixed(2);
-    const pastEver = props.logs.filter(log => log.meterId === props.selectedMeter);
-    // This way the divisor will always be at least one
-    let oldestDateValue = dateValue - 1440;
-    for (let i = 0; i < pastEver.length; i++) {
-        if (oldestDateValue > pastEver[i].dateValue) {
-            oldestDateValue = pastEver[i].dateValue;
-        }
-    }
-    const divisor = (dateValue - oldestDateValue) / 1440;
-    const allTimeAvg = (pastEver.reduce((prevVal, currentVal) => prevVal + currentVal.hoursRecorded + (currentVal.minutesRecorded / 60), 0) / divisor).toFixed(2);
-<View style={styles.averagesView}>
-                <View>
-                    <Text style={styles.avgText}>{allTimeAvg}</Text>
-                    <Text>All Time Avg</Text>
-                </View>
-                <View>
-                    <Text style={styles.avgText}>{thirtyDayAvg}</Text>
-                    <Text>30 Day Avg</Text>
-                </View>
-                <View>
-                    <Text style={styles.avgText}>{sevenDayAvg}</Text>
-                    <Text>7 Time Avg</Text>
-                </View>
-            </View>
-    */
-
-    // Finding the date from a month ago
-    let lastMonth = month - 1;
-    if (lastMonth === 0) { lastMonth = 12 };
-    let lastDay = day - 29;
-    const findLastDay = lastDay => {
-        switch (lastMonth) {
-            case 1:
-            case 3:
-            case 5:
-            case 7:
-            case 8:
-            case 10:
-            case 12:
-                if (lastDay !== 0) {
-                    return 31 + lastDay;
-                } else {
-                    return 31;
-                }
-                break;
-            case 2:
-                if (year % 4 === 0) {
-                    if (lastDay !== 0) {
-                        return 29 + lastDay;
-                    } else {
-                        return 29;
-                    }
-                } else {
-                    if (lastDay !== 0) {
-                        return 28 + lastDay;
-                    } else {
-                        return 28;
-                    }
-                }
-                break;
-            case 4:
-            case 6:
-            case 9:
-            case 11:
-                if (lastDay !== 0) {
-                    return 30 + lastDay;
-                } else {
-                    return 30;
-                }
-                break;
-        }
-    }
-    if (lastDay <= 0) {
-        lastDay = findLastDay(lastDay);
-    }
-
     // Making the goal string
     const goalString = props.hasDueDate ? `${props.goal} Hours by ${props.dueMonth}/${props.dueDay}/${props.dueYear}` : `${props.goal} Hours`;
 
     // Calculating the daily target
-    // Calculating current day value
     let dueMonthValue;
     switch (props.dueMonth) {
         case 2:
@@ -346,6 +314,8 @@ const ProgressReportScreen = props => {
     const minutesDec = dailyTargetDec - dailyTargetHr;
     const dailyTargetMin = Math.ceil(minutesDec * 60);
 
+
+
     return (
         <TouchableWithoutFeedback onPress={() => {
             selectPoint(0);
@@ -357,7 +327,7 @@ const ProgressReportScreen = props => {
                     <Text style={{ fontSize: 24.0, textAlign: 'center' }}>{goalString}</Text>
                 </View>
                 <View>
-                    <Text style={styles.header}>Past 30 Days</Text>
+                    <Text style={styles.header}>{rangeString}</Text>
                 </View>
                 <View style={{ width: '85%', alignItems: 'flex-start' }}>
                     <Text style={{ fontSize: 20.0 }}>{yScale}</Text>
@@ -373,12 +343,42 @@ const ProgressReportScreen = props => {
                         </ScrollView>
                     </View>
                 </View>
-                <View style={{flexDirection: 'row',  marginBottom: 20.0}}>
-                    <TextInput style={styles.dateInput} />
+                <View style={{ flexDirection: 'row', marginBottom: 20.0 }}>
+                    <TouchableOpacity>
+                        <View style={{borderWidth: 1}}>
+                            <Text>{startMonth}</Text>
+                        </View>
+                    </TouchableOpacity>
                     <Text>/</Text>
-                    <TextInput style={styles.dateInput} />
+                    <TouchableOpacity>
+                        <View style={{borderWidth: 1}}>
+                            <Text>{startDay}</Text>
+                        </View>
+                    </TouchableOpacity>
                     <Text>/</Text>
-                    <TextInput style={styles.dateInput} />
+                    <TouchableOpacity>
+                        <View style={{borderWidth: 1}}>
+                            <Text>{startYear}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <Text> - </Text>
+                    <TouchableOpacity>
+                        <View style={{borderWidth: 1}}>
+                            <Text>{endMonth}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <Text>/</Text>
+                    <TouchableOpacity>
+                        <View style={{borderWidth: 1}}>
+                            <Text>{endDay}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <Text>/</Text>
+                    <TouchableOpacity>
+                        <View style={{borderWidth: 1}}>
+                            <Text>{endYear}</Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
                 <View style={{ alignSelf: 'flex-start', marginLeft: (width * .1), marginBottom: 10.0 }}>
                     <Text style={{ fontSize: 18.0 }}>Logged: {totalHoursLogged} H {totalMinutesLogged} M Remaining: {remainingHours} H {remainingMinutes} M</Text>
@@ -423,7 +423,7 @@ const styles = StyleSheet.create({
     },
     graph: {
         width: (width * .85),
-       // height: (height * .25),
+        // height: (height * .25),
         flexDirection: 'row',
         alignItems: 'flex-end',
     },
