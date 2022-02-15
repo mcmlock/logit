@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { Dimensions, StyleSheet, SafeAreaView, View, Text, Button, TouchableWithoutFeedback, TouchableOpacity, ScrollView, TextInput } from 'react-native';
+import { Dimensions, StyleSheet, SafeAreaView, View, Text, Button, TouchableWithoutFeedback, TouchableOpacity, ScrollView } from 'react-native';
 import { PlotPoints, LineGraph } from './LineGraph';
 
 const { width, height } = Dimensions.get('window');
@@ -346,9 +346,9 @@ const ProgressReportScreen = props => {
                         <Text style={{ transform: [{ rotate: '270deg' }], fontSize: 18.0 }}>Hours</Text>
                     </View>
                     <View style={styles.graphContainer}>
-                        <ScrollView horizontal={true} contentContainerStyle={styles.graph}>
-                            <LineGraph logs={logsInRange} dateRange={dateRange} dateValue={endDateValue} yMax={yMax} />
-                            <PlotPoints logs={logsInRange} dateRange={dateRange} dateValue={endDateValue} yMax={yMax} setYMax={setYMax} setLogs={setLogs} selectPoint={selectPoint} />
+                        <ScrollView horizontal={true} scrollEnabled={false} contentContainerStyle={styles.graph}>
+                            <LineGraph logs={logsInRange} dateRange={dateRange} dateValue={endDateValue} yMax={yMax}/>
+                            <PlotPoints logs={logsInRange} dateRange={dateRange} dateValue={endDateValue} yMax={yMax} setYMax={setYMax} setLogs={setLogs} selectPoint={selectPoint}/>
                         </ScrollView>
                     </View>
                 </View>
@@ -425,6 +425,7 @@ const styles = StyleSheet.create({
         fontSize: 22.0,
     },
     graphContainer: {
+        width: (width * .85),
         marginTop: 15.0,
         marginBottom: 10.0,
         marginRight: 20.0,
@@ -433,7 +434,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 2
     },
     graph: {
-        width: (width * .85),
+        width: '100%',
         flexDirection: 'row',
         alignItems: 'flex-end',
     },

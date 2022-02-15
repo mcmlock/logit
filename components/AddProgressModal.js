@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginHorizontal: 50.0,
+        opacity: 0.5
     },
     inputRow: {
         flexDirection: 'row',

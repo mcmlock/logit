@@ -1,13 +1,10 @@
 import React, { useEffect } from 'react';
-import { Dimensions, StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { Dimensions, StyleSheet, View, TouchableOpacity, Text, FlatList } from 'react-native';
 import Svg, { Line } from 'react-native-svg';
 
 const { width, height } = Dimensions.get('window');
 
 const Point = props => {
-   // console.log(height * .25);
-   // console.log(props.value / props.yScale);
-   // console.log(props.value / props.yScale * height * .25);
     if (props.value) {
         return (
             <View
@@ -95,14 +92,14 @@ export const PlotPoints = ({ dateValue, yMax, setYMax, selectPoint, dateRange, l
     }
     const points = pointsData.map(point => {
         return (
-            <Point value={point.value} yScale={yScale} dateValue={point.dateValue} selectPoint={selectPoint} logs={logs} setLogs={setLogs} length={values.length}/>
+            <Point value={point.value} yScale={yScale} dateValue={point.dateValue} selectPoint={selectPoint} logs={logs} setLogs={setLogs} length={values.length} />
         );
     });
 
     return (
         <View style={styles.container}>
             {points}
-            <View style={{width: 0.85 * width / (values.length + 1)}} />
+            <View style={{ width: 0.85 * width / (values.length + 1) }} />
         </View>
     );
 }
@@ -199,14 +196,14 @@ export const LineGraph = ({ logs, dateRange, dateValue, yMax }) => {
 
     const lines = linesData.map(line => {
         return (
-            <GraphLine value1={line.startPoint} value2={line.endPoint} position={line.position} length={values.length}/>
+            <GraphLine value1={line.startPoint} value2={line.endPoint} position={line.position} length={values.length} />
         );
     })
 
     return (
         <View style={styles.container}>
             {lines}
-            <View style={{width: 0.85 * width / (values.length + 1)}} />
+            <View style={{ width: 0.85 * width / (values.length + 1) }} />
         </View>
     );
 }
