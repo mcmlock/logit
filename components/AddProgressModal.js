@@ -9,7 +9,6 @@ export const TimeLogger = props => {
 
     return (
         <Modal
-            transparent={true}
             visible={props.visible}
         >
             <View style={styles.modal}>
@@ -59,7 +58,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginHorizontal: 50.0,
-        opacity: 0.5
     },
     inputRow: {
         flexDirection: 'row',

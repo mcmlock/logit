@@ -40,59 +40,18 @@ const CreateProgressMeter = props => {
                             onChangeText={value => setTitle(value)}
                         />
                     </View>
-                    <View style={styles.unitsRow}>
-                        <Text style={styles.labelText}>Units</Text>
-                        <View style={{flex: 4, flexDirection: 'row'}}>
-                            <View style={{ flex: 1 }}>
-                                <Button
-                                    title="HH:MM"
-                                    onPress={() => setUnits('hours')}
-                                />
-                            </View>
-                            <View style={{ flex: 1 }}>
-                                <Button
-                                    title="$"
-                                // onPress={() => setUnits('dollars')}
-                                />
-                            </View>
-                            <View style={{ flex: 1 }}>
-                                <Button
-                                    title="Custom"
-                                // onPress={() => setUnits('custom')}
-                                />
-                            </View>
-                        </View>
-                    </View>
-                    <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.labelText}>Goal</Text>
-                        {units === 'hours' &&
-                            <View style={styles.goalRow}>
-                                <TextInput
-                                    style={styles.hoursTextInput}
-                                    onChangeText={value => setGoal(Number(value))}
-                                />
-                                <Text style={styles.labelText}>Hours</Text>
-                            </View>
-                        }
-                        {units === 'dollars' &&
-                            <View style={styles.goalRow}>
-                                <TextInput style={styles.textInput} />
-                                <Text style={styles.labelText}>Dollars</Text>
-                            </View>
-                        }
-                        {units === 'custom' &&
-                            <View style={styles.goalRow}>
-                                <TextInput style={styles.textInput} />
-                                <TextInput
-                                    style={styles.textInput}
-                                    placeholder="units"
-                                />
-                            </View>
-                        }
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                        <TextInput
+                            style={styles.hoursTextInput}
+                            placeholder='10000'
+                            textAlign='center'
+                            onChangeText={value => setGoal(Number(value))}
+                        />
+                        <Text style={styles.labelText}>Hours</Text>
                     </View>
                     <View style={styles.dateRow}>
                         <TouchableHighlight
-                        style={{flex: 1}}
+                            style={{ flex: 1 }}
                             onPress={() => {
                                 setHasDueDate(!hasDueDate);
                                 setShowMonthPicker(false);
@@ -176,10 +135,8 @@ const CreateProgressMeter = props => {
                             onPress={() => {
                                 const barProperties = {
                                     title: title,
-                                    units: units,
                                     progressMade: progressMade,
                                     goal: goal,
-                                    customUnits: customUnits,
                                     hasDueDate: hasDueDate,
                                     month: month,
                                     day: day,
@@ -209,30 +166,20 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     titleTextInput: {
-        borderRadius: 4.0,
         margin: 10.0,
         padding: 5.0,
         width: '85%',
-        fontSize: 26.0,
+        fontSize: 32.0,
         borderStyle: 'solid',
-        borderColor: "#000",
-        borderWidth: 1
-    },
-    unitsRow: {
-        width: '85%',
-        alignSelf: 'center',
-        alignItems: 'center',
-        flexDirection: 'row'
+        borderColor: "#666",
+        borderBottomWidth: 1.2,
+        backgroundColor: 'rgb(235, 235, 235)'
     },
     goalView: {
         flex: 1,
         alignItems: 'center',
         borderWidth: 1,
         flexDirection: 'row',
-    },
-    goalRow: {
-        flex: 4,
-        flexDirection: 'row'
     },
     dateRow: {
         alignItems: 'center',
@@ -247,22 +194,19 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     labelText: {
-        flex: 1,
         margin: 20,
         padding: 5,
-        fontSize: 22,
+        fontSize: 26,
     },
     hoursTextInput: {
-        flex: 1,
         margin: 10.0,
-        padding: 5.0,
-        fontSize: 22.0,
-        height: 52,
-        textAlign: 'center',
-        borderRadius: 4.0,
+        width: '30%',
+        fontSize: 26.0,
+        height: 44.0,
         borderStyle: 'solid',
-        borderColor: "#000",
-        borderWidth: 1
+        borderColor: "#666",
+        borderBottomWidth: 1.2,
+        backgroundColor: 'rgb(235, 235, 235)'
     },
     btnView: {
         alignItems: 'center',

@@ -405,9 +405,9 @@ const ProgressReportScreen = props => {
                 <Text style={{ fontSize: 18.0 }}>Remaining: {remainingHours} H {remainingMinutes} M</Text>
                 <Text style={{ fontSize: 18.0 }}>Days Left: {daysLeft}</Text>
                 <Text style={{ fontSize: 18.0 }}>Suggested Daily Contribution: {dailyTargetHr} H {dailyTargetMin} M</Text>
-                <Text style={{ fontSize: 18.0 }}>Date Range's Average: {avgHours} H {avgMinutes} M</Text>
+                <Text style={{ fontSize: 18.0 }}>Daily Average in Range: {avgHours} H {avgMinutes} M</Text>
             </View>
-            <View style={{ marginTop: 'auto', marginBottom: 20.0 }}>
+            <View style={{ marginTop: 'auto', marginBottom: 20.0, flex: 1, alignItems: 'flex-end', justifyContent: 'space-around', flexDirection: 'row' }}>
                 <Button
                     title="Delete"
                     onPress={() => {

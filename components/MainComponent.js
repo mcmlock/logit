@@ -40,6 +40,7 @@ class Main extends Component {
 
     componentDidMount() {
         load(this);
+
     }
 
     render() {
@@ -60,10 +61,8 @@ class Main extends Component {
             const progressMeter = {
                 id: this.state.idTracker,
                 title: barProperties.title,
-                units: barProperties.units,
                 progressMade: barProperties.progressMade,
                 goal: barProperties.goal,
-                customUnits: barProperties.customUnits,
                 hasDueDate: barProperties.hasDueDate,
                 month: barProperties.month,
                 day: barProperties.day,
