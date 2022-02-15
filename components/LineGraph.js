@@ -208,6 +208,26 @@ export const LineGraph = ({ logs, dateRange, dateValue, yMax }) => {
     );
 }
 
+export const AverageLine = ({ averageTime, yMax }) => {
+    const lineHeight = averageTime / yMax * height * .25;
+    return (
+        <TouchableOpacity
+            style={{
+                position: 'absolute',
+                bottom: lineHeight,
+                height: 8.4,
+                marginLeft: '1%',
+                width: '98%',
+                borderBottomWidth: 1.6
+            }}
+            onPress={() => console.log('new')}
+        >
+
+        </TouchableOpacity>
+
+    )
+}
+
 const styles = StyleSheet.create({
     container: {
         position: 'absolute',
@@ -215,6 +235,15 @@ const styles = StyleSheet.create({
         width: (width * .85),
         flexDirection: 'row',
         alignItems: 'flex-end',
+    },
+    pointBlanket: {
+        position: 'absolute',
+        top: -8.0,
+        right: -8.0,
+        marginLeft: 'auto',
+        backgroundColor: 'rgba(0,0,0,0)',
+        height: 16.0,
+        width: 16.0,
     },
     point: {
         position: 'absolute',
