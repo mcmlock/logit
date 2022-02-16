@@ -66,8 +66,6 @@ const styles = StyleSheet.create({
         marginBottom: 30.0
     },
     textInput: {
-        height: 50.0,
-        width: 80.0,
         borderWidth: 1,
         textAlign: 'center',
         fontSize: 26.0,

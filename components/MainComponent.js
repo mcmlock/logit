@@ -28,7 +28,6 @@ class Main extends Component {
                     units: 'hours',
                     goal: 500,
                     customUnits: '',
-                    hasDueDate: true,
                     month: 4,
                     day: 4,
                     year: 22
@@ -40,8 +39,7 @@ class Main extends Component {
 
     componentDidMount() {
         load(this);
-
-    }
+    };
 
     render() {
 
@@ -63,7 +61,6 @@ class Main extends Component {
                 title: barProperties.title,
                 progressMade: barProperties.progressMade,
                 goal: barProperties.goal,
-                hasDueDate: barProperties.hasDueDate,
                 month: barProperties.month,
                 day: barProperties.day,
                 year: barProperties.year

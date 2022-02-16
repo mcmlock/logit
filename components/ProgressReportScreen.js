@@ -58,7 +58,7 @@ const calcDateValue = (month, day, year) => {
 }
 
 const SelectedPointInfo = props => {
-    if (props.point !== 0) {
+    if (props.point !== 0 && props.point > 1464) {
         let selectedMonth;
         let selectedDay;
         let minutesLeft = props.point;
@@ -154,7 +154,20 @@ const SelectedPointInfo = props => {
                 <Text style={{ fontSize: 18.0 }}>{hours} H {minutes} M on {selectedMonth}/{selectedDay}</Text>
             </View>
         );
-    };
+    } else if (props.point <= 1464) {
+        const avgHrs = Math.floor(props.point);
+        const avgMinDec = props.point - avgHrs;
+        const avgMin = Math.ceil(avgMinDec * 60);
+        if (avgMin === 60) {
+            avgHrs++;
+            avgMin = 0;
+        }
+        return (
+            <View style={{ alignSelf: 'flex-start', marginLeft: (width * .1), marginBottom: 10.0 }}>
+                <Text style={{ fontSize: 18.0 }}>{avgHrs} H {avgMin} M Averaged Daily </Text>
+            </View>
+        );
+    }
     return <View />
 }
 
@@ -231,18 +244,12 @@ const ProgressReportScreen = props => {
     let yScale = 1;
     if (yMax === 1) {
         yScale = 1;
-    } else if (yMax < 50) {
-        yScale = (Math.floor(yMax / 5) + 1) * 5;
-    } else if (yMax < 100) {
-        yScale = (Math.floor(yMax / 25) + 1) * 25;
-    } else if (yMax < 500) {
-        yScale = (Math.floor(yMax / 50) + 1) * 50;
-    } else if (yMax < 1000) {
-        yScale = (Math.floor(yMax / 100) + 1) * 100;
-    } else if (yMax < 5000) {
-        yScale = (Math.floor(yMax / 500) + 1) * 500;
+    } else if (yMax <= 10) {
+        yScale = Math.floor(yMax) + 1;
+    } else if (yMax < 22) {
+        yScale = (Math.floor(yMax / 2) + 1) * 2;
     } else {
-        yScale = (Math.floor(yMax / 1000) + 1) * 1000;
+        yScale = 24;
     }
 
     // Finding the time recorded in the date range
@@ -358,7 +365,7 @@ const ProgressReportScreen = props => {
                     <ScrollView horizontal={true} scrollEnabled={false} contentContainerStyle={styles.graph}>
                         <LineGraph logs={logsInRange} dateRange={dateRange} dateValue={endDateValue} yMax={yMax} />  
                         <PlotPoints logs={logsInRange} dateRange={dateRange} dateValue={endDateValue} yMax={yMax} setYMax={setYMax} setLogs={setLogs} selectPoint={selectPoint} />
-                        <AverageLine averageTime={avgTime} yMax={yMax} />
+                        <AverageLine averageTime={avgTime} yMax={yMax} selectPoint={selectPoint}/>
                     </ScrollView>
                 </View>
             </View>
@@ -405,9 +412,8 @@ const ProgressReportScreen = props => {
                 <Text style={{ fontSize: 18.0 }}>Remaining: {remainingHours} H {remainingMinutes} M</Text>
                 <Text style={{ fontSize: 18.0 }}>Days Left: {daysLeft}</Text>
                 <Text style={{ fontSize: 18.0 }}>Suggested Daily Contribution: {dailyTargetHr} H {dailyTargetMin} M</Text>
-                <Text style={{ fontSize: 18.0 }}>Daily Average in Range: {avgHours} H {avgMinutes} M</Text>
             </View>
-            <View style={{ marginTop: 'auto', marginBottom: 20.0, flex: 1, alignItems: 'flex-end', justifyContent: 'space-around', flexDirection: 'row' }}>
+            <View style={{ marginTop: 'auto', marginBottom: 20.0 }}>
                 <Button
                     title="Delete"
                     onPress={() => {

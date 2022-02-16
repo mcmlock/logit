@@ -20,7 +20,6 @@ const StackNavigator = props => {
         <ProgressReportScreen
             meterTitle={props.progressMeters.filter(meter => meter.id === props.selectedMeter)[0].title}
             goal={props.progressMeters.filter(meter => meter.id === props.selectedMeter)[0].goal}
-            hasDueDate={props.progressMeters.filter(meter => meter.id === props.selectedMeter)[0].hasDueDate}
             dueDay={props.progressMeters.filter(meter => meter.id === props.selectedMeter)[0].day}
             dueMonth={props.progressMeters.filter(meter => meter.id === props.selectedMeter)[0].month}
             dueYear={props.progressMeters.filter(meter => meter.id === props.selectedMeter)[0].year}

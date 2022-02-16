@@ -45,7 +45,6 @@ const HomeScreen = props => {
                     />
                 </View>
             </SafeAreaView>
-
         </View>
     );
 };

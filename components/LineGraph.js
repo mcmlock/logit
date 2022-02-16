@@ -58,21 +58,15 @@ export const PlotPoints = ({ dateValue, yMax, setYMax, selectPoint, dateRange, l
         return value;
     }
 
-    let yScale;
+    let yScale = 1;
     if (yMax === 1) {
         yScale = 1;
-    } else if (yMax < 50) {
-        yScale = (Math.floor(yMax / 5) + 1) * 5;
-    } else if (yMax < 100) {
-        yScale = (Math.floor(yMax / 25) + 1) * 25;
-    } else if (yMax < 500) {
-        yScale = (Math.floor(yMax / 50) + 1) * 50;
-    } else if (yMax < 1000) {
-        yScale = (Math.floor(yMax / 100) + 1) * 100;
-    } else if (yMax < 5000) {
-        yScale = (Math.floor(yMax / 500) + 1) * 500;
+    } else if (yMax <= 10) {
+        yScale = Math.floor(yMax) + 1;
+    } else if (yMax < 22) {
+        yScale = (Math.floor(yMax / 2) + 1) * 2;
     } else {
-        yScale = (Math.floor(yMax / 1000) + 1) * 1000;
+        yScale = 24;
     }
 
     const values = [];
@@ -106,21 +100,15 @@ export const PlotPoints = ({ dateValue, yMax, setYMax, selectPoint, dateRange, l
 
 export const LineGraph = ({ logs, dateRange, dateValue, yMax }) => {
     // Caculating the scale of the graph
-    let yScale;
+    let yScale = 1;
     if (yMax === 1) {
         yScale = 1;
-    } else if (yMax < 50) {
-        yScale = (Math.floor(yMax / 5) + 1) * 5;
-    } else if (yMax < 100) {
-        yScale = (Math.floor(yMax / 25) + 1) * 25;
-    } else if (yMax < 500) {
-        yScale = (Math.floor(yMax / 50) + 1) * 50;
-    } else if (yMax < 1000) {
-        yScale = (Math.floor(yMax / 100) + 1) * 100;
-    } else if (yMax < 5000) {
-        yScale = (Math.floor(yMax / 500) + 1) * 500;
+    } else if (yMax <= 10) {
+        yScale = Math.floor(yMax) + 1;
+    } else if (yMax < 22) {
+        yScale = (Math.floor(yMax / 2) + 1) * 2;
     } else {
-        yScale = (Math.floor(yMax / 1000) + 1) * 1000;
+        yScale = 24;
     }
 
     const determineHeight = (leftVal, rightVal) => {
@@ -208,7 +196,7 @@ export const LineGraph = ({ logs, dateRange, dateValue, yMax }) => {
     );
 }
 
-export const AverageLine = ({ averageTime, yMax }) => {
+export const AverageLine = ({ averageTime, yMax, selectPoint }) => {
     const lineHeight = averageTime / yMax * height * .25;
     return (
         <TouchableOpacity
@@ -220,7 +208,9 @@ export const AverageLine = ({ averageTime, yMax }) => {
                 width: '98%',
                 borderBottomWidth: 1.6
             }}
-            onPress={() => console.log('new')}
+            onPress={() => {
+                selectPoint(averageTime);
+            }}
         >
 
         </TouchableOpacity>

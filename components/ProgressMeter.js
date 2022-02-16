@@ -12,7 +12,7 @@ const ProgressMeter = props => {
     }
     let totalHours = hoursOutput.toFixed(2);
     let progress = (totalHours / props.meter.goal) * 256;
-    if (progress > 256) {progress = 256};
+    if (progress > 256) { progress = 256 };
 
     const [timeLogOpen, setTimeLogOpen] = useState(false);
     const toggleTimeLog = () => {
@@ -32,9 +32,7 @@ const ProgressMeter = props => {
 
                 <View style={styles.titleRow}>
                     <Text style={styles.titleText}>{props.meter.title}</Text>
-                    {props.meter.hasDueDate &&
-                        <Text style={styles.titleText}>{props.meter.month}/{props.meter.day}/{props.meter.year}</Text>
-                    }
+                    <Text style={styles.titleText}>{props.meter.month}/{props.meter.day}/{props.meter.year}</Text>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <View style={styles.outerLayer}>
