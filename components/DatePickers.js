@@ -8,7 +8,7 @@ export const DayPicker = props => {
     let show30 = true;
     let show31 = true;
     let lastDay = 31;
-    switch (props.monthValue) {
+    switch (props.month) {
         case 1:
         case 3:
         case 5:
@@ -31,7 +31,7 @@ export const DayPicker = props => {
             lastDay = 30;
             break;
         case 2:
-            if (props.yearValue % 4 === 0) {
+            if (props.year % 4 === 0) {
                 showRow = true;
                 show30 = false;
                 show31 = false;
@@ -165,7 +165,7 @@ export const DayPicker = props => {
 
 export const MonthPicker = props => {
     let lastDay = 31;
-    switch (props.monthValue) {
+    switch (props.month) {
         case 1:
         case 3:
         case 5:
@@ -191,7 +191,7 @@ export const MonthPicker = props => {
     }
 
     const adjustLastDay = lastDay => {
-        if (lastDay < props.dayValue) {
+        if (lastDay < props.day) {
             props.setDay(lastDay);
         };
     }

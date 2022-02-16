@@ -66,7 +66,7 @@ class Main extends Component {
                 year: barProperties.year
             };
             this.state.progressMeters.push(progressMeter);
-            this.setState({ idTracker: (this.state.progressMeters.length + 1), progressMeter: this.state.progressMeters });
+            this.setState({ idTracker: (this.state.idTracker + 1), progressMeter: this.state.progressMeters });
             save();
         }
 

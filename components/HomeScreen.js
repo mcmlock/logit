@@ -12,7 +12,7 @@ const HomeScreen = props => {
     const toggleCreateModal = () => {
         setCreateOpen(!createOpen);
     };
-
+    
     const viewProgressReport = () => {navigation.navigate('Progress Report')}
 
     const progressMeters = props.progressMeters.map(meter => {

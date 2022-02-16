@@ -2,6 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './HomeScreen';
 import ProgressReportScreen from './ProgressReportScreen';
+import LogHistoryScreen from './LogHistoryScreen';
 
 const Stack = createStackNavigator();
 
@@ -29,10 +30,18 @@ const StackNavigator = props => {
         />
     );
 
+    const LogHistoryComponent = () => (
+        <LogHistoryScreen
+            logs={props.logs}
+            selectedMeter={props.selectedMeter}
+        />
+    );
+
     return (
         <Stack.Navigator initialRouteName='Home' screenOptions={{ animationEnabled: false }}>
             <Stack.Screen name="Home" component={HomeComponent} options={{ headerShown: false }} />
             <Stack.Screen name="Progress Report" component={ProgressReportComponent} options={{ headerShown: false }} />
+            <Stack.Screen name="Log History" component={LogHistoryComponent} options={{headerShown: false}} />
         </Stack.Navigator>
     );
 }

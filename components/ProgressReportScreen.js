@@ -148,24 +148,24 @@ const SelectedPointInfo = props => {
         const daysContribution = (dayLogs.reduce((prevVal, currentVal) => prevVal + currentVal.hoursRecorded + (currentVal.minutesRecorded / 60), 0)).toFixed(2);
         const hours = Math.floor(daysContribution);
         const minutesDec = daysContribution - hours;
-        const minutes = Math.ceil(minutesDec * 60);
+        const minutes = Math.round(minutesDec * 60);
 
         return (
-            <View style={{ alignSelf: 'flex-start', marginLeft: (width * .1), marginBottom: 10.0 }}>
-                <Text style={{ fontSize: 18.0 }}>{hours} H {minutes} M on {selectedMonth}/{selectedDay}</Text>
+            <View style={{ alignSelf: 'center', marginBottom: 10.0 }}>
+                <Text style={{ fontSize: 22.0 }}>{hours} H {minutes} M on {selectedMonth}/{selectedDay}</Text>
             </View>
         );
     } else if (props.point <= 1464) {
         const avgHrs = Math.floor(props.point);
         const avgMinDec = props.point - avgHrs;
-        const avgMin = Math.ceil(avgMinDec * 60);
+        const avgMin = Math.round(avgMinDec * 60);
         if (avgMin === 60) {
             avgHrs++;
             avgMin = 0;
         }
         return (
-            <View style={{ alignSelf: 'flex-start', marginLeft: (width * .1), marginBottom: 10.0 }}>
-                <Text style={{ fontSize: 18.0 }}>{avgHrs} H {avgMin} M Averaged Daily </Text>
+            <View style={{ alignSelf: 'center', marginBottom: 10.0 }}>
+                <Text style={{ fontSize: 22.0 }}>{avgHrs} H {avgMin} M Averaged Daily </Text>
             </View>
         );
     }
@@ -290,7 +290,7 @@ const ProgressReportScreen = props => {
     const remainingMinutes = Math.round((remainingTime - remainingHours) * 60);
 
     // Making the goal string
-    const goalString = props.hasDueDate ? `${props.goal} Hours by ${props.dueMonth}/${props.dueDay}/${props.dueYear}` : `${props.goal} Hours`;
+    const goalString = `${props.goal} Hours by ${props.dueMonth}/${props.dueDay}/${props.dueYear}`;
 
     // Calculating the daily target
     let dueMonthValue;
@@ -353,22 +353,26 @@ const ProgressReportScreen = props => {
     }
 
     return (
-
-        <ScrollView horizontal={false}>
-            <SafeAreaView style={styles.container}>
-                <TouchableOpacity
-                    style={{
-                        position: "absolute",
-                        right: 15.0,
-                    }}>
-                    <Text>History</Text>
-                </TouchableOpacity>
-                <View style={{ marginTop: 15.0, marginBottom: 25.0 }}>
-                    <Text style={{ fontSize: 30.0, textAlign: 'center' }}>{props.meterTitle}</Text>
-                    <Text style={{ fontSize: 24.0, textAlign: 'center' }}>{goalString}</Text>
-                </View>
+        <SafeAreaView style={styles.container}>
+            <TouchableOpacity
+                style={{
+                    position: "absolute",
+                    top: -20,
+                    right: 15.0,
+                }}
+                onPress={() => {
+                    navigation.navigate('Log History');
+                }}>
+                <Text>History</Text>
+            </TouchableOpacity>
+            <View style={styles.header}>
+                <Text style={{ fontSize: 32.0, paddingBottom: 2.0, textAlign: 'center' }}>{props.meterTitle}</Text>
+                <Text style={{ fontSize: 24.0, paddingBottom: 2.0, textAlign: 'center' }}>{goalString}</Text>
+                <Text style={{ fontSize: 24.0, textAlign: 'center' }}>{daysLeft} More Days</Text>
+            </View>
+            <ScrollView contentContainerStyle={{ justifyContent: 'flex-start', alignItems: 'center' }}>
                 <View>
-                    <Text style={styles.header}>{rangeString}</Text>
+                    <Text style={styles.range}>{rangeString}</Text>
                 </View>
                 <View style={{ width: '85%', alignItems: 'flex-start' }}>
                     <Text style={{ fontSize: 20.0 }}>{yScale}</Text>
@@ -385,22 +389,94 @@ const ProgressReportScreen = props => {
                         </ScrollView>
                     </View>
                 </View>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 40.0, marginBottom: 8.0 }}>
+                    <TouchableOpacity onPress={() => {
+                        showStartMonthPicker(!startMonthPicker)
+                        showStartDayPicker(false);
+                        showStartYearInput(false);
+                        showEndMonthPicker(false);
+                        showEndDayPicker(false);
+                        showEndYearInput(false);
+                    }}>
+                        <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0 }}>
+                            <Text style={{ fontSize: 18.0 }}>{startMonth}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <Text>/</Text>
+                    <TouchableOpacity onPress={() => {
+                        showStartMonthPicker(false)
+                        showStartDayPicker(!startDayPicker);
+                        showStartYearInput(false);
+                        showEndMonthPicker(false);
+                        showEndDayPicker(false);
+                        showEndYearInput(false);
+                    }}>
+                        <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0 }}>
+                            <Text style={{ fontSize: 18.0 }}>{startDay}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <Text>/</Text>
+                    <TouchableOpacity>
+                        <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0 }}>
+                            <Text style={{ fontSize: 18.0 }}>{startYear}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <Text> - </Text>
+                    <TouchableOpacity onPress={() => {
+                        showStartMonthPicker(false)
+                        showStartDayPicker(false);
+                        showStartYearInput(false);
+                        showEndMonthPicker(!endMonthPicker);
+                        showEndDayPicker(false);
+                        showEndYearInput(false);
+                    }}>
+                        <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0 }}>
+                            <Text style={{ fontSize: 18.0 }}>{endMonth}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <Text>/</Text>
+                    <TouchableOpacity onPress={() => {
+                        showStartMonthPicker(false)
+                        showStartDayPicker(false);
+                        showStartYearInput(false);
+                        showEndMonthPicker(false);
+                        showEndDayPicker(!endDayPicker);
+                        showEndYearInput(false);
+                    }}>
+                        <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0 }}>
+                            <Text style={{ fontSize: 18.0 }}>{endDay}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <Text>/</Text>
+                    <TouchableOpacity>
+                        <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0 }}>
+                            <Text style={{ fontSize: 18.0 }}>{endYear}</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
                 <View>
                     {startMonthPicker &&
-                        <View style={{marginTop: 40.0, marginBottom: -20.0}}>
+                        <View style={{ marginTop: -10.0, marginBottom: 10.0 }}>
                             <MonthPicker
                                 visible={startMonthPicker}
                                 setVisible={showStartMonthPicker}
+                                month={startMonth}
                                 setMonth={setStartMonth}
+                                day={startDay}
                                 setDay={setStartDay}
                             />
                         </View>
                     }
                     {startDayPicker &&
-                        <DayPicker
-                            visible={startDayPicker}
-                            setVisible={showStartDayPicker}
-                        />
+                        <View style={{ marginTop: -10.0, marginBottom: 10.0 }}>
+                            <DayPicker
+                                visible={startDayPicker}
+                                setVisible={showStartDayPicker}
+                                month={startMonth}
+                                year={startYear}
+                                setDay={setStartDay}
+                            />
+                        </View>
                     }
                     {startYearInput &&
                         <YearInput
@@ -409,14 +485,27 @@ const ProgressReportScreen = props => {
                         />
                     }
                     {endMonthPicker &&
-                        <MonthPicker
-
-                        />
+                        <View style={{ marginTop: -10.0, marginBottom: 10.0 }}>
+                            <MonthPicker
+                                visible={endMonthPicker}
+                                setVisible={showEndMonthPicker}
+                                month={endMonth}
+                                setMonth={setEndMonth}
+                                day={endDay}
+                                setDay={setEndDay}
+                            />
+                        </View>
                     }
                     {endDayPicker &&
-                        <DayPicker
-
-                        />
+                        <View style={{ marginTop: -10.0, marginBottom: 10.0 }}>
+                            <DayPicker
+                                visible={endDayPicker}
+                                setVisible={showEndDayPicker}
+                                month={endMonth}
+                                year={endYear}
+                                setDay={setEndDay}
+                            />
+                        </View>
                     }
                     {endYearInput &&
                         <YearInput
@@ -424,76 +513,43 @@ const ProgressReportScreen = props => {
                         />
                     }
                 </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 40.0, marginBottom: 20.0 }}>
-                    <TouchableOpacity onPress={() => showStartMonthPicker(!startMonthPicker)}>
-                        <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0 }}>
-                            <Text style={{ fontSize: 16.0 }}>{startMonth}</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <Text>/</Text>
-                    <TouchableOpacity>
-                        <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0 }}>
-                            <Text style={{ fontSize: 16.0 }}>{startDay}</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <Text>/</Text>
-                    <TouchableOpacity>
-                        <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0 }}>
-                            <Text style={{ fontSize: 16.0 }}>{startYear}</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <Text> - </Text>
-                    <TouchableOpacity>
-                        <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0 }}>
-                            <Text style={{ fontSize: 16.0 }}>{endMonth}</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <Text>/</Text>
-                    <TouchableOpacity>
-                        <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0 }}>
-                            <Text style={{ fontSize: 16.0 }}>{endDay}</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <Text>/</Text>
-                    <TouchableOpacity>
-                        <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0 }}>
-                            <Text style={{ fontSize: 16.0 }}>{endYear}</Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
                 <SelectedPointInfo point={point + 1440} logs={props.logs.filter(log => log.meterId === props.selectedMeter)} />
-                <View style={{ alignSelf: 'flex-start', marginLeft: (width * .1), marginBottom: 10.0 }}>
-                    <Text style={{ fontSize: 18.0 }}>Logged: {totalHoursLogged} H {totalMinutesLogged} M</Text>
-                    <Text style={{ fontSize: 18.0 }}>Remaining: {remainingHours} H {remainingMinutes} M</Text>
-                    <Text style={{ fontSize: 18.0 }}>Days Left: {daysLeft}</Text>
-                    <Text style={{ fontSize: 18.0 }}>Suggested Daily Contribution: {dailyTargetHr} H {dailyTargetMin} M</Text>
+                <View style={{ alignSelf: 'flex-start', marginTop: 10.0, marginLeft: (width * .1) }}>
+                    <Text style={styles.dataText}>{totalHoursLogged} H {totalMinutesLogged} M Logged Total</Text>
+                    <Text style={styles.dataText}>{remainingHours} H {remainingMinutes} M Remaining</Text>
+                    <Text style={{fontSize: 18.0}}>Suggested Daily Contribution: {dailyTargetHr} H {dailyTargetMin} M</Text>
                 </View>
-                <View style={{ marginTop: 'auto', marginBottom: 20.0 }}>
-                    <Button
-                        title="Delete"
-                        onPress={() => {
-                            props.deleteProgressMeter(props.selectedMeter);
-                            navigation.navigate('Home');
-                        }}
-                    />
-                    <Button
-                        title="Back"
-                        onPress={() => navigation.navigate('Home')}
-                    />
-                </View>
-            </SafeAreaView>
-        </ScrollView>
+                <View style={styles.buttonsView}>
+                <Button
+                    title="Delete"
+                    onPress={() => {
+                        props.deleteProgressMeter(props.selectedMeter);
+                        navigation.navigate('Home');
+                    }}
+                />
+                <Button
+                    title="Back"
+                    onPress={() => navigation.navigate('Home')}
+                />
+            </View>
+            </ScrollView>
+        </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        marginTop: 100.0,
+        marginTop: 80.0
     },
     header: {
+        marginTop: 30.0,
+        alignSelf: 'center',
+        width: '85%',
+        paddingBottom: 20.0,
+        borderBottomWidth: 1.4
+    },
+    range: {
         marginTop: 20.0,
         fontSize: 22.0,
     },
@@ -524,7 +580,14 @@ const styles = StyleSheet.create({
         borderWidth: 0.8,
         borderRadius: 4,
         fontSize: 20.0
-    }
+    },
+    dataText: {
+        fontSize: 20.0,
+        paddingVertical: 1.0
+    },
+    buttonsView: {
+        paddingTop: 30.0,
+    },
 });
 
 export default ProgressReportScreen;
