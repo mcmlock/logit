@@ -347,7 +347,14 @@ const ProgressReportScreen = props => {
     return (
 
         <SafeAreaView style={styles.container}>
-            <View style={{ marginBottom: 25.0 }}>
+            <TouchableOpacity
+            style={{
+                position: "absolute",
+                right: 15.0,
+            }}>
+                <Text>History</Text>
+            </TouchableOpacity>
+            <View style={{ marginTop: 20.0, marginBottom: 25.0 }}>
                 <Text style={{ fontSize: 30.0, textAlign: 'center' }}>{props.meterTitle}</Text>
                 <Text style={{ fontSize: 24.0, textAlign: 'center' }}>{goalString}</Text>
             </View>
@@ -371,38 +378,38 @@ const ProgressReportScreen = props => {
             </View>
             <View style={{ flexDirection: 'row', marginTop: 40.0, marginBottom: 20.0 }}>
                 <TouchableOpacity>
-                    <View style={{ borderWidth: 1 }}>
-                        <Text>{startMonth}</Text>
+                    <View style={{ borderWidth: 1, padding: 5.0 }}>
+                        <Text style={{ fontSize: 14.0}}>{startMonth}</Text>
                     </View>
                 </TouchableOpacity>
                 <Text>/</Text>
                 <TouchableOpacity>
-                    <View style={{ borderWidth: 1 }}>
-                        <Text>{startDay}</Text>
+                    <View style={{ borderWidth: 1, padding: 5.0 }}>
+                        <Text style={{ fontSize: 14.0}}>{startDay}</Text>
                     </View>
                 </TouchableOpacity>
                 <Text>/</Text>
                 <TouchableOpacity>
-                    <View style={{ borderWidth: 1 }}>
-                        <Text>{startYear}</Text>
+                    <View style={{ borderWidth: 1, padding: 5.0 }}>
+                        <Text style={{ fontSize: 14.0}}>{startYear}</Text>
                     </View>
                 </TouchableOpacity>
                 <Text> - </Text>
                 <TouchableOpacity>
-                    <View style={{ borderWidth: 1 }}>
-                        <Text>{endMonth}</Text>
+                    <View style={{ borderWidth: 1, padding: 5.0 }}>
+                        <Text style={{ fontSize: 14.0}}>{endMonth}</Text>
                     </View>
                 </TouchableOpacity>
                 <Text>/</Text>
                 <TouchableOpacity>
-                    <View style={{ borderWidth: 1 }}>
-                        <Text>{endDay}</Text>
+                    <View style={{ borderWidth: 1, padding: 5.0 }}>
+                        <Text style={{ fontSize: 14.0}}>{endDay}</Text>
                     </View>
                 </TouchableOpacity>
                 <Text>/</Text>
                 <TouchableOpacity>
-                    <View style={{ borderWidth: 1 }}>
-                        <Text>{endYear}</Text>
+                    <View style={{ borderWidth: 1, padding: 5.0 }}>
+                        <Text style={{ fontSize: 14.0}}>{endYear}</Text>
                     </View>
                 </TouchableOpacity>
             </View>
