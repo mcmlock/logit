@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Button } from 'react-native';
+import { TextInput } from 'react-native-gesture-handler';
 
 export const DayPicker = props => {
 
@@ -150,6 +151,14 @@ export const DayPicker = props => {
                         title='31'
                         onPress={() => props.setDay(31)} />}
                 </View>}
+            <View>
+                <Button
+                    title="Set"
+                    onPress={() => {
+                        props.setVisible(!props.visible);
+                    }}
+                />
+            </View>
         </View>
     );
 };
@@ -282,6 +291,17 @@ export const MonthPicker = props => {
         </View>
     );
 };
+
+export const YearInput = props => {
+    return (
+        <TextInput
+            style={styles.textInput}
+            placeholder='YY'
+            value={props.year}
+            onChangeText={(value) => props.setYear(parseInt(value, 10))}
+        />
+    );
+}
 
 const styles = StyleSheet.create({
     monthSelectView: {
