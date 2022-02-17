@@ -66,14 +66,7 @@ const CreateProgressMeter = props => {
                         </View>
                     </View>
                     <View style={styles.btnView}>
-                        <Button
-                            title="Discard"
-                            onPress={() => {
-                                props.toggleModal();
-                                resetModal();
-                            }}
-                        />
-                        <Button
+                    <Button
                             title="Create"
                             onPress={() => {
                                 const barProperties = {
@@ -85,6 +78,13 @@ const CreateProgressMeter = props => {
                                     year: year
                                 };
                                 props.createProgressMeter(barProperties);
+                                props.toggleModal();
+                                resetModal();
+                            }}
+                        />
+                        <Button
+                            title="Discard"
+                            onPress={() => {
                                 props.toggleModal();
                                 resetModal();
                             }}

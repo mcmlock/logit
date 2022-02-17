@@ -32,6 +32,7 @@ const Point = props => {
             </View>
         );
     }
+    
     return (
         <View
             style={{

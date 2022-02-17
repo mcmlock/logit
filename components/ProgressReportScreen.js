@@ -152,7 +152,7 @@ const SelectedPointInfo = props => {
 
         return (
             <View style={{ alignSelf: 'center', marginBottom: 10.0 }}>
-                <Text style={{ fontSize: 22.0 }}>{hours} H {minutes} M on {selectedMonth}/{selectedDay}</Text>
+                <Text style={{ fontSize: 22.0, letterSpacing: 1.2 }}>{selectedMonth}/{selectedDay}: {hours} H {minutes} M</Text>
             </View>
         );
     } else if (props.point <= 1464) {
@@ -165,7 +165,7 @@ const SelectedPointInfo = props => {
         }
         return (
             <View style={{ alignSelf: 'center', marginBottom: 10.0 }}>
-                <Text style={{ fontSize: 22.0 }}>{avgHrs} H {avgMin} M Averaged Daily </Text>
+                <Text style={{ fontSize: 22.0, letterSpacing: 1.2 }}>Averaged Daily: {avgHrs} H {avgMin} M</Text>
             </View>
         );
     }
@@ -225,6 +225,7 @@ const ProgressReportScreen = props => {
     }
 
     const navigation = useNavigation();
+
     const [yMax, setYMax] = useState(1);
     const [point, selectPoint] = useState(dateValue);
     const [logs, setLogs] = useState(0);
@@ -370,7 +371,7 @@ const ProgressReportScreen = props => {
                 <Text style={{ fontSize: 24.0, paddingBottom: 2.0, textAlign: 'center' }}>{goalString}</Text>
                 <Text style={{ fontSize: 24.0, textAlign: 'center' }}>{daysLeft} More Days</Text>
             </View>
-            <ScrollView contentContainerStyle={{ justifyContent: 'flex-start', alignItems: 'center' }}>
+            <ScrollView style={{ marginBottom: 80.0 }} contentContainerStyle={{ justifyContent: 'flex-start', alignItems: 'center' }}>
                 <View>
                     <Text style={styles.range}>{rangeString}</Text>
                 </View>
@@ -514,25 +515,36 @@ const ProgressReportScreen = props => {
                     }
                 </View>
                 <SelectedPointInfo point={point + 1440} logs={props.logs.filter(log => log.meterId === props.selectedMeter)} />
-                <View style={{ alignSelf: 'flex-start', marginTop: 10.0, marginLeft: (width * .1) }}>
-                    <Text style={styles.dataText}>{totalHoursLogged} H {totalMinutesLogged} M Logged Total</Text>
-                    <Text style={styles.dataText}>{remainingHours} H {remainingMinutes} M Remaining</Text>
-                    <Text style={{fontSize: 18.0}}>Suggested Daily Contribution: {dailyTargetHr} H {dailyTargetMin} M</Text>
+                <View style={{ alignSelf: 'flex-start', marginTop: 10.0, marginLeft: '10%', width: '85%' }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 15.0 }}>
+                        <Text style={styles.dataText}>Total Time Logged:</Text>
+                        <Text style={styles.dataText}>{totalHoursLogged} H {totalMinutesLogged} M</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 15.0 }}>
+                        <Text style={styles.dataText}>Time Remaining:</Text>
+                        <Text style={styles.dataText}>{remainingHours} H {remainingMinutes} M</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 15.0 }}>
+                        <Text style={styles.dataText}>Advised Daily Contribution: </Text>
+                        <Text style={styles.dataText}>{dailyTargetHr} H {dailyTargetMin} M</Text>
+                    </View>
                 </View>
-                <View style={styles.buttonsView}>
-                <Button
-                    title="Delete"
+            </ScrollView>
+            <View style={styles.buttonsView}>
+                <TouchableOpacity
                     onPress={() => {
                         props.deleteProgressMeter(props.selectedMeter);
                         navigation.navigate('Home');
                     }}
-                />
-                <Button
-                    title="Back"
+                >
+                    <Text style={styles.buttonText}>Delete</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
                     onPress={() => navigation.navigate('Home')}
-                />
+                >
+                    <Text style={styles.buttonText}>Home</Text>
+                </TouchableOpacity>
             </View>
-            </ScrollView>
         </SafeAreaView>
     );
 };
@@ -583,11 +595,18 @@ const styles = StyleSheet.create({
     },
     dataText: {
         fontSize: 20.0,
-        paddingVertical: 1.0
+        paddingVertical: 2.0
     },
     buttonsView: {
-        paddingTop: 30.0,
+        alignSelf: 'center',
+        position: 'absolute',
+        bottom: 30.0,
     },
+    buttonText: {
+        fontSize: 20.0,
+        textAlign: 'center',
+        marginBottom: 10.0
+    }
 });
 
 export default ProgressReportScreen;

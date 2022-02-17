@@ -82,7 +82,7 @@ const LogHistoryScreen = props => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView>
+            <ScrollView style={{marginBottom: 80.0, width: '100%'}}>
                 {meterLogs}
             </ScrollView>
             <View style={styles.buttonsView}>
