@@ -69,77 +69,77 @@ const SelectedPointInfo = props => {
         minutesLeft -= leapYears * 1440;
         if (year / 4 === 0) {
             if (minutesLeft > 482400) {
-                selectedMonth = 12;
+                selectedMonth = 'Dec';
                 minutesLeft -= 482400;
             } else if (minutesLeft > 439200) {
-                selectedMonth = 11;
+                selectedMonth = 'Nov';
                 minutesLeft -= 439200;
             } else if (minutesLeft > 394560) {
-                selectedMonth = 10;
+                selectedMonth = 'Oct';
                 minutesLeft -= 394560;
             } else if (minutesLeft > 351360) {
-                selectedMonth = 9;
+                selectedMonth = 'Sep';
                 minutesLeft -= 351360;
             } else if (minutesLeft > 306720) {
-                selectedMonth = 8;
+                selectedMonth = 'Aug';
                 minutesLeft -= 306720;
             } else if (minutesLeft > 262080) {
-                selectedMonth = 7;
+                selectedMonth = 'July';
                 minutesLeft -= 262080;
             } else if (minutesLeft > 218880) {
-                selectedMonth = 6;
+                selectedMonth = 'June';
                 minutesLeft -= 218880;
             } else if (minutesLeft > 174240) {
-                selectedMonth = 5;
+                selectedMonth = 'May';
                 minutesLeft -= 174240;
             } else if (minutesLeft > 131040) {
-                selectedMonth = 4;
+                selectedMonth = 'Apr';
                 minutesLeft -= 131040;
             } else if (minutesLeft > 86400) {
-                selectedMonth = 3;
+                selectedMonth = 'Mar';
                 minutesLeft -= 86400;
             } else if (minutesLeft > 44640) {
-                selectedMonth = 2;
+                selectedMonth = 'Feb';
                 minutesLeft -= 44640
             } else {
-                selectedMonth = 1;
+                selectedMonth = 'Jan';
             }
         } else {
             if (minutesLeft > 480960) {
-                selectedMonth = 12;
+                selectedMonth = 'Dec';
                 minutesLeft -= 480960;
             } else if (minutesLeft > 437760) {
-                selectedMonth = 11;
+                selectedMonth = 'Nov';
                 minutesLeft -= 437760;
             } else if (minutesLeft > 393120) {
-                selectedMonth = 10;
+                selectedMonth = 'Oct';
                 minutesLeft -= 393120;
             } else if (minutesLeft > 349920) {
-                selectedMonth = 9;
+                selectedMonth = 'Sep';
                 minutesLeft -= 349920;
             } else if (minutesLeft > 305280) {
-                selectedMonth = 8;
+                selectedMonth = 'Aug';
                 minutesLeft -= 305280;
             } else if (minutesLeft > 260640) {
-                selectedMonth = 7;
+                selectedMonth = 'July';
                 minutesLeft -= 260640;
             } else if (minutesLeft > 217440) {
-                selectedMonth = 6;
+                selectedMonth = 'June';
                 minutesLeft -= 217440;
             } else if (minutesLeft > 172800) {
-                selectedMonth = 5;
+                selectedMonth = 'May';
                 minutesLeft -= 172800;
             } else if (minutesLeft > 129600) {
-                selectedMonth = 4;
+                selectedMonth = 'Apr';
                 minutesLeft -= 129600;
             } else if (minutesLeft > 84960) {
-                selectedMonth = 3;
+                selectedMonth = 'Mar';
                 minutesLeft -= 84960;
             } else if (minutesLeft > 44640) {
-                selectedMonth = 2;
+                selectedMonth = 'Feb';
                 minutesLeft -= 44640
             } else {
-                selectedMonth = 1;
+                selectedMonth = 'Jan';
             }
         }
         selectedDay = minutesLeft / 1440;
@@ -150,9 +150,28 @@ const SelectedPointInfo = props => {
         const minutesDec = daysContribution - hours;
         const minutes = Math.round(minutesDec * 60);
 
+        switch (selectedDay) {
+            case 1:
+            case 21:
+            case 31:
+                selectedDay = selectedDay + 'st';
+                break;
+            case 2:
+            case 22:
+                selectedDay = selectedDay + 'nd';
+                break;
+            case 3:
+            case 23:
+                selectedDay = selectedDay + 'rd';
+                break;
+            default:
+                selectedDay = selectedDay + 'th';
+                break;
+        }
+
         return (
             <View style={{ alignSelf: 'center', marginBottom: 10.0 }}>
-                <Text style={{ fontSize: 22.0, letterSpacing: 1.2 }}>{selectedMonth}/{selectedDay}: {hours} H {minutes} M</Text>
+                <Text style={{ fontSize: 22.0, letterSpacing: 1.2 }}>{selectedMonth} {selectedDay}, 20{year}: {hours} H {minutes} M</Text>
             </View>
         );
     } else if (props.point <= 1464) {
@@ -270,8 +289,6 @@ const ProgressReportScreen = props => {
         minutesInRange = 0;
     }
 
-    const rangeString = dateRange % 7 === 0 ? `${hoursInRange} H ${minutesInRange} M In ${dateRange / 7} Weeks` : `${hoursInRange} H ${minutesInRange} M In ${dateRange} Days`;
-
     // Finding the average in a date range
     const avgTime = (timeInRange / dateRange).toFixed(2);
     let avgHours = Math.floor(avgTime);
@@ -372,8 +389,9 @@ const ProgressReportScreen = props => {
                 <Text style={{ fontSize: 24.0, textAlign: 'center' }}>{daysLeft} More Days</Text>
             </View>
             <ScrollView style={{ marginBottom: 80.0 }} contentContainerStyle={{ justifyContent: 'flex-start', alignItems: 'center' }}>
-                <View>
-                    <Text style={styles.range}>{rangeString}</Text>
+                <View style={{marginTop: 20.0,}}>
+                    <Text style={styles.range}>{hoursInRange} H {minutesInRange} M Tracked</Text>
+                    <Text style={styles.range}>From {startMonth}/{startDay}/{startYear} to {endMonth}/{endDay}/{endYear}</Text>
                 </View>
                 <View style={{ width: '85%', alignItems: 'flex-start' }}>
                     <Text style={{ fontSize: 20.0 }}>{yScale}</Text>
@@ -562,8 +580,9 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1.4
     },
     range: {
-        marginTop: 20.0,
+        textAlign: 'center',
         fontSize: 22.0,
+        letterSpacing: 0.4
     },
     graphContainer: {
         width: (width * .85),
