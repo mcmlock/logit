@@ -197,17 +197,18 @@ export const LineGraph = ({ logs, dateRange, dateValue, yMax }) => {
     );
 }
 
-export const AverageLine = ({ averageTime, yMax, selectPoint }) => {
-    const lineHeight = averageTime / yMax * height * .25;
+export const AverageLine = ({ averageTime, yMax, selectPoint, length }) => {
+    const lineHeight = averageTime / yMax * height * .25 + 15;
     return (
         <TouchableOpacity
             style={{
                 position: 'absolute',
                 bottom: lineHeight,
+                borderBottomColor: '#8d95a1',
                 height: 8.4,
-                marginLeft: '1%',
-              //  width: '98%',
-                borderBottomWidth: 1.6
+                marginLeft: 48,
+                width: length * 50 - (106),
+                borderBottomWidth: 2
             }}
             onPress={() => {
                 selectPoint(averageTime);
