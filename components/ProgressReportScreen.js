@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Dimensions, StyleSheet, SafeAreaView, View, Text, Button, TouchableWithoutFeedback, TouchableOpacity, ScrollView } from 'react-native';
 import { PlotPoints, LineGraph, AverageLine } from './LineGraph';
+import { LineChart } from 'react-native-chart-kit';
 import { DayPicker, MonthPicker, YearInput } from './DatePickers';
 
 const { width, height } = Dimensions.get('window');
@@ -191,57 +192,47 @@ const SelectedPointInfo = props => {
     return <View />
 }
 
-const ProgressReportScreen = props => {
+// Calculating current day value
+let month = new Date().getMonth() + 1;
+let day = new Date().getDate();
+let year = new Date().getFullYear() - 2000;
+let dateValue = calcDateValue(month, day, year);
 
-    // Getting logs for the selected meter
-    const allLogs = props.logs.filter(log => log.meterId === props.selectedMeter).map(log => {
-        return (
-            <View>
-                <Text>{log.hoursRecorded} hours {log.minutesRecorded} minutes on {log.month}/{log.year}/{log.day}
-                    @ {log.hour}:{log.minutes}</Text>
-            </View>
-        );
-    });
-
-    // Calculating current day value
-    let month = new Date().getMonth() + 1;
-    let day = new Date().getDate();
-    let year = new Date().getFullYear() - 2000;
-    let dateValue = calcDateValue(month, day, year);
-
-    // Finding the date from two weeks ago
-    let sDay = day - 13;
-    let sMonth = month;
-    let sYear = year;
-    if (sDay <= 0) {
-        if (month === 1) {
-            sMonth = 12;
-            sDay = 31 + sDay;
-            sYear -= 1;
-        } else {
-            sMonth = month - 1;
-            switch (sMonth) {
-                case 1:
-                case 3:
-                case 5:
-                case 7:
-                case 8:
-                case 10:
-                    sDay = 31 + sDay;
-                    break;
-                case 2:
-                    if (year % 4 === 0) {
-                        sDay = 29 + sDay;
-                    } else {
-                        sDay = 28 + sDay;
-                    }
-                    break;
-            }
-        }
+// Finding the date from two weeks ago
+let sDay = day - 13;
+let sMonth = month;
+let sYear = year;
+if (sDay <= 0) {
+    if (month === 1) {
+        sMonth = 12;
+        sDay = 31 + sDay;
+        sYear -= 1;
     } else {
-        sMonth = month;
-        sYear = year;
+        sMonth = month - 1;
+        switch (sMonth) {
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+                sDay = 31 + sDay;
+                break;
+            case 2:
+                if (year % 4 === 0) {
+                    sDay = 29 + sDay;
+                } else {
+                    sDay = 28 + sDay;
+                }
+                break;
+        }
     }
+} else {
+    sMonth = month;
+    sYear = year;
+}
+
+const ProgressReportScreen = props => {
 
     const navigation = useNavigation();
 
@@ -267,8 +258,34 @@ const ProgressReportScreen = props => {
     const endDateValue = calcDateValue(endMonth, endDay, endYear);
     const dateRange = ((endDateValue - startDateValue) / 1440) + 1;
 
+    const findDayLogs = (endDateValue, daysFromEnd) => {
+        return logsInRange.filter(log => log.dateValue === endDateValue - (1440 * daysFromEnd));
+    }
+    const calcDayTotal = day => {
+        let hours = 0;
+        for (i = 0; i < day.length; i++) {
+            hours += day[i].hoursRecorded + (day[i].minutesRecorded / 60);
+            if (hours > yMax) { setYMax(hours) };
+        }
+        return hours;
+    }
+
     // Gathering the data for the chart
     const logsInRange = props.logs.filter(log => log.meterId === props.selectedMeter && log.dateValue >= startDateValue && log.dateValue <= endDateValue);
+
+    const values = [];
+    for (let i = 1; i <= dateRange; i++) {
+        let day = findDayLogs(endDateValue, dateRange - i);
+        values.push(calcDayTotal(day));
+    }
+    console.log(values);
+    const pointsToHide = [];
+    for (let i = 0; i < values.length; i++) {
+        if (values[i] === 0) {
+            pointsToHide.push(i);
+        }
+    }
+
     let yScale = 1;
     if (yMax === 1) {
         yScale = 1;
@@ -386,25 +403,67 @@ const ProgressReportScreen = props => {
             <View style={styles.header}>
                 <Text style={{ fontSize: 32.0, paddingBottom: 2.0, textAlign: 'center' }}>{props.meterTitle}</Text>
                 <Text style={{ fontSize: 24.0, paddingBottom: 2.0, textAlign: 'center' }}>{goalString}</Text>
-                <Text style={{ fontSize: 24.0, textAlign: 'center' }}>{daysLeft} More Days</Text>
+                <Text style={{ fontSize: 24.0, textAlign: 'center' }}>{daysLeft} Days Left</Text>
             </View>
             <ScrollView style={{ marginBottom: 80.0 }} contentContainerStyle={{ justifyContent: 'flex-start', alignItems: 'center' }}>
-                <View style={{marginTop: 20.0,}}>
+                <View style={{ marginTop: 20.0, }}>
                     <Text style={styles.range}>{hoursInRange} H {minutesInRange} M Tracked</Text>
                     <Text style={styles.range}>From {startMonth}/{startDay}/{startYear} to {endMonth}/{endDay}/{endYear}</Text>
                 </View>
-                <View style={{ width: '85%', alignItems: 'flex-start' }}>
-                    <Text style={{ fontSize: 20.0 }}>{yScale}</Text>
-                </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', height: (height * .25) }}>
-                    <View>
-                        <Text style={{ transform: [{ rotate: '270deg' }], fontSize: 18.0 }}>Hours</Text>
+                    <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                        <View style={{ flex: 1, marginTop: 20.0, marginRight: 10.0 }}>
+                            <Text style={{ fontSize: 20.0 }}>{yScale}</Text>
+                        </View>
+                        <View style={{ flex: 1, alignSelf: 'flex-start' }}>
+                            <Text style={{ transform: [{ rotate: '270deg' }], fontSize: 18.0, width: 50 }}>Hours</Text>
+                        </View>
                     </View>
                     <View style={styles.graphContainer}>
-                        <ScrollView horizontal={true} scrollEnabled={false} contentContainerStyle={styles.graph}>
-                            <LineGraph logs={logsInRange} dateRange={dateRange} dateValue={endDateValue} yMax={yMax} />
-                            <PlotPoints logs={logsInRange} dateRange={dateRange} dateValue={endDateValue} yMax={yMax} setYMax={setYMax} setLogs={setLogs} selectPoint={selectPoint} />
-                            <AverageLine averageTime={avgTime} yMax={yMax} selectPoint={selectPoint} />
+                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} bounces={false} style={{ borderRadius: 8, backgroundColor: 'blue' }} contentContainerStyle={styles.graph}>
+                            <View style={{ marginHorizontal: -20 }}>
+                                <LineChart
+                                    fromZero={true}
+                                    onDataPointClick={value => {
+                                        selectPoint(value.index * 1440 + startDateValue)
+                                        
+                                    }}
+                                    segments={1}
+                                    withInnerLines={false}
+                                    withOuterLines={false}
+                                    withHorizontalLines={false}
+                                    withVerticalLines={false}
+                                    formatYLabel={() => ''}
+                                    hidePointsAtIndex={pointsToHide}
+
+                                    data={{
+                                        datasets: [
+                                            {
+                                                data: values
+                                            }
+                                        ]
+                                    }}
+                                    width={(values.length * 50)} // from react-native
+                                    height={height * .25}
+                                    chartConfig={{
+                                        backgroundGradientFrom: "blue",
+                                        backgroundGradientTo: "blue",
+                                        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+
+                                        propsForDots: {
+                                            r: "6",
+                                            strokeWidth: "2",
+                                        }
+                                    }}
+                                    bezier
+                                    style={{
+                                        paddingBottom: -15,
+                                        marginLeft: -15,
+                                        paddingTop: 15,
+                                    }}
+
+                                />
+                            </View>
                         </ScrollView>
                     </View>
                 </View>
@@ -589,15 +648,11 @@ const styles = StyleSheet.create({
         marginTop: 40.0,
         marginBottom: 10.0,
         marginRight: 20.0,
-        borderLeftWidth: 2,
-        paddingBottom: -2,
-        borderBottomWidth: 2,
-        height: (height * .27)
+        height: (height * .25)
     },
     graph: {
-        width: '100%',
         flexDirection: 'row',
-        alignItems: 'flex-end',
+        alignItems: 'flex-end'
     },
     logs: {
         width: (width * .8),

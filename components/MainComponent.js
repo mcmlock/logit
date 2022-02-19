@@ -79,7 +79,7 @@ class Main extends Component {
                 {
                     meterId: 0,
                     hoursRecorded: 2,
-                    minutesRecorded: 40,
+                    minutesRecorded: 57,
                     month: 2,
                     day: 9,
                     year: 22,

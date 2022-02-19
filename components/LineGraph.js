@@ -206,7 +206,7 @@ export const AverageLine = ({ averageTime, yMax, selectPoint }) => {
                 bottom: lineHeight,
                 height: 8.4,
                 marginLeft: '1%',
-                width: '98%',
+              //  width: '98%',
                 borderBottomWidth: 1.6
             }}
             onPress={() => {
