@@ -31,8 +31,9 @@ const CreateProgressMeter = props => {
                     <View style={styles.titleRow}>
                         <TextInput
                             placeholder='Title Me'
+                            placeholderTextColor ='#444'
                             value={title}
-                            style={styles.textInput}
+                            style={styles.titleTextInput}
                             onChangeText={value => setTitle(value)}
                         />
                     </View>
@@ -101,11 +102,23 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: '#2b2b2b'
     },
     titleRow: {
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'center',
+    },
+    titleTextInput: {
+        width: '92%',
+        marginLeft: '4%',
+        paddingHorizontal: 8.0,
+        fontSize: 28.0,
+        paddingVertical: 6,
+        borderWidth: 1,
+        borderColor: 'white',
+        color: 'white',
+        borderRadius: 4.0
     },
     textInput: {
         margin: 10.0,

@@ -13,8 +13,10 @@ const ProgressMeter = props => {
         hoursOutput += logs[i].hoursRecorded + (logs[i].minutesRecorded / 60);
     }
     let totalHours = hoursOutput.toFixed(2);
-    let progress = (totalHours / props.meter.goal) * (width - 4);
-    if (progress > 256) { progress = 256 };
+    let progress = (totalHours / props.meter.goal) * (width - 48) * .92 - 4;
+    if (progress > props.meter.goal) {
+        progress = (width - 48) * .92 - 4
+    }
 
     const [timeLogOpen, setTimeLogOpen] = useState(false);
     const toggleTimeLog = () => {
@@ -29,7 +31,7 @@ const ProgressMeter = props => {
                     toggleTimeLog={toggleTimeLog}
                     meterId={props.meter.id}
                     createTimeLog={props.createTimeLog}
-                    recordTime={props.recordTime}
+                    recordTime={props.recordTime} 
                 />
 
                 <View style={styles.meter}>
@@ -67,8 +69,6 @@ const ProgressMeter = props => {
     );
 };
 
-// <Text style={styles.titleText}>{props.meter.month}/{props.meter.day}/{props.meter.year}</Text>
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -76,9 +76,9 @@ const styles = StyleSheet.create({
         marginVertical: 16.0,
         paddingHorizontal: 6.0,
         paddingVertical: 14.0,
-        borderWidth: 1.0,
+        borderWidth: 1.8,
         borderColor: 'white',
-        borderRadius: 16.0
+        borderRadius: 16.0,
     },
     bottomRow: {
         flexDirection: 'row',
