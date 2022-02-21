@@ -170,7 +170,7 @@ const SelectedPointInfo = props => {
 
     return (
         <View style={{ alignSelf: 'center', marginBottom: 10.0 }}>
-            <Text style={{ fontSize: 22.0, letterSpacing: 1.2 }}>{selectedMonth} {selectedDay}, 20{year}: {hours} H {minutes} M</Text>
+            <Text style={{ fontSize: 22.0, letterSpacing: 1.2, color: 'white' }}>{selectedMonth} {selectedDay}, 20{year}: {hours} H {minutes} M</Text>
         </View>
     );
 }
@@ -371,267 +371,272 @@ const ProgressReportScreen = props => {
     }
 
     return (
-        <SafeAreaView style={styles.container}>
-            <TouchableOpacity
-                style={{
-                    position: "absolute",
-                    top: -20,
-                    right: 15.0,
-                }}
-                onPress={() => {
-                    navigation.navigate('Log History');
-                }}>
-                <Text>History</Text>
-            </TouchableOpacity>
-            <View style={styles.header}>
-                <Text style={{ fontSize: 32.0, paddingBottom: 2.0, textAlign: 'center' }}>{props.meterTitle}</Text>
-                <Text style={{ fontSize: 24.0, paddingBottom: 2.0, textAlign: 'center' }}>{goalString}</Text>
-                <Text style={{ fontSize: 24.0, textAlign: 'center' }}>{daysLeft} Days Left</Text>
-            </View>
-            <ScrollView style={{ marginBottom: 80.0 }} contentContainerStyle={{ justifyContent: 'flex-start', alignItems: 'center' }}>
-                <View style={{ marginTop: 15.0, }}>
-                    <Text style={styles.range}>{hoursInRange} H {minutesInRange} M Tracked</Text>
-                    <Text style={styles.range}>From {startMonth}/{startDay}/{startYear} to {endMonth}/{endDay}/{endYear}</Text>
-                    <Text style={{ fontSize: 20.0, letterSpacing: 1.2 }}>Averaged Daily: {avgHours} H {avgMinutes} M</Text>
+        <View style={{ flex: 1, backgroundColor: '#2b2b2b' }}>
+            <SafeAreaView style={styles.container}>
+                <TouchableOpacity
+                    style={{
+                        position: "absolute",
+                        top: -20,
+                        right: 15.0,
+                    }}
+                    onPress={() => {
+                        navigation.navigate('Log History');
+                    }}>
+                    <Text style={{ color: 'white' }}>History</Text>
+                </TouchableOpacity>
+                <View style={styles.header}>
+                    <Text style={{ fontSize: 32.0, paddingBottom: 2.0, textAlign: 'center', color: 'white' }}>{props.meterTitle}</Text>
+                    <Text style={{ fontSize: 24.0, paddingBottom: 2.0, textAlign: 'center', color: 'white' }}>{goalString}</Text>
+                    <Text style={{ fontSize: 24.0, textAlign: 'center', color: 'white' }}>{daysLeft} Days Left</Text>
                 </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center', height: (height * .25) }}>
-                    <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                        <View style={{ flex: 1, marginTop: 20.0, marginRight: 10.0 }}>
-                            <Text style={{ fontSize: 20.0 }}>{yScale}</Text>
+                <ScrollView style={{ marginBottom: 80.0 }} contentContainerStyle={{ justifyContent: 'flex-start', alignItems: 'center' }}>
+                    <View style={{ marginTop: 15.0 }}>
+                        <Text style={styles.range}>{hoursInRange} H {minutesInRange} M Tracked</Text>
+                        <Text style={styles.range}>From {startMonth}/{startDay}/{startYear} to {endMonth}/{endDay}/{endYear}</Text>
+                        <Text style={{ fontSize: 20.0, letterSpacing: 1.2, color: 'white' }}>Averaged Daily: {avgHours} H {avgMinutes} M</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', height: (height * .25) }}>
+                        <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                            <View style={{ flex: 1, marginTop: 20.0, marginRight: 12 }}>
+                                <Text style={{ fontSize: 20.0, color: 'white' }}>{yScale}</Text>
+                            </View>
+                            <View style={{ flex: 1, alignSelf: 'center' }}>
+                                <Text style={{ transform: [{ rotate: '270deg' }], fontSize: 18.0, width: 60, height: 20, letterSpacing: 1.2, color: 'white' }}>Hours</Text>
+                            </View>
                         </View>
-                        <View style={{ flex: 1, alignSelf: 'flex-start' }}>
-                            <Text style={{ transform: [{ rotate: '270deg' }], fontSize: 18.0, width: 50 }}>Hours</Text>
+                        <View style={styles.graphContainer}>
+                            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} bounces={false} style={{ borderRadius: 8, backgroundColor: '#1fbaed' }} contentContainerStyle={styles.graph}>
+                                <View style={{ marginHorizontal: -20 }}>
+                                    <LineChart
+                                        fromZero={true}
+                                        onDataPointClick={value => {
+                                            selectPoint(value.index * 1440 + startDateValue)
+
+                                        }}
+                                        segments={1}
+                                        withInnerLines={false}
+                                        withOuterLines={false}
+                                        withHorizontalLines={false}
+                                        withVerticalLines={false}
+                                        formatYLabel={() => ''}
+                                        hidePointsAtIndex={pointsToHide}
+
+                                        data={{
+                                            datasets: [
+                                                {
+                                                    data: values
+                                                }
+                                            ]
+                                        }}
+                                        width={(values.length * 50)}
+                                        height={height * .25}
+                                        chartConfig={{
+                                            backgroundGradientFrom: "#1fbaed",
+                                            backgroundGradientTo: "#1fbaed",
+                                            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+
+                                            propsForDots: {
+                                                r: "6",
+                                                strokeWidth: "2",
+                                            }
+                                        }}
+                                        bezier
+                                        style={{
+                                            paddingBottom: -15,
+                                            marginLeft: -15,
+                                        }}
+
+                                    />
+                                </View>
+                            </ScrollView>
                         </View>
                     </View>
-                    <View style={styles.graphContainer}>
-                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} bounces={false} style={{ borderRadius: 8, backgroundColor: 'blue' }} contentContainerStyle={styles.graph}>
-                            <View style={{ marginHorizontal: -20 }}>
-                                <LineChart
-                                    fromZero={true}
-                                    onDataPointClick={value => {
-                                        selectPoint(value.index * 1440 + startDateValue)
-
-                                    }}
-                                    segments={1}
-                                    withInnerLines={false}
-                                    withOuterLines={false}
-                                    withHorizontalLines={false}
-                                    withVerticalLines={false}
-                                    formatYLabel={() => ''}
-                                    hidePointsAtIndex={pointsToHide}
-
-                                    data={{
-                                        datasets: [
-                                            {
-                                                data: values
-                                            }
-                                        ]
-                                    }}
-                                    width={(values.length * 50)} // from react-native
-                                    height={height * .25}
-                                    chartConfig={{
-                                        backgroundGradientFrom: "blue",
-                                        backgroundGradientTo: "blue",
-                                        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-
-                                        propsForDots: {
-                                            r: "6",
-                                            strokeWidth: "2",
-                                        }
-                                    }}
-                                    bezier
-                                    style={{
-                                        paddingBottom: -15,
-                                        marginLeft: -15,
-                                    }}
-
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 30.0, marginBottom: 8.0 }}>
+                        <TouchableOpacity onPress={() => {
+                            showStartMonthPicker(!startMonthPicker)
+                            showStartDayPicker(false);
+                            showStartYearInput(false);
+                            showEndMonthPicker(false);
+                            showEndDayPicker(false);
+                            showEndYearInput(false);
+                        }}>
+                            <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0, borderColor: 'white' }}>
+                                <Text style={{ fontSize: 18.0, color: 'white' }}>{startMonth}</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <Text style={{ fontSize: 20.0, color: 'white' }}>/</Text>
+                        <TouchableOpacity onPress={() => {
+                            showStartMonthPicker(false)
+                            showStartDayPicker(!startDayPicker);
+                            showStartYearInput(false);
+                            showEndMonthPicker(false);
+                            showEndDayPicker(false);
+                            showEndYearInput(false);
+                        }}>
+                            <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0, borderColor: 'white' }}>
+                                <Text style={{ fontSize: 18.0, color: 'white' }}>{startDay}</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <Text style={{ fontSize: 20.0, color: 'white' }}>/</Text>
+                        <TouchableOpacity>
+                            <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0, borderColor: 'white' }}>
+                                <Text style={{ fontSize: 18.0, color: 'white' }}>{startYear}</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <Text style={{ fontSize: 20.0, color: 'white' }}> - </Text>
+                        <TouchableOpacity onPress={() => {
+                            showStartMonthPicker(false)
+                            showStartDayPicker(false);
+                            showStartYearInput(false);
+                            showEndMonthPicker(!endMonthPicker);
+                            showEndDayPicker(false);
+                            showEndYearInput(false);
+                        }}>
+                            <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0, borderColor: 'white' }}>
+                                <Text style={{ fontSize: 18.0, color: 'white' }}>{endMonth}</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <Text style={{ fontSize: 20.0, color: 'white' }}>/</Text>
+                        <TouchableOpacity onPress={() => {
+                            showStartMonthPicker(false)
+                            showStartDayPicker(false);
+                            showStartYearInput(false);
+                            showEndMonthPicker(false);
+                            showEndDayPicker(!endDayPicker);
+                            showEndYearInput(false);
+                        }}>
+                            <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0, borderColor: 'white' }}>
+                                <Text style={{ fontSize: 18.0, color: 'white' }}>{endDay}</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <Text style={{ fontSize: 20.0, color: 'white' }}>/</Text>
+                        <TouchableOpacity>
+                            <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0, borderColor: 'white' }}>
+                                <Text style={{ fontSize: 18.0, color: 'white' }}>{endYear}</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                    <View>
+                        {startMonthPicker &&
+                            <View style={{ marginTop: -10.0, marginBottom: 10.0 }}>
+                                <MonthPicker
+                                    visible={startMonthPicker}
+                                    setVisible={showStartMonthPicker}
+                                    month={startMonth}
+                                    setMonth={setStartMonth}
+                                    day={startDay}
+                                    setDay={setStartDay}
+                                    setYMax={setYMax}
                                 />
                             </View>
-                        </ScrollView>
-                    </View>
-                </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 40.0, marginBottom: 8.0 }}>
-                    <TouchableOpacity onPress={() => {
-                        showStartMonthPicker(!startMonthPicker)
-                        showStartDayPicker(false);
-                        showStartYearInput(false);
-                        showEndMonthPicker(false);
-                        showEndDayPicker(false);
-                        showEndYearInput(false);
-                    }}>
-                        <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0 }}>
-                            <Text style={{ fontSize: 18.0 }}>{startMonth}</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <Text>/</Text>
-                    <TouchableOpacity onPress={() => {
-                        showStartMonthPicker(false)
-                        showStartDayPicker(!startDayPicker);
-                        showStartYearInput(false);
-                        showEndMonthPicker(false);
-                        showEndDayPicker(false);
-                        showEndYearInput(false);
-                    }}>
-                        <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0 }}>
-                            <Text style={{ fontSize: 18.0 }}>{startDay}</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <Text>/</Text>
-                    <TouchableOpacity>
-                        <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0 }}>
-                            <Text style={{ fontSize: 18.0 }}>{startYear}</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <Text> - </Text>
-                    <TouchableOpacity onPress={() => {
-                        showStartMonthPicker(false)
-                        showStartDayPicker(false);
-                        showStartYearInput(false);
-                        showEndMonthPicker(!endMonthPicker);
-                        showEndDayPicker(false);
-                        showEndYearInput(false);
-                    }}>
-                        <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0 }}>
-                            <Text style={{ fontSize: 18.0 }}>{endMonth}</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <Text>/</Text>
-                    <TouchableOpacity onPress={() => {
-                        showStartMonthPicker(false)
-                        showStartDayPicker(false);
-                        showStartYearInput(false);
-                        showEndMonthPicker(false);
-                        showEndDayPicker(!endDayPicker);
-                        showEndYearInput(false);
-                    }}>
-                        <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0 }}>
-                            <Text style={{ fontSize: 18.0 }}>{endDay}</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <Text>/</Text>
-                    <TouchableOpacity>
-                        <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0 }}>
-                            <Text style={{ fontSize: 18.0 }}>{endYear}</Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-                <View>
-                    {startMonthPicker &&
-                        <View style={{ marginTop: -10.0, marginBottom: 10.0 }}>
-                            <MonthPicker
-                                visible={startMonthPicker}
-                                setVisible={showStartMonthPicker}
-                                month={startMonth}
-                                setMonth={setStartMonth}
-                                day={startDay}
-                                setDay={setStartDay}
+                        }
+                        {startDayPicker &&
+                            <View style={{ marginTop: -10.0, marginBottom: 10.0 }}>
+                                <DayPicker
+                                    visible={startDayPicker}
+                                    setVisible={showStartDayPicker}
+                                    month={startMonth}
+                                    year={startYear}
+                                    setDay={setStartDay}
+                                    setYMax={setYMax}
+                                />
+                            </View>
+                        }
+                        {startYearInput &&
+                            <YearInput
+                                visible={startYearInput}
+                                setVisible={showStartYearInput}
                                 setYMax={setYMax}
                             />
-                        </View>
-                    }
-                    {startDayPicker &&
-                        <View style={{ marginTop: -10.0, marginBottom: 10.0 }}>
-                            <DayPicker
-                                visible={startDayPicker}
-                                setVisible={showStartDayPicker}
-                                month={startMonth}
-                                year={startYear}
-                                setDay={setStartDay}
+                        }
+                        {endMonthPicker &&
+                            <View style={{ marginTop: -10.0, marginBottom: 10.0 }}>
+                                <MonthPicker
+                                    visible={endMonthPicker}
+                                    setVisible={showEndMonthPicker}
+                                    month={endMonth}
+                                    setMonth={setEndMonth}
+                                    day={endDay}
+                                    setDay={setEndDay}
+                                    setYMax={setYMax}
+                                />
+                            </View>
+                        }
+                        {endDayPicker &&
+                            <View style={{ marginTop: -10.0, marginBottom: 10.0 }}>
+                                <DayPicker
+                                    visible={endDayPicker}
+                                    setVisible={showEndDayPicker}
+                                    month={endMonth}
+                                    year={endYear}
+                                    setDay={setEndDay}
+                                    setYMax={setYMax}
+                                />
+                            </View>
+                        }
+                        {endYearInput &&
+                            <YearInput
+                                visible={endYearInput}
+                                setVisible={showEndYearInput}
                                 setYMax={setYMax}
                             />
+                        }
+                    </View>
+                    <SelectedPointInfo point={point + 1440} logs={props.logs.filter(log => log.meterId === props.selectedMeter)} />
+                    <View style={{ alignSelf: 'flex-start', marginTop: 10.0, marginLeft: '10%', width: '85%' }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 15.0 }}>
+                            <Text style={styles.dataText}>Total Time Logged:</Text>
+                            <Text style={styles.dataText}>{totalHoursLogged} H {totalMinutesLogged} M</Text>
                         </View>
-                    }
-                    {startYearInput &&
-                        <YearInput
-                            visible={startYearInput}
-                            setVisible={showStartYearInput}
-                            setYMax={setYMax}
-                        />
-                    }
-                    {endMonthPicker &&
-                        <View style={{ marginTop: -10.0, marginBottom: 10.0 }}>
-                            <MonthPicker
-                                visible={endMonthPicker}
-                                setVisible={showEndMonthPicker}
-                                month={endMonth}
-                                setMonth={setEndMonth}
-                                day={endDay}
-                                setDay={setEndDay}
-                                setYMax={setYMax}
-                            />
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 15.0 }}>
+                            <Text style={styles.dataText}>Time Remaining:</Text>
+                            <Text style={styles.dataText}>{remainingHours} H {remainingMinutes} M</Text>
                         </View>
-                    }
-                    {endDayPicker &&
-                        <View style={{ marginTop: -10.0, marginBottom: 10.0 }}>
-                            <DayPicker
-                                visible={endDayPicker}
-                                setVisible={showEndDayPicker}
-                                month={endMonth}
-                                year={endYear}
-                                setDay={setEndDay}
-                                setYMax={setYMax}
-                            />
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 15.0 }}>
+                            <Text style={styles.dataText}>Advised Daily Contribution: </Text>
+                            <Text style={styles.dataText}>{dailyTargetHr} H {dailyTargetMin} M</Text>
                         </View>
-                    }
-                    {endYearInput &&
-                        <YearInput
-                            visible={endYearInput}
-                            setVisible={showEndYearInput}
-                            setYMax={setYMax}
-                        />
-                    }
+                    </View>
+                </ScrollView>
+                <View style={styles.buttonsView}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            props.deleteProgressMeter(props.selectedMeter);
+                            navigation.navigate('Home');
+                        }}
+                    >
+                        <Text style={styles.buttonText}>Delete</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('Home')}
+                    >
+                        <Text style={styles.buttonText}>Home</Text>
+                    </TouchableOpacity>
                 </View>
-                <SelectedPointInfo point={point + 1440} logs={props.logs.filter(log => log.meterId === props.selectedMeter)} />
-                <View style={{ alignSelf: 'flex-start', marginTop: 10.0, marginLeft: '10%', width: '85%' }}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 15.0 }}>
-                        <Text style={styles.dataText}>Total Time Logged:</Text>
-                        <Text style={styles.dataText}>{totalHoursLogged} H {totalMinutesLogged} M</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 15.0 }}>
-                        <Text style={styles.dataText}>Time Remaining:</Text>
-                        <Text style={styles.dataText}>{remainingHours} H {remainingMinutes} M</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 15.0 }}>
-                        <Text style={styles.dataText}>Advised Daily Contribution: </Text>
-                        <Text style={styles.dataText}>{dailyTargetHr} H {dailyTargetMin} M</Text>
-                    </View>
-                </View>
-            </ScrollView>
-            <View style={styles.buttonsView}>
-                <TouchableOpacity
-                    onPress={() => {
-                        props.deleteProgressMeter(props.selectedMeter);
-                        navigation.navigate('Home');
-                    }}
-                >
-                    <Text style={styles.buttonText}>Delete</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => navigation.navigate('Home')}
-                >
-                    <Text style={styles.buttonText}>Home</Text>
-                </TouchableOpacity>
-            </View>
-        </SafeAreaView>
+            </SafeAreaView>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 80.0
+        marginTop: 80.0,
+        backgroundColor: '#2b2b2b',
     },
     header: {
         marginTop: 15.0,
         alignSelf: 'center',
         width: '85%',
         paddingBottom: 15.0,
-        borderBottomWidth: 1.4
+        borderBottomWidth: 1.4,
+        borderBottomColor: 'white'
     },
     range: {
         textAlign: 'center',
         fontSize: 22.0,
-        letterSpacing: 0.4
+        letterSpacing: 0.4,
+        color: 'white'
     },
     graphContainer: {
         width: (width * .85),
@@ -660,7 +665,8 @@ const styles = StyleSheet.create({
     },
     dataText: {
         fontSize: 20.0,
-        paddingVertical: 2.0
+        paddingVertical: 2.0,
+        color: 'white'
     },
     buttonsView: {
         alignSelf: 'center',
@@ -670,7 +676,8 @@ const styles = StyleSheet.create({
     buttonText: {
         fontSize: 20.0,
         textAlign: 'center',
-        marginBottom: 10.0
+        marginBottom: 10.0,
+        color: 'white'
     }
 });
 

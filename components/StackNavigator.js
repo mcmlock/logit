@@ -3,7 +3,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './HomeScreen';
 import ProgressReportScreen from './ProgressReportScreen';
 import LogHistoryScreen from './LogHistoryScreen';
-import Experiment from './ExperimentalGraph';
 
 const Stack = createStackNavigator();
 
@@ -38,19 +37,11 @@ const StackNavigator = props => {
         />
     );
 
-    const ExperimentComponent = () => (
-        <Experiment 
-            logs={props.logs}
-            selectedMeter={props.selectedMeter}
-        />
-    );
-
     return (
         <Stack.Navigator initialRouteName='Home' screenOptions={{ animationEnabled: false }}>
             <Stack.Screen name="Home" component={HomeComponent} options={{ headerShown: false }} />
             <Stack.Screen name="Progress Report" component={ProgressReportComponent} options={{ headerShown: false }} />
             <Stack.Screen name="Log History" component={LogHistoryComponent} options={{headerShown: false}} />
-            <Stack.Screen name="Experiment" component={ExperimentComponent} options={{headerShown: false}} />
         </Stack.Navigator>
     );
 }

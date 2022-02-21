@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { Dimensions, View, Text, StyleSheet } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { TimeLogger } from './AddProgressModal';
+
+const { width, height } = Dimensions.get('window');
 
 const ProgressMeter = props => {
 
@@ -11,7 +13,7 @@ const ProgressMeter = props => {
         hoursOutput += logs[i].hoursRecorded + (logs[i].minutesRecorded / 60);
     }
     let totalHours = hoursOutput.toFixed(2);
-    let progress = (totalHours / props.meter.goal) * 256;
+    let progress = (totalHours / props.meter.goal) * (width - 4);
     if (progress > 256) { progress = 256 };
 
     const [timeLogOpen, setTimeLogOpen] = useState(false);
@@ -30,24 +32,25 @@ const ProgressMeter = props => {
                     recordTime={props.recordTime}
                 />
 
-                <View style={styles.titleRow}>
-                    <Text style={styles.titleText}>{props.meter.title}</Text>
-                    <Text style={styles.titleText}>{props.meter.month}/{props.meter.day}/{props.meter.year}</Text>
+                <View style={styles.meter}>
+                    <View style={{ width: progress, height: 32, backgroundColor: '#1fbaed' }} />
+                    <Text style={styles.progress}>{totalHours} / {props.meter.goal}</Text>
                 </View>
-                <View style={{ flexDirection: 'row' }}>
-                    <View style={styles.outerLayer}>
-                        <View style={{ width: progress, height: 36, backgroundColor: 'blue' }} />
-                        <Text style={styles.progress}>{totalHours} / {props.meter.goal}</Text>
-                    </View>
+                <View style={styles.bottomRow}>
+                    <Text style={styles.titleText}>{props.meter.title}</Text>
                     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
                         <Icon
                             name="plus"
                             type='font-awesome'
+                            color='white'
+                            size={20}
                             onPress={() => toggleTimeLog()}
                         />
                         <Icon
-                            name="eye"
+                            name="angle-right"
                             type='font-awesome'
+                            color="white"
+                            size={28}
                             onPress={() => {
                                 props.selectMeter(props.meter.id);
                                 props.viewProgressReport();
@@ -55,10 +58,16 @@ const ProgressMeter = props => {
                         />
                     </View>
                 </View>
+                <View style={{ flexDirection: 'row' }}>
+
+
+                </View>
             </View>
         </View>
     );
 };
+
+// <Text style={styles.titleText}>{props.meter.month}/{props.meter.day}/{props.meter.year}</Text>
 
 const styles = StyleSheet.create({
     container: {
@@ -66,32 +75,40 @@ const styles = StyleSheet.create({
         marginHorizontal: 24.0,
         marginVertical: 16.0,
         paddingHorizontal: 6.0,
-        paddingVertical: 10.0,
+        paddingVertical: 14.0,
         borderWidth: 1.0,
+        borderColor: 'white',
+        borderRadius: 16.0
     },
-    titleRow: {
+    bottomRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: 14.0
+        width: '96%',
+        marginHorizontal: '2%'
     },
     titleText: {
-        fontSize: 26.0
+        fontSize: 22.0,
+        color: 'white',
+        width: '75%',
+        letterSpacing: .9
     },
-    outerLayer: {
-        marginVertical: 0,
-        marginHorizontal: 0,
+    meter: {
+        marginBottom: 10,
+        marginLeft: '2%',
         justifyContent: 'center',
         alignItems: 'flex-start',
-        height: 40.0,
-        width: 260.0,
+        height: 36.0,
+        width: '96%',
         borderWidth: 2.0,
-        borderRadius: 4.0
+        borderRadius: 4.0,
+        borderColor: 'white',
     },
     progress: {
         position: 'absolute',
         alignSelf: 'flex-end',
         paddingRight: 12.0,
-        fontSize: 16.0
+        fontSize: 16.0,
+        color: 'white'
     }
 });
 

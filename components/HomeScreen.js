@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, View, Button, ScrollView, SafeAreaView} from 'react-native';
+import { Icon } from 'react-native-elements';
 import CreateProgressMeter from './CreateMeterModal';
 import ProgressMeter from './ProgressMeter';
 
@@ -34,13 +35,18 @@ const HomeScreen = props => {
                 toggleModal={toggleCreateModal}
                 createProgressMeter={props.createProgressMeter}
             />
+
+            
             <SafeAreaView>
-                <ScrollView style={{ height: '100%' }}>
+                <ScrollView style={{ height: '100%', marginBottom: 70.0 }}>
                     {progressMeters}
                 </ScrollView>
                 <View style={styles.createBtn}>
-                    <Button
-                        title="Create"
+                    <Icon
+                        name="plus-circle"
+                        type="font-awesome"
+                        color="white"
+                        size={36}
                         onPress={() => toggleCreateModal()}
                     />
                 </View>
@@ -51,12 +57,13 @@ const HomeScreen = props => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: '#2b2b2b'
     },
     createBtn: {
         position: 'absolute',
-        bottom: 70.0,
-        right: 30.0,
+        bottom: 130.0,
+        right: 40.0,
         zIndex: 1
     }
 });
