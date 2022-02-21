@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
-import { StyleSheet, Modal, TouchableHighlight, View, Text, TextInput, SafeAreaView, Button } from 'react-native';
+import { StyleSheet, Modal, TouchableHighlight, View, Text, TextInput, SafeAreaView, Button, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { DayPicker, MonthPicker } from './DatePickers';
+
+const DismissKeyboard = ({ children }) => (
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        {children}
+    </TouchableWithoutFeedback>
+);
 
 const CreateProgressMeter = props => {
 
@@ -23,32 +29,38 @@ const CreateProgressMeter = props => {
 
 
     return (
+
+
+        
         <Modal
             visible={props.visible}
         >
+            <DismissKeyboard>
             <View style={styles.modal}>
                 <SafeAreaView>
                     <View style={styles.titleRow}>
                         <TextInput
                             placeholder='Title Me'
-                            placeholderTextColor ='#444'
+                            placeholderTextColor='#444'
                             value={title}
                             style={styles.titleTextInput}
                             onChangeText={value => setTitle(value)}
                         />
                     </View>
-                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginVertical: 20.0 }}>
+                        <Text style={styles.hoursLabel}>Hours</Text>
                         <TextInput
-                            style={styles.textInput}
+                            style={styles.hoursTextInput}
                             placeholder='10000'
+                            placeholderTextColor='#444'
+                            keyboardType='number-pad'
                             textAlign='center'
                             onChangeText={value => setGoal(Number(value))}
                         />
-                        <Text style={styles.labelText}>Hours</Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={styles.labelText}>Due Date</Text>
-                        <View style={{flexDirection: 'row'}}>
+                        <View style={{ flexDirection: 'row' }}>
                             <TextInput
                                 value={`${month}`}
                                 style={styles.textInput}
@@ -67,7 +79,7 @@ const CreateProgressMeter = props => {
                         </View>
                     </View>
                     <View style={styles.btnView}>
-                    <Button
+                        <Button
                             title="Create"
                             onPress={() => {
                                 const barProperties = {
@@ -93,7 +105,9 @@ const CreateProgressMeter = props => {
                     </View>
                 </SafeAreaView>
             </View>
+            </DismissKeyboard>
         </Modal>
+
     );
 }
 
@@ -110,8 +124,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     titleTextInput: {
-        width: '92%',
-        marginLeft: '4%',
+        width: '88%',
         paddingHorizontal: 8.0,
         fontSize: 28.0,
         paddingVertical: 6,
@@ -120,13 +133,20 @@ const styles = StyleSheet.create({
         color: 'white',
         borderRadius: 4.0
     },
-    textInput: {
-        margin: 10.0,
-        padding: 5.0,
-        fontSize: 20.0,
+    hoursTextInput: {
+        marginLeft: 12.0,
+        paddingHorizontal: 8.0,
+        paddingVertical: 6.0,
+        borderRadius: 4.0,
+        fontSize: 25.0,
         borderStyle: 'solid',
-        borderColor: "#666",
+        borderColor: "white",
         borderWidth: 1,
+        color: 'white'
+    },
+    hoursLabel: {
+        color: 'white',
+        fontSize: 25.0
     }
 });
 
