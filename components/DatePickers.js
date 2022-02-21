@@ -267,7 +267,7 @@ export const MonthPicker = props => {
             lastDay = 30;
             break;
         case 2:
-            if (props.yearValue % 4 === 0) {
+            if (props.year % 4 === 0) {
                 lastDay = 29;
             } else {
                 lastDay = 28;
@@ -287,67 +287,152 @@ export const MonthPicker = props => {
                 <Button
                     title='1'
                     onPress={() => {
-                        props.setYMax(1);
-                        props.setMonth(1);
-                        adjustLastDay(31);
+                        if (props.setsEndDate) {
+                            if (props.calcDateValue(1, props.day, props.year) > props.startDateValue) {
+                                props.setYMax(1);
+                                props.setMonth(1);
+                                adjustLastDay(31);
+                            }
+                        } else {
+                            if (props.calcDateValue(1, props.day, props.year) < props.endDateValue) {
+                                props.setYMax(1);
+                                props.setMonth(1);
+                                adjustLastDay(31);
+                            }
+                        }
                     }} />
                 <Button
                     title='2'
                     onPress={() => {
-                        props.setYMax(1);
-                        props.setMonth(2);
-                        if (props.yearValue % 4 === 0) {
-                            adjustLastDay(29);
+                        
+                        if (props.setsEndDate) {
+                            if (props.calcDateValue(2, props.day, props.year) > props.startDateValue) {
+                                props.setYMax(1);
+                                props.setMonth(2);
+                                if (props.year % 4 === 0) {
+                                    adjustLastDay(29);
+                                } else {
+                                    adjustLastDay(28);
+                                }
+                            }
                         } else {
-                            adjustLastDay(28);
+                            if (props.calcDateValue(2, props.day, props.year) < props.endDateValue) {
+                                props.setYMax(1);
+                                props.setMonth(2);
+                                if (props.yearValue % 4 === 0) {
+                                    adjustLastDay(29);
+                                } else {
+                                    adjustLastDay(28);
+                                }
+                            }
                         }
                     }} />
                 <Button
                     title='3'
                     onPress={() => {
-                        props.setYMax(1);
-                        props.setMonth(3);
-                        adjustLastDay(31);
+                        if (props.setsEndDate) {
+                            if (props.calcDateValue(3, props.day, props.year) > props.startDateValue) {
+                                props.setYMax(1);
+                                props.setMonth(3);
+                                adjustLastDay(31);
+                            }
+                        } else {
+                            if (props.calcDateValue(3, props.day, props.year) < props.endDateValue) {
+                                props.setYMax(1);
+                                props.setMonth(3);
+                                adjustLastDay(31);
+                            }
+                        }
                     }} />
                 <Button
                     title='4'
                     onPress={() => {
-                        props.setYMax(1);
-                        props.setMonth(4)
-                        adjustLastDay(30);
+                        if (props.setsEndDate) {
+                            if (props.calcDateValue(4, props.day, props.year) > props.startDateValue) {
+                                props.setYMax(1);
+                                props.setMonth(4);
+                                adjustLastDay(30);
+                            }
+                        } else {
+                            if (props.calcDateValue(1, props.day, props.year) < props.endDateValue) {
+                                props.setYMax(1);
+                                props.setMonth(4);
+                                adjustLastDay(30);
+                            }
+                        }
                     }} />
             </View>
             <View style={styles.monthRow}>
                 <Button
                     title='5'
                     onPress={() => {
-                        props.setYMax(1);
-                        props.setMonth(5)
-                        adjustLastDay(31);
+                        if (props.setsEndDate) {
+                            if (props.calcDateValue(5, props.day, props.year) > props.startDateValue) {
+                                props.setYMax(1);
+                                props.setMonth(5);
+                                adjustLastDay(31);
+                            }
+                        } else {
+                            if (props.calcDateValue(5, props.day, props.year) < props.endDateValue) {
+                                props.setYMax(1);
+                                props.setMonth(5);
+                                adjustLastDay(31);
+                            }
+                        }
                     }}
                 />
                 <Button
                     title='6'
                     onPress={() => {
-                        props.setYMax(1);
-                        props.setMonth(6)
-                        adjustLastDay(30);
+                        if (props.setsEndDate) {
+                            if (props.calcDateValue(6, props.day, props.year) > props.startDateValue) {
+                                props.setYMax(1);
+                                props.setMonth(6);
+                                adjustLastDay(30);
+                            }
+                        } else {
+                            if (props.calcDateValue(6, props.day, props.year) < props.endDateValue) {
+                                props.setYMax(1);
+                                props.setMonth(6);
+                                adjustLastDay(30);
+                            }
+                        }
                     }}
                 />
                 <Button
                     title='7'
                     onPress={() => {
-                        props.setYMax(1);
-                        props.setMonth(7)
-                        adjustLastDay(31);
+                        if (props.setsEndDate) {
+                            if (props.calcDateValue(7, props.day, props.year) > props.startDateValue) {
+                                props.setYMax(1);
+                                props.setMonth(7);
+                                adjustLastDay(31);
+                            }
+                        } else {
+                            if (props.calcDateValue(7, props.day, props.year) < props.endDateValue) {
+                                props.setYMax(1);
+                                props.setMonth(7);
+                                adjustLastDay(31);
+                            }
+                        }
                     }}
                 />
                 <Button
                     title='8'
                     onPress={() => {
-                        props.setYMax(1);
-                        props.setMonth(8)
-                        adjustLastDay(31);
+                        if (props.setsEndDate) {
+                            if (props.calcDateValue(8, props.day, props.year) > props.startDateValue) {
+                                props.setYMax(1);
+                                props.setMonth(8);
+                                adjustLastDay(31);
+                            }
+                        } else {
+                            if (props.calcDateValue(8, props.day, props.year) < props.endDateValue) {
+                                props.setYMax(1);
+                                props.setMonth(8);
+                                adjustLastDay(31);
+                            }
+                        }
                     }}
                 />
             </View>
@@ -355,33 +440,73 @@ export const MonthPicker = props => {
                 <Button
                     title='9'
                     onPress={() => {
-                        props.setYMax(1);
-                        props.setMonth(9)
-                        adjustLastDay(30);
+                        if (props.setsEndDate) {
+                            if (props.calcDateValue(9, props.day, props.year) > props.startDateValue) {
+                                props.setYMax(1);
+                                props.setMonth(9);
+                                adjustLastDay(30);
+                            }
+                        } else {
+                            if (props.calcDateValue(9, props.day, props.year) < props.endDateValue) {
+                                props.setYMax(1);
+                                props.setMonth(9);
+                                adjustLastDay(30);
+                            }
+                        }
                     }}
                 />
                 <Button
                     title='10'
                     onPress={() => {
-                        props.setYMax(1);
-                        props.setMonth(10)
-                        adjustLastDay(31);
+                        if (props.setsEndDate) {
+                            if (props.calcDateValue(10, props.day, props.year) > props.startDateValue) {
+                                props.setYMax(1);
+                                props.setMonth(10);
+                                adjustLastDay(31);
+                            }
+                        } else {
+                            if (props.calcDateValue(10, props.day, props.year) < props.endDateValue) {
+                                props.setYMax(1);
+                                props.setMonth(10);
+                                adjustLastDay(31);
+                            }
+                        }
                     }}
                 />
                 <Button
                     title='11'
                     onPress={() => {
-                        props.setYMax(1);
-                        props.setMonth(11)
-                        adjustLastDay(30);
+                        if (props.setsEndDate) {
+                            if (props.calcDateValue(11, props.day, props.year) > props.startDateValue) {
+                                props.setYMax(1);
+                                props.setMonth(11);
+                                adjustLastDay(30);
+                            }
+                        } else {
+                            if (props.calcDateValue(11, props.day, props.year) < props.endDateValue) {
+                                props.setYMax(1);
+                                props.setMonth(11);
+                                adjustLastDay(30);
+                            }
+                        }
                     }}
                 />
                 <Button
                     title='12'
                     onPress={() => {
-                        props.setYMax(1);
-                        props.setMonth(12)
-                        adjustLastDay(31);
+                        if (props.setsEndDate) {
+                            if (props.calcDateValue(12, props.day, props.year) > props.startDateValue) {
+                                props.setYMax(1);
+                                props.setMonth(12);
+                                adjustLastDay(31);
+                            }
+                        } else {
+                            if (props.calcDateValue(12, props.day, props.year) < props.endDateValue) {
+                                props.setYMax(1);
+                                props.setMonth(12);
+                                adjustLastDay(31);
+                            }
+                        }
                     }}
                 />
             </View>
