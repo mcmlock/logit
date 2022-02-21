@@ -543,6 +543,9 @@ const ProgressReportScreen = props => {
                                     year={startYear}
                                     setDay={setStartDay}
                                     setYMax={setYMax}
+                                    setsEndDate={false}
+                                    calcDateValue={calcDateValue}
+                                    endDateValue={endDateValue}
                                 />
                             </View>
                         }
@@ -579,6 +582,9 @@ const ProgressReportScreen = props => {
                                     year={endYear}
                                     setDay={setEndDay}
                                     setYMax={setYMax}
+                                    setsEndDate={true}
+                                    calcDateValue={calcDateValue}
+                                    startDateValue={startDateValue}
                                 />
                             </View>
                         }
