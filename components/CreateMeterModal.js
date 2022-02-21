@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Modal, TouchableHighlight, View, Text, TextInput, SafeAreaView, Button, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { DayPicker, MonthPicker } from './DatePickers';
 
 const DismissKeyboard = ({ children }) => (
@@ -20,6 +21,7 @@ const CreateProgressMeter = props => {
     const [month, setMonth] = useState((new Date().getMonth() + 2) > 12 ? 1 : new Date().getMonth() + 2);
     const [day, setDay] = useState((new Date().getDate()));
     const [year, setYear] = useState((new Date().getFullYear() - 2000));
+    const [meterColor, setMeterColor] = useState('#1fbaed');
 
     const resetModal = () => {
         setTitle('');
@@ -27,87 +29,100 @@ const CreateProgressMeter = props => {
         setShowDayPicker(false);
     }
 
+    const ColorPicker = color => {
+        return (
+            <TouchableOpacity
+                style={{ marginHorizontal: 12.0 }}
+                onPress={() => {
+                    setMeterColor(color.color)
+                }}>
+                <View style={meterColor === color.color ? { width: 45.0, height: 45.0, backgroundColor: color.color, borderWidth: 1.4, borderColor: 'white' } : { width: 45.0, height: 45.0, backgroundColor: color.color }} />
+            </TouchableOpacity>
+        );
+    }
 
     return (
-
-
-        
         <Modal
             visible={props.visible}
         >
             <DismissKeyboard>
-            <View style={styles.modal}>
-                <SafeAreaView>
-                    <View style={styles.titleRow}>
-                        <TextInput
-                            placeholder='Title Me'
-                            placeholderTextColor='#444'
-                            value={title}
-                            style={styles.titleTextInput}
-                            onChangeText={value => setTitle(value)}
-                        />
-                    </View>
-                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginVertical: 20.0 }}>
-                        <Text style={styles.hoursLabel}>Hours</Text>
-                        <TextInput
-                            style={styles.hoursTextInput}
-                            placeholder='10000'
-                            placeholderTextColor='#444'
-                            keyboardType='number-pad'
-                            textAlign='center'
-                            onChangeText={value => setGoal(Number(value))}
-                        />
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={styles.labelText}>Due Date</Text>
-                        <View style={{ flexDirection: 'row' }}>
+                <View style={styles.modal}>
+                    <SafeAreaView>
+                        <View style={styles.titleRow}>
                             <TextInput
-                                value={`${month}`}
-                                style={styles.textInput}
-                                onChangeText={value => setMonth(Number(value))}
-                            />
-                            <TextInput
-                                value={`${day}`}
-                                style={styles.textInput}
-                                onChangeText={value => setDay(Number(value))}
-                            />
-                            <TextInput
-                                value={`${year}`}
-                                style={styles.textInput}
-                                onChangeText={value => setYear(Number(value))}
+                                placeholder='Title Me'
+                                placeholderTextColor='#444'
+                                value={title}
+                                style={styles.titleTextInput}
+                                onChangeText={value => setTitle(value)}
                             />
                         </View>
-                    </View>
-                    <View style={styles.btnView}>
-                        <Button
-                            title="Create"
-                            onPress={() => {
-                                const barProperties = {
-                                    title: title,
-                                    progressMade: progressMade,
-                                    goal: goal,
-                                    month: month,
-                                    day: day,
-                                    year: year
-                                };
-                                props.createProgressMeter(barProperties);
-                                props.toggleModal();
-                                resetModal();
-                            }}
-                        />
-                        <Button
-                            title="Discard"
-                            onPress={() => {
-                                props.toggleModal();
-                                resetModal();
-                            }}
-                        />
-                    </View>
-                </SafeAreaView>
-            </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginVertical: 20.0 }}>
+                            <Text style={styles.hoursLabel}>Hours</Text>
+                            <TextInput
+                                style={styles.hoursTextInput}
+                                placeholder='10000'
+                                placeholderTextColor='#444'
+                                keyboardType='number-pad'
+                                textAlign='center'
+                                onChangeText={value => setGoal(Number(value))}
+                            />
+                        </View>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Text style={styles.labelText}>Due Date</Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <TextInput
+                                    value={`${month}`}
+                                    style={styles.textInput}
+                                    onChangeText={value => setMonth(Number(value))}
+                                />
+                                <TextInput
+                                    value={`${day}`}
+                                    style={styles.textInput}
+                                    onChangeText={value => setDay(Number(value))}
+                                />
+                                <TextInput
+                                    value={`${year}`}
+                                    style={styles.textInput}
+                                    onChangeText={value => setYear(Number(value))}
+                                />
+                            </View>
+                        </View>
+                        <View style={styles.colorSelect}>
+                            <View style={{ flexDirection: 'row' }}>
+                                <ColorPicker color='#1fbaed' />
+                                <ColorPicker color='#901fed' />
+                            </View>
+                        </View>
+                        <View style={styles.btnView}>
+                            <Button
+                                title="Create"
+                                onPress={() => {
+                                    const barProperties = {
+                                        title: title,
+                                        progressMade: progressMade,
+                                        goal: goal,
+                                        month: month,
+                                        day: day,
+                                        year: year
+                                    };
+                                    props.createProgressMeter(barProperties);
+                                    props.toggleModal();
+                                    resetModal();
+                                }}
+                            />
+                            <Button
+                                title="Discard"
+                                onPress={() => {
+                                    props.toggleModal();
+                                    resetModal();
+                                }}
+                            />
+                        </View>
+                    </SafeAreaView>
+                </View>
             </DismissKeyboard>
         </Modal>
-
     );
 }
 
@@ -147,6 +162,9 @@ const styles = StyleSheet.create({
     hoursLabel: {
         color: 'white',
         fontSize: 25.0
+    },
+    colorSelect: {
+        marginTop: 14.0
     }
 });
 
