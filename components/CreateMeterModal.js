@@ -90,8 +90,16 @@ const CreateProgressMeter = props => {
                         </View>
                         <View style={styles.colorSelect}>
                             <View style={{ flexDirection: 'row' }}>
-                                <ColorPicker color='#1fbaed' />
+                                <ColorPicker color='#1f4fed' />
                                 <ColorPicker color='#901fed' />
+                                <ColorPicker color='#1fedce' />
+                                <ColorPicker color='#1fbaed' />
+                            </View>
+                            <View style={{ flexDirection: 'row' }}>
+                                <ColorPicker color='#ed1f37' />
+                                <ColorPicker color='#ed9e1f' />
+                                <ColorPicker color='#eddf1f' />
+                                <ColorPicker color='#ed1fce' />
                             </View>
                         </View>
                         <View style={styles.btnView}>
@@ -104,7 +112,8 @@ const CreateProgressMeter = props => {
                                         goal: goal,
                                         month: month,
                                         day: day,
-                                        year: year
+                                        year: year,
+                                        color: meterColor
                                     };
                                     props.createProgressMeter(barProperties);
                                     props.toggleModal();

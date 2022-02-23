@@ -13,9 +13,11 @@ const ProgressMeter = props => {
         hoursOutput += logs[i].hoursRecorded + (logs[i].minutesRecorded / 60);
     }
     let totalHours = hoursOutput.toFixed(2);
-    let progress = (totalHours / props.meter.goal) * (width - 48) * .92 - 4;
+    let progress;
     if (progress > props.meter.goal) {
         progress = (width - 48) * .92 - 4
+    } else {
+        progress = (totalHours / props.meter.goal) * (width - 48) * .92 - 4;
     }
 
     const [timeLogOpen, setTimeLogOpen] = useState(false);
@@ -35,7 +37,7 @@ const ProgressMeter = props => {
                 />
 
                 <View style={styles.meter}>
-                    <View style={{ width: progress, height: 32, backgroundColor: '#1fbaed' }} />
+                    <View style={{ width: progress, height: 32, backgroundColor: props.meter.color }} />
                     <Text style={styles.progress}>{totalHours} / {props.meter.goal}</Text>
                 </View>
                 <View style={styles.bottomRow}>

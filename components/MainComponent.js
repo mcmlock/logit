@@ -28,7 +28,8 @@ class Main extends Component {
                     goal: 100,
                     month: 4,
                     day: 4,
-                    year: 22
+                    year: 22,
+                    color: '#1fbaed'
                 }
             ],
             logs: [
@@ -168,11 +169,11 @@ class Main extends Component {
             const progressMeter = {
                 id: this.state.idTracker,
                 title: barProperties.title,
-                progressMade: barProperties.progressMade,
                 goal: barProperties.goal,
                 month: barProperties.month,
                 day: barProperties.day,
-                year: barProperties.year
+                year: barProperties.year,
+                color: barProperties.color
             };
             this.state.progressMeters.push(progressMeter);
             this.setState({ idTracker: (this.state.idTracker + 1), progressMeter: this.state.progressMeters });

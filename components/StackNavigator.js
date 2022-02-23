@@ -24,6 +24,7 @@ const StackNavigator = props => {
             dueDay={props.progressMeters.filter(meter => meter.id === props.selectedMeter)[0].day}
             dueMonth={props.progressMeters.filter(meter => meter.id === props.selectedMeter)[0].month}
             dueYear={props.progressMeters.filter(meter => meter.id === props.selectedMeter)[0].year}
+            color={props.progressMeters.filter(meter => meter.id === props.selectedMeter)[0].color}
             selectedMeter={props.selectedMeter}
             logs={props.logs}
             deleteProgressMeter={props.deleteProgressMeter}

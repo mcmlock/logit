@@ -38,8 +38,9 @@ const HomeScreen = props => {
 
             
             <SafeAreaView>
-                <ScrollView style={{ height: '100%', marginBottom: 70.0 }}>
+                <ScrollView style={{ height: '100%' }}>
                     {progressMeters}
+                    <View style={{ height: 40}} />
                 </ScrollView>
                 <View style={styles.createBtn}>
                     <Icon
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
     },
     createBtn: {
         position: 'absolute',
-        bottom: 130.0,
+        bottom: 35.0,
         right: 40.0,
         zIndex: 1
     }

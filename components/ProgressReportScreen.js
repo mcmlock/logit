@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { Dimensions, StyleSheet, SafeAreaView, View, Text, Button, TouchableWithoutFeedback, TouchableOpacity, ScrollView } from 'react-native';
+import { Dimensions, StyleSheet, SafeAreaView, View, Text, Alert, TouchableOpacity, ScrollView } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { DayPicker, MonthPicker, YearInput } from './DatePickers';
 
@@ -405,7 +405,7 @@ const ProgressReportScreen = props => {
                             </View>
                         </View>
                         <View style={styles.graphContainer}>
-                            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} bounces={false} style={{ borderRadius: 8, backgroundColor: '#1fbaed' }} contentContainerStyle={styles.graph}>
+                            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} bounces={false} style={{ borderRadius: 8, backgroundColor: props.color }} contentContainerStyle={styles.graph}>
                                 <View style={{ marginHorizontal: -20 }}>
                                     <LineChart
                                         fromZero={true}
@@ -431,8 +431,8 @@ const ProgressReportScreen = props => {
                                         width={(values.length * 50)}
                                         height={height * .25}
                                         chartConfig={{
-                                            backgroundGradientFrom: "#1fbaed",
-                                            backgroundGradientTo: "#1fbaed",
+                                            backgroundGradientFrom: props.color,
+                                            backgroundGradientTo: props.color,
                                             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
 
                                             propsForDots: {
@@ -615,8 +615,23 @@ const ProgressReportScreen = props => {
                 <View style={styles.buttonsView}>
                     <TouchableOpacity
                         onPress={() => {
-                            props.deleteProgressMeter(props.selectedMeter);
-                            navigation.navigate('Home');
+                            Alert.alert(
+                                "Confirm Deletion",
+                                "This cannot be undone",
+                                [
+                                    {
+                                        text: "Cancel",
+                                        style: "cancel"
+                                    },
+                                    {
+                                        text: "OK",
+                                        onPress: () => {
+                                            navigation.navigate('Home');
+                                            props.deleteProgressMeter(props.selectedMeter);
+                                        }
+                                    }
+                                ]
+                            );
                         }}
                     >
                         <Text style={styles.buttonText}>Delete</Text>
