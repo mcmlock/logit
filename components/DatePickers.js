@@ -46,7 +46,7 @@ export const DayPicker = props => {
     }
 
     return (
-        <View>
+        <View style={props.setsEndDate ? styles.endDatePicker : styles.startDatePicker}>
             <View style={styles.dayRow}>
                 <Button
                     title='01'
@@ -561,7 +561,7 @@ export const MonthPicker = props => {
     }
 
     return (
-        <View style={styles.monthSelectView}>
+        <View style={props.setsEndDate ? styles.endDatePicker : styles.startDatePicker}>
             <View style={styles.monthRow}>
                 <Button
                     title='1'
@@ -819,5 +819,19 @@ const styles = StyleSheet.create({
     },
     dayRow: {
         flexDirection: 'row'
+    },
+    endDatePicker: {
+        borderColor: 'white', 
+        borderRightWidth: 2,
+        marginTop: 5.0,
+        marginBottom: 20.0,
+        paddingHorizontal: 30.0
+    },
+    startDatePicker: {
+        borderColor: 'white', 
+        borderLeftWidth: 2,
+        marginTop: 5.0,
+        marginBottom: 20.0,
+        paddingHorizontal: 30.0
     }
 })

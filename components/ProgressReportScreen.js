@@ -518,7 +518,7 @@ const ProgressReportScreen = props => {
                     </View>
                     <View>
                         {startMonthPicker &&
-                            <View style={{ marginTop: -10.0, marginBottom: 10.0 }}>
+                            <View>
                                 <MonthPicker
                                     visible={startMonthPicker}
                                     setVisible={showStartMonthPicker}
@@ -535,7 +535,7 @@ const ProgressReportScreen = props => {
                             </View>
                         }
                         {startDayPicker &&
-                            <View style={{ marginTop: -10.0, marginBottom: 10.0 }}>
+                            <View>
                                 <DayPicker
                                     visible={startDayPicker}
                                     setVisible={showStartDayPicker}
@@ -557,7 +557,7 @@ const ProgressReportScreen = props => {
                             />
                         }
                         {endMonthPicker &&
-                            <View style={{ marginTop: -10.0, marginBottom: 10.0 }}>
+                            <View>
                                 <MonthPicker
                                     visible={endMonthPicker}
                                     setVisible={showEndMonthPicker}
@@ -574,7 +574,7 @@ const ProgressReportScreen = props => {
                             </View>
                         }
                         {endDayPicker &&
-                            <View style={{ marginTop: -10.0, marginBottom: 10.0 }}>
+                            <View>
                                 <DayPicker
                                     visible={endDayPicker}
                                     setVisible={showEndDayPicker}
