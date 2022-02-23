@@ -613,6 +613,11 @@ const ProgressReportScreen = props => {
                     </View>
                 </ScrollView>
                 <View style={styles.buttonsView}>
+                <TouchableOpacity
+                        onPress={() => navigation.navigate('Home')}
+                    >
+                        <Text style={styles.buttonText}>Home</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => {
                             Alert.alert(
@@ -635,11 +640,6 @@ const ProgressReportScreen = props => {
                         }}
                     >
                         <Text style={styles.buttonText}>Delete</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate('Home')}
-                    >
-                        <Text style={styles.buttonText}>Home</Text>
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
@@ -675,7 +675,6 @@ const styles = StyleSheet.create({
         height: (height * .25)
     },
     graph: {
-
         flexDirection: 'row',
         alignItems: 'flex-end'
     },

@@ -81,44 +81,46 @@ const LogHistoryScreen = props => {
     });
 
     return (
-        <SafeAreaView style={styles.container}>
-            <ScrollView style={{marginBottom: 80.0, width: '100%'}}>
-                {meterLogs}
-            </ScrollView>
-            <View style={styles.buttonsView}>
-                <TouchableOpacity 
-                style={styles.button}
-                onPress={async () => {
-                    var data = logs;
-                    var ws = XLSX.utils.json_to_sheet(data);
-                    var wb = XLSX.utils.book_new();
-                    XLSX.utils.book_append_sheet(wb, ws, "Logs");
-                    const wbout = XLSX.write(wb, {
-                      type: 'base64',
-                      bookType: "xlsx"
-                    });
-                    const uri = FileSystem.cacheDirectory + 'logs.xlsx';
-                    console.log(`Writing to ${JSON.stringify(uri)} with text: ${wbout}`);
-                    await FileSystem.writeAsStringAsync(uri, wbout, {
-                      encoding: FileSystem.EncodingType.Base64
-                    });
-                    
-                    await Sharing.shareAsync(uri, {
-                      mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                      dialogTitle: 'Log data',
-                      UTI: 'com.microsoft.excel.xlsx'
-                    });
-                }}>
-                    <Text style={styles.btnText}>Export</Text>
-                </TouchableOpacity>
-                <TouchableOpacity 
-                onPress={() => {
-                    navigation.navigate('Progress Report')
-                }}>
-                    <Text style={styles.btnText}>Back</Text>
-                </TouchableOpacity>
-            </View>
-        </SafeAreaView>
+        <View style={styles.container}>
+            <SafeAreaView style={{width: '100%'}}>
+                <ScrollView style={{ marginBottom: 80.0, width: '100%' }}>
+                    {meterLogs}
+                </ScrollView>
+                <View style={styles.buttonsView}>
+                <TouchableOpacity
+                        onPress={() => {
+                            navigation.navigate('Progress Report')
+                        }}>
+                        <Text style={styles.btnText}>Back</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={async () => {
+                            var data = logs;
+                            var ws = XLSX.utils.json_to_sheet(data);
+                            var wb = XLSX.utils.book_new();
+                            XLSX.utils.book_append_sheet(wb, ws, "Logs");
+                            const wbout = XLSX.write(wb, {
+                                type: 'base64',
+                                bookType: "xlsx"
+                            });
+                            const uri = FileSystem.cacheDirectory + 'logs.xlsx';
+                            console.log(`Writing to ${JSON.stringify(uri)} with text: ${wbout}`);
+                            await FileSystem.writeAsStringAsync(uri, wbout, {
+                                encoding: FileSystem.EncodingType.Base64
+                            });
+
+                            await Sharing.shareAsync(uri, {
+                                mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                                dialogTitle: 'Log data',
+                                UTI: 'com.microsoft.excel.xlsx'
+                            });
+                        }}>
+                        <Text style={styles.btnText}>Export</Text>
+                    </TouchableOpacity>
+                </View>
+            </SafeAreaView>
+        </View>
 
     );
 }
@@ -128,16 +130,19 @@ export default LogHistoryScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'flex-start'
+        alignItems: 'flex-start',
+        backgroundColor: '#2b2b2b',
     },
     logView: {
         marginHorizontal: 40.0,
         marginVertical: 20
     },
     logText: {
-        fontSize: 22.0
+        fontSize: 22.0,
+        color: 'white'
     },
     buttonsView: {
+        flexDirection: 'row',
         alignSelf: 'center',
         position: 'absolute',
         bottom: 30.0,
@@ -145,6 +150,8 @@ const styles = StyleSheet.create({
     btnText: {
         fontSize: 20.0,
         textAlign: 'center',
-        marginBottom: 10.0
+        marginHorizontal: 25.0,
+        marginBottom: 10.0,
+        color: 'white'
     }
 })

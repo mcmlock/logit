@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Modal, TouchableHighlight, View, Text, TextInput, SafeAreaView, Button, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { DayPicker, MonthPicker } from './DatePickers';
+import { DayPicker, MonthPicker, YearInput } from './DatePickers';
 
 const DismissKeyboard = ({ children }) => (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -63,8 +63,10 @@ const calcDateValue = (month, day, year) => {
 
 const CreateProgressMeter = props => {
 
-    const [showMonthPicker, setShowMonthPicker] = useState(false);
-    const [showDayPicker, setShowDayPicker] = useState(false);
+    const [monthPicker, showMonthPicker] = useState(false);
+    const [dayPicker, showDayPicker] = useState(false);
+    const [yearInput, showYearInput] = useState(false);
+    const [yMax, setYMax] = useState(1);
 
     const currentMonth = new Date().getMonth() + 1;
     const currentDay = new Date().getDate();
@@ -79,8 +81,8 @@ const CreateProgressMeter = props => {
 
     const resetModal = () => {
         setTitle('');
-        setShowMonthPicker(false);
-        setShowDayPicker(false);
+        showMonthPicker(false);
+        showDayPicker(false);
     }
 
     const ColorPicker = color => {
@@ -122,24 +124,79 @@ const CreateProgressMeter = props => {
                                 onChangeText={value => setGoal(Number(value))}
                             />
                         </View>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Text style={styles.labelText}>Due Date</Text>
-                            <View style={{ flexDirection: 'row' }}>
-                                <TextInput
-                                    value={`${month}`}
-                                    style={styles.textInput}
-                                    onChangeText={value => setMonth(Number(value))}
-                                />
-                                <TextInput
-                                    value={`${day}`}
-                                    style={styles.textInput}
-                                    onChangeText={value => setDay(Number(value))}
-                                />
-                                <TextInput
-                                    value={`${year}`}
-                                    style={styles.textInput}
-                                    onChangeText={value => setYear(Number(value))}
-                                />
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: 20.0 }}>
+                            <Text style={styles.dateLabel}>Due Date</Text>
+                            <View style={{ marginLeft: 10.0, flexDirection: 'row' }}>
+                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <TouchableOpacity onPress={() => {
+                                        showMonthPicker(!monthPicker)
+                                        showDayPicker(false);
+                                        showYearInput(false);
+                                    }}>
+                                        <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0, borderColor: 'white' }}>
+                                            <Text style={{ fontSize: 18.0, color: 'white' }}>{month}</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <Text style={{ fontSize: 20.0, color: 'white' }}>/</Text>
+                                    <TouchableOpacity onPress={() => {
+                                        showMonthPicker(false)
+                                        showDayPicker(!dayPicker);
+                                        showYearInput(false);
+                                    }}>
+                                        <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0, borderColor: 'white' }}>
+                                            <Text style={{ fontSize: 18.0, color: 'white' }}>{day}</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <Text style={{ fontSize: 20.0, color: 'white' }}>/</Text>
+                                    <TouchableOpacity>
+                                        <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0, borderColor: 'white' }}>
+                                            <Text style={{ fontSize: 18.0, color: 'white' }}>{year}</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
+                        <View>
+                        <View style={{ alignItems: 'center' }}>
+                                {monthPicker &&
+                                    <View style={{ marginBottom: 10.0 }}>
+                                        <MonthPicker
+                                            visible={monthPicker}
+                                            setVisible={showMonthPicker}
+                                            month={month}
+                                            setMonth={setMonth}
+                                            day={day}
+                                            year={year}
+                                            setDay={setDay}
+                                            setsEndDate={true}
+                                            calcDateValue={calcDateValue}
+                                            startDateValue={calcDateValue(currentMonth, currentDay, currentYear)}
+                                            setYMax={setYMax}
+                                        />
+                                    </View>
+                                }
+                                {dayPicker &&
+                                    <View style={{ marginBottom: 10.0 }}>
+                                        <DayPicker
+                                            visible={dayPicker}
+                                            setVisible={showDayPicker}
+                                            month={month}
+                                            year={year}
+                                            setDay={setDay}
+                                            setsEndDate={true}
+                                            calcDateValue={calcDateValue}
+                                            startDateValue={calcDateValue(currentMonth, currentDay, currentYear)}
+                                            setYMax={setYMax}
+                                        />
+                                    </View>
+                                }
+                                {yearInput &&
+                                    <YearInput
+                                        visible={yearInput}
+                                        setVisible={showYearInput}
+                                        setYMax={setYMax}
+                                    />
+                                }
                             </View>
                         </View>
                         <View style={styles.colorSelect}>
@@ -163,7 +220,7 @@ const CreateProgressMeter = props => {
                                     props.toggleModal();
                                     resetModal();
                                 }}
-                                style={{marginHorizontal: 10.0}}
+                                style={{ marginHorizontal: 10.0 }}
                             >
                                 <View style={{ width: 80.0, height: 30, alignItems: 'center' }}>
                                     <Text style={{ color: 'white', fontSize: 24.0 }}>Discard</Text>
@@ -191,7 +248,7 @@ const CreateProgressMeter = props => {
                                         resetModal();
                                     }
                                 }}
-                                style={{marginHorizontal: 10.0}}
+                                style={{ marginHorizontal: 10.0 }}
                             >
                                 <View style={{ width: 80.0, height: 30, alignItems: 'center' }}>
                                     <Text style={{ color: 'white', fontSize: 24.0 }}>Create</Text>
@@ -242,6 +299,10 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 25.0
     },
+    dateLabel: {
+        color: 'white',
+        fontSize: 22.0
+    },
     colorSelect: {
         marginTop: 14.0,
         alignItems: 'center'
@@ -249,7 +310,7 @@ const styles = StyleSheet.create({
     btnView: {
         flexDirection: 'row',
         justifyContent: 'center',
-        marginTop: 30.0
+        marginTop: 60.0
     }
 });
 
