@@ -9,18 +9,72 @@ const DismissKeyboard = ({ children }) => (
     </TouchableWithoutFeedback>
 );
 
+const calcDateValue = (month, day, year) => {
+    let monthValue;
+    switch (month) {
+        case 2:
+            monthValue = 31 * 1440;
+            break;
+        case 3:
+            monthValue = 59 * 1440;
+            break;
+        case 4:
+            monthValue = 90 * 1440;
+            break;
+        case 5:
+            monthValue = 120 * 1440;
+            break;
+        case 6:
+            monthValue = 151 * 1440;
+            break;
+        case 7:
+            monthValue = 181 * 1440;
+            break;
+        case 8:
+            monthValue = 212 * 1440;
+            break;
+        case 9:
+            monthValue = 242 * 1440;
+            break;
+        case 10:
+            monthValue = 273 * 1440;
+            break;
+        case 11:
+            monthValue = 303 * 1440;
+            break;
+        case 12:
+            monthValue = 334 * 1440;
+            break;
+        default:
+            monthValue = 0;
+            break;
+    }
+    let dayValue;
+    if (day > 1) {
+        dayValue = (day - 1) * 1440;
+    } else {
+        dayValue = 0;
+    }
+    let yearValue = year * 1440 * 365;
+    const leapYears = Math.floor(year / 4);
+    yearValue += leapYears * 1440;
+    return monthValue + dayValue + yearValue;
+}
+
 const CreateProgressMeter = props => {
 
     const [showMonthPicker, setShowMonthPicker] = useState(false);
     const [showDayPicker, setShowDayPicker] = useState(false);
 
+    const currentMonth = new Date().getMonth() + 1;
+    const currentDay = new Date().getDate();
+    const currentYear = new Date().getFullYear() - 2000;
+
     const [title, setTitle] = useState('');
-    const [units, setUnits] = useState('hours');
-    const [progressMade, setProgressMade] = useState(0);
     const [goal, setGoal] = useState(1);
-    const [month, setMonth] = useState((new Date().getMonth() + 2) > 12 ? 1 : new Date().getMonth() + 2);
-    const [day, setDay] = useState((new Date().getDate()));
-    const [year, setYear] = useState((new Date().getFullYear() - 2000));
+    const [month, setMonth] = useState(currentMonth + 1 > 12 ? 1 : currentMonth + 1);
+    const [day, setDay] = useState(currentDay);
+    const [year, setYear] = useState(currentMonth === 12 ? currentYear + 1 : currentYear);
     const [meterColor, setMeterColor] = useState('#1fbaed');
 
     const resetModal = () => {
@@ -90,12 +144,13 @@ const CreateProgressMeter = props => {
                         </View>
                         <View style={styles.colorSelect}>
                             <View style={{ flexDirection: 'row' }}>
-                                <ColorPicker color='#1f4fed' />
-                                <ColorPicker color='#901fed' />
-                                <ColorPicker color='#1fedce' />
                                 <ColorPicker color='#1fbaed' />
+                                <ColorPicker color='#1fedce' />
+                                <ColorPicker color='#901fed' />
+                                <ColorPicker color='#1f4fed' />
+
                             </View>
-                            <View style={{ flexDirection: 'row' }}>
+                            <View style={{ flexDirection: 'row', marginTop: 16.0 }}>
                                 <ColorPicker color='#ed1f37' />
                                 <ColorPicker color='#ed9e1f' />
                                 <ColorPicker color='#eddf1f' />
@@ -103,30 +158,45 @@ const CreateProgressMeter = props => {
                             </View>
                         </View>
                         <View style={styles.btnView}>
-                            <Button
-                                title="Create"
+                            <TouchableOpacity
+                                onPress={() => {
+                                    props.toggleModal();
+                                    resetModal();
+                                }}
+                                style={{marginHorizontal: 10.0}}
+                            >
+                                <View style={{ width: 80.0, height: 30, alignItems: 'center' }}>
+                                    <Text style={{ color: 'white', fontSize: 24.0 }}>Discard</Text>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity
                                 onPress={() => {
                                     const barProperties = {
                                         title: title,
-                                        progressMade: progressMade,
                                         goal: goal,
                                         month: month,
                                         day: day,
                                         year: year,
                                         color: meterColor
                                     };
-                                    props.createProgressMeter(barProperties);
-                                    props.toggleModal();
-                                    resetModal();
+
+                                    let dueDateValid = false;
+                                    if (calcDateValue(month, day, year) > calcDateValue(currentMonth, currentDay, currentYear)) {
+                                        dueDateValid = true;
+                                    }
+
+                                    if (barProperties.title !== '' && goal !== '' && dueDateValid) {
+                                        props.createProgressMeter(barProperties);
+                                        props.toggleModal();
+                                        resetModal();
+                                    }
                                 }}
-                            />
-                            <Button
-                                title="Discard"
-                                onPress={() => {
-                                    props.toggleModal();
-                                    resetModal();
-                                }}
-                            />
+                                style={{marginHorizontal: 10.0}}
+                            >
+                                <View style={{ width: 80.0, height: 30, alignItems: 'center' }}>
+                                    <Text style={{ color: 'white', fontSize: 24.0 }}>Create</Text>
+                                </View>
+                            </TouchableOpacity>
                         </View>
                     </SafeAreaView>
                 </View>
@@ -173,7 +243,13 @@ const styles = StyleSheet.create({
         fontSize: 25.0
     },
     colorSelect: {
-        marginTop: 14.0
+        marginTop: 14.0,
+        alignItems: 'center'
+    },
+    btnView: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginTop: 30.0
     }
 });
 

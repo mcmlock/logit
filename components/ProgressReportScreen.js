@@ -698,6 +698,7 @@ const styles = StyleSheet.create({
         color: 'white'
     },
     buttonsView: {
+        flexDirection: 'row',
         alignSelf: 'center',
         position: 'absolute',
         bottom: 30.0,
@@ -705,7 +706,8 @@ const styles = StyleSheet.create({
     buttonText: {
         fontSize: 20.0,
         textAlign: 'center',
-        marginBottom: 10.0,
+        marginHorizontal: 25.0,
+        marginBottom: 20.0,
         color: 'white'
     }
 });
