@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from 'react';
+import React, { Component } from 'react';
 import StackNavigator from './StackNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -144,6 +144,7 @@ class Main extends Component {
                     dateValue: 11636640
                 }
             ],
+            order: []
         };
     };
 

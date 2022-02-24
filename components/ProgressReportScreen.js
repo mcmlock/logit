@@ -1,185 +1,18 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Dimensions, StyleSheet, SafeAreaView, View, Text, Alert, TouchableOpacity, ScrollView } from 'react-native';
-import { LineChart } from 'react-native-chart-kit';
-import { DayPicker, MonthPicker, YearInput } from './DatePickers';
+import { LineGraph } from './LineGraph';
+import { SelectedPointInfo } from './SelectedPointInfoComponent';
+import { DayPicker, MonthPicker, YearInput, DateButton } from './DatePickers';
+import { calcDueDateValue, calcDateValue } from '../resources/dateFunctions';
 
 const { width, height } = Dimensions.get('window');
-
-const calcDateValue = (month, day, year) => {
-    let monthValue;
-    switch (month) {
-        case 2:
-            monthValue = 31 * 1440;
-            break;
-        case 3:
-            monthValue = 59 * 1440;
-            break;
-        case 4:
-            monthValue = 90 * 1440;
-            break;
-        case 5:
-            monthValue = 120 * 1440;
-            break;
-        case 6:
-            monthValue = 151 * 1440;
-            break;
-        case 7:
-            monthValue = 181 * 1440;
-            break;
-        case 8:
-            monthValue = 212 * 1440;
-            break;
-        case 9:
-            monthValue = 242 * 1440;
-            break;
-        case 10:
-            monthValue = 273 * 1440;
-            break;
-        case 11:
-            monthValue = 303 * 1440;
-            break;
-        case 12:
-            monthValue = 334 * 1440;
-            break;
-        default:
-            monthValue = 0;
-            break;
-    }
-    let dayValue;
-    if (day > 1) {
-        dayValue = (day - 1) * 1440;
-    } else {
-        dayValue = 0;
-    }
-    let yearValue = year * 1440 * 365;
-    const leapYears = Math.floor(year / 4);
-    yearValue += leapYears * 1440;
-    return monthValue + dayValue + yearValue;
-}
-
-const SelectedPointInfo = props => {
-    let selectedMonth;
-    let selectedDay;
-    let minutesLeft = props.point;
-    const year = Math.floor(minutesLeft / (1440 * 365));
-    minutesLeft -= (year * 1440 * 365);
-    const leapYears = Math.floor(year / 4);
-    minutesLeft -= leapYears * 1440;
-    if (year / 4 === 0) {
-        if (minutesLeft > 482400) {
-            selectedMonth = 'Dec';
-            minutesLeft -= 482400;
-        } else if (minutesLeft > 439200) {
-            selectedMonth = 'Nov';
-            minutesLeft -= 439200;
-        } else if (minutesLeft > 394560) {
-            selectedMonth = 'Oct';
-            minutesLeft -= 394560;
-        } else if (minutesLeft > 351360) {
-            selectedMonth = 'Sep';
-            minutesLeft -= 351360;
-        } else if (minutesLeft > 306720) {
-            selectedMonth = 'Aug';
-            minutesLeft -= 306720;
-        } else if (minutesLeft > 262080) {
-            selectedMonth = 'July';
-            minutesLeft -= 262080;
-        } else if (minutesLeft > 218880) {
-            selectedMonth = 'June';
-            minutesLeft -= 218880;
-        } else if (minutesLeft > 174240) {
-            selectedMonth = 'May';
-            minutesLeft -= 174240;
-        } else if (minutesLeft > 131040) {
-            selectedMonth = 'Apr';
-            minutesLeft -= 131040;
-        } else if (minutesLeft > 86400) {
-            selectedMonth = 'Mar';
-            minutesLeft -= 86400;
-        } else if (minutesLeft > 44640) {
-            selectedMonth = 'Feb';
-            minutesLeft -= 44640
-        } else {
-            selectedMonth = 'Jan';
-        }
-    } else {
-        if (minutesLeft > 480960) {
-            selectedMonth = 'Dec';
-            minutesLeft -= 480960;
-        } else if (minutesLeft > 437760) {
-            selectedMonth = 'Nov';
-            minutesLeft -= 437760;
-        } else if (minutesLeft > 393120) {
-            selectedMonth = 'Oct';
-            minutesLeft -= 393120;
-        } else if (minutesLeft > 349920) {
-            selectedMonth = 'Sep';
-            minutesLeft -= 349920;
-        } else if (minutesLeft > 305280) {
-            selectedMonth = 'Aug';
-            minutesLeft -= 305280;
-        } else if (minutesLeft > 260640) {
-            selectedMonth = 'July';
-            minutesLeft -= 260640;
-        } else if (minutesLeft > 217440) {
-            selectedMonth = 'June';
-            minutesLeft -= 217440;
-        } else if (minutesLeft > 172800) {
-            selectedMonth = 'May';
-            minutesLeft -= 172800;
-        } else if (minutesLeft > 129600) {
-            selectedMonth = 'Apr';
-            minutesLeft -= 129600;
-        } else if (minutesLeft > 84960) {
-            selectedMonth = 'Mar';
-            minutesLeft -= 84960;
-        } else if (minutesLeft > 44640) {
-            selectedMonth = 'Feb';
-            minutesLeft -= 44640
-        } else {
-            selectedMonth = 'Jan';
-        }
-    }
-    selectedDay = minutesLeft / 1440;
-
-    const dayLogs = props.logs.filter(log => log.dateValue === props.point - 1440);
-    const daysContribution = (dayLogs.reduce((prevVal, currentVal) => prevVal + currentVal.hoursRecorded + (currentVal.minutesRecorded / 60), 0)).toFixed(2);
-    const hours = Math.floor(daysContribution);
-    const minutesDec = daysContribution - hours;
-    const minutes = Math.round(minutesDec * 60);
-
-    switch (selectedDay) {
-        case 1:
-        case 21:
-        case 31:
-            selectedDay = selectedDay + 'st';
-            break;
-        case 2:
-        case 22:
-            selectedDay = selectedDay + 'nd';
-            break;
-        case 3:
-        case 23:
-            selectedDay = selectedDay + 'rd';
-            break;
-        default:
-            selectedDay = selectedDay + 'th';
-            break;
-    }
-
-    return (
-        <View style={{ alignSelf: 'center', marginBottom: 10.0 }}>
-            <Text style={{ fontSize: 22.0, letterSpacing: 1.2, color: 'white' }}>{selectedMonth} {selectedDay}, 20{year}: {hours} H {minutes} M</Text>
-        </View>
-    );
-}
 
 // Calculating current day value
 let month = new Date().getMonth() + 1;
 let day = new Date().getDate();
 let year = new Date().getFullYear() - 2000;
-let dateValue = calcDateValue(month, day, year);
+const dateValue = calcDateValue(month, day, year);
 
 // Finding the date from two weeks ago
 let sDay = day - 13;
@@ -221,7 +54,6 @@ const ProgressReportScreen = props => {
 
     const [yMax, setYMax] = useState(1);
     const [point, selectPoint] = useState(dateValue);
-    const [logs, setLogs] = useState(dateValue);
     const [startMonth, setStartMonth] = useState(sMonth);
     const [startDay, setStartDay] = useState(sDay);
     const [startYear, setStartYear] = useState(sYear);
@@ -311,60 +143,11 @@ const ProgressReportScreen = props => {
     const goalString = `${props.goal} Hours by ${props.dueMonth}/${props.dueDay}/${props.dueYear}`;
 
     // Calculating the daily target
-    let dueMonthValue;
-    switch (props.dueMonth) {
-        case 2:
-            dueMonthValue = 31 * 1440;
-            break;
-        case 3:
-            dueMonthValue = 59 * 1440;
-            break;
-        case 4:
-            dueMonthValue = 90 * 1440;
-            break;
-        case 5:
-            dueMonthValue = 120 * 1440;
-            break;
-        case 6:
-            dueMonthValue = 151 * 1440;
-            break;
-        case 7:
-            dueMonthValue = 181 * 1440;
-            break;
-        case 8:
-            dueMonthValue = 212 * 1440;
-            break;
-        case 9:
-            dueMonthValue = 242 * 1440;
-            break;
-        case 10:
-            dueMonthValue = 273 * 1440;
-            break;
-        case 11:
-            dueMonthValue = 303 * 1440;
-            break;
-        case 12:
-            dueMonthValue = 334 * 1440;
-            break;
-        default:
-            dueMonthValue = 0;
-            break;
-    }
-    let dueDayValue;
-    if (props.dueDay > 1) {
-        dueDayValue = (props.dueDay - 1) * 1440;
-    } else {
-        dueDayValue = 0;
-    }
-    let dueYearValue = props.dueYear * 1440 * 365;
-    const dueLeapYears = Math.floor(props.dueYear / 4);
-    dueYearValue += dueLeapYears * 1440;
-    let dueDateValue = dueMonthValue + dueDayValue + dueYearValue;
-    const daysLeft = (dueDateValue - dateValue) / 1440;
+    const daysLeft = (calcDueDateValue(props.dueMonth, props.dueDay, props.dueYear) - dateValue) / 1440;
     const dailyTargetDec = (props.goal - totalTimeLogged) / daysLeft;
     let dailyTargetHr = Math.floor(dailyTargetDec);
     const minutesDec = dailyTargetDec - dailyTargetHr;
-    let dailyTargetMin = Math.round(minutesDec * 60);
+    let dailyTargetMin = Math.ceil(minutesDec * 60);
     if (dailyTargetMin % 60 === 0) {
         dailyTargetHr += 1;
         dailyTargetMin = 0;
@@ -407,46 +190,7 @@ const ProgressReportScreen = props => {
                         <View style={styles.graphContainer}>
                             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} bounces={false} style={{ borderRadius: 8, backgroundColor: props.color }} contentContainerStyle={styles.graph}>
                                 <View style={{ marginHorizontal: -20 }}>
-                                    <LineChart
-                                        fromZero={true}
-                                        onDataPointClick={value => {
-                                            selectPoint(value.index * 1440 + startDateValue)
-
-                                        }}
-                                        segments={1}
-                                        withInnerLines={false}
-                                        withOuterLines={false}
-                                        withHorizontalLines={false}
-                                        withVerticalLines={false}
-                                        formatYLabel={() => ''}
-                                        hidePointsAtIndex={pointsToHide}
-
-                                        data={{
-                                            datasets: [
-                                                {
-                                                    data: values
-                                                }
-                                            ]
-                                        }}
-                                        width={(values.length * 50)}
-                                        height={height * .25}
-                                        chartConfig={{
-                                            backgroundGradientFrom: props.color,
-                                            backgroundGradientTo: props.color,
-                                            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-
-                                            propsForDots: {
-                                                r: "6",
-                                                strokeWidth: "2",
-                                            }
-                                        }}
-                                        bezier
-                                        style={{
-                                            paddingBottom: -15,
-                                            marginLeft: -15,
-                                        }}
-
-                                    />
+                                    <LineGraph selectPoint={selectPoint} startDateValue={startDateValue} values={values} pointsToHide={pointsToHide} color={props.color} />
                                 </View>
                             </ScrollView>
                         </View>
@@ -460,9 +204,7 @@ const ProgressReportScreen = props => {
                             showEndDayPicker(false);
                             showEndYearInput(false);
                         }}>
-                            <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0, borderColor: 'white' }}>
-                                <Text style={{ fontSize: 18.0, color: 'white' }}>{startMonth}</Text>
-                            </View>
+                            <DateButton dateValue={startMonth} />
                         </TouchableOpacity>
                         <Text style={{ fontSize: 20.0, color: 'white' }}>/</Text>
                         <TouchableOpacity onPress={() => {
@@ -473,15 +215,11 @@ const ProgressReportScreen = props => {
                             showEndDayPicker(false);
                             showEndYearInput(false);
                         }}>
-                            <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0, borderColor: 'white' }}>
-                                <Text style={{ fontSize: 18.0, color: 'white' }}>{startDay}</Text>
-                            </View>
+                            <DateButton dateValue={startDay} />
                         </TouchableOpacity>
                         <Text style={{ fontSize: 20.0, color: 'white' }}>/</Text>
                         <TouchableOpacity>
-                            <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0, borderColor: 'white' }}>
-                                <Text style={{ fontSize: 18.0, color: 'white' }}>{startYear}</Text>
-                            </View>
+                            <DateButton dateValue={startYear} />
                         </TouchableOpacity>
                         <Text style={{ fontSize: 20.0, color: 'white' }}> - </Text>
                         <TouchableOpacity onPress={() => {
@@ -492,9 +230,7 @@ const ProgressReportScreen = props => {
                             showEndDayPicker(false);
                             showEndYearInput(false);
                         }}>
-                            <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0, borderColor: 'white' }}>
-                                <Text style={{ fontSize: 18.0, color: 'white' }}>{endMonth}</Text>
-                            </View>
+                            <DateButton dateValue={endMonth} />
                         </TouchableOpacity>
                         <Text style={{ fontSize: 20.0, color: 'white' }}>/</Text>
                         <TouchableOpacity onPress={() => {
@@ -505,15 +241,11 @@ const ProgressReportScreen = props => {
                             showEndDayPicker(!endDayPicker);
                             showEndYearInput(false);
                         }}>
-                            <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0, borderColor: 'white' }}>
-                                <Text style={{ fontSize: 18.0, color: 'white' }}>{endDay}</Text>
-                            </View>
+                            <DateButton dateValue={endDay} />
                         </TouchableOpacity>
                         <Text style={{ fontSize: 20.0, color: 'white' }}>/</Text>
                         <TouchableOpacity>
-                            <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0, borderColor: 'white' }}>
-                                <Text style={{ fontSize: 18.0, color: 'white' }}>{endYear}</Text>
-                            </View>
+                            <DateButton dateValue={endYear} />
                         </TouchableOpacity>
                     </View>
                     <View>

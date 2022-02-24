@@ -5,7 +5,6 @@ import XLSX from 'xlsx';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 
-
 const LogHistoryScreen = props => {
     const navigation = useNavigation();
 
@@ -82,12 +81,12 @@ const LogHistoryScreen = props => {
 
     return (
         <View style={styles.container}>
-            <SafeAreaView style={{width: '100%'}}>
+            <SafeAreaView style={{ width: '100%' }}>
                 <ScrollView style={{ marginBottom: 80.0, width: '100%' }}>
                     {meterLogs}
                 </ScrollView>
                 <View style={styles.buttonsView}>
-                <TouchableOpacity
+                    <TouchableOpacity
                         onPress={() => {
                             navigation.navigate('Progress Report')
                         }}>

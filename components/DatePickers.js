@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Button } from 'react-native';
+import { StyleSheet, View, Text, Button } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 
 export const DayPicker = props => {
@@ -62,7 +62,7 @@ export const DayPicker = props => {
                                 props.setMonth(1);
                             }
                         }
-                    }}/>
+                    }} />
                 <Button
                     title='02'
                     onPress={() => {
@@ -77,7 +77,7 @@ export const DayPicker = props => {
                                 props.setMonth(2);
                             }
                         }
-                     }}/>
+                    }} />
                 <Button
                     title='03'
                     onPress={() => {
@@ -92,7 +92,7 @@ export const DayPicker = props => {
                                 props.setMonth(3);
                             }
                         }
-                     }}/>
+                    }} />
                 <Button
                     title='04'
                     onPress={() => {
@@ -107,7 +107,7 @@ export const DayPicker = props => {
                                 props.setMonth(4);
                             }
                         }
-                     }}/>
+                    }} />
                 <Button
                     title='05'
                     onPress={() => {
@@ -122,7 +122,7 @@ export const DayPicker = props => {
                                 props.setMonth(5);
                             }
                         }
-                     }}/>
+                    }} />
                 <Button
                     title='06'
                     onPress={() => {
@@ -137,7 +137,7 @@ export const DayPicker = props => {
                                 props.setMonth(6);
                             }
                         }
-                    }}/>
+                    }} />
                 <Button
                     title='07'
                     onPress={() => {
@@ -152,7 +152,7 @@ export const DayPicker = props => {
                                 props.setMonth(7);
                             }
                         }
-                    }}/>
+                    }} />
             </View>
             <View style={styles.dayRow}>
                 <Button
@@ -169,7 +169,7 @@ export const DayPicker = props => {
                                 props.setMonth(8);
                             }
                         }
-                    }}/>
+                    }} />
                 <Button
                     title='09'
                     onPress={() => {
@@ -184,7 +184,7 @@ export const DayPicker = props => {
                                 props.setMonth(9);
                             }
                         }
-                    }}/>
+                    }} />
                 <Button
                     title='10'
                     onPress={() => {
@@ -199,7 +199,7 @@ export const DayPicker = props => {
                                 props.setMonth(10);
                             }
                         }
-                    }}/>
+                    }} />
                 <Button
                     title='11'
                     onPress={() => {
@@ -214,7 +214,7 @@ export const DayPicker = props => {
                                 props.setMonth(11);
                             }
                         }
-                    }}/>
+                    }} />
                 <Button
                     title='12'
                     onPress={() => {
@@ -229,7 +229,7 @@ export const DayPicker = props => {
                                 props.setMonth(12);
                             }
                         }
-                    }}/>
+                    }} />
                 <Button
                     title='13'
                     onPress={() => {
@@ -244,7 +244,7 @@ export const DayPicker = props => {
                                 props.setMonth(13);
                             }
                         }
-                    }}/>
+                    }} />
                 <Button
                     title='14'
                     onPress={() => {
@@ -259,7 +259,7 @@ export const DayPicker = props => {
                                 props.setMonth(14);
                             }
                         }
-                    }}/>
+                    }} />
             </View>
             <View style={styles.dayRow}>
                 <Button
@@ -276,7 +276,7 @@ export const DayPicker = props => {
                                 props.setMonth(15);
                             }
                         }
-                    }}/>
+                    }} />
                 <Button
                     title='16'
                     onPress={() => {
@@ -291,7 +291,7 @@ export const DayPicker = props => {
                                 props.setMonth(16);
                             }
                         }
-                    }}/>
+                    }} />
                 <Button
                     title='17'
                     onPress={() => {
@@ -306,7 +306,7 @@ export const DayPicker = props => {
                                 props.setMonth(17);
                             }
                         }
-                    }}/>
+                    }} />
                 <Button
                     title='18'
                     onPress={() => {
@@ -321,7 +321,7 @@ export const DayPicker = props => {
                                 props.setMonth(18);
                             }
                         }
-                    }}/>
+                    }} />
                 <Button
                     title='19'
                     onPress={() => {
@@ -336,7 +336,7 @@ export const DayPicker = props => {
                                 props.setMonth(19);
                             }
                         }
-                    }}/>
+                    }} />
                 <Button
                     title='20'
                     onPress={() => {
@@ -351,7 +351,7 @@ export const DayPicker = props => {
                                 props.setMonth(20);
                             }
                         }
-                    }}/>
+                    }} />
                 <Button
                     title='21'
                     onPress={() => {
@@ -366,7 +366,7 @@ export const DayPicker = props => {
                                 props.setMonth(21);
                             }
                         }
-                    }}/>
+                    }} />
             </View>
             <View style={styles.dayRow}>
                 <Button
@@ -383,7 +383,7 @@ export const DayPicker = props => {
                                 props.setMonth(22);
                             }
                         }
-                    }}/>
+                    }} />
                 <Button
                     title='23'
                     onPress={() => {
@@ -398,7 +398,7 @@ export const DayPicker = props => {
                                 props.setMonth(23);
                             }
                         }
-                    }}/>
+                    }} />
                 <Button
                     title='24'
                     onPress={() => {
@@ -413,7 +413,7 @@ export const DayPicker = props => {
                                 props.setMonth(24);
                             }
                         }
-                    }}/>
+                    }} />
                 <Button
                     title='25'
                     onPress={() => {
@@ -428,7 +428,7 @@ export const DayPicker = props => {
                                 props.setMonth(25);
                             }
                         }
-                    }}/>
+                    }} />
                 <Button
                     title='26'
                     onPress={() => {
@@ -443,7 +443,7 @@ export const DayPicker = props => {
                                 props.setMonth(26);
                             }
                         }
-                    }}/>
+                    }} />
                 <Button
                     title='27'
                     onPress={() => {
@@ -458,7 +458,7 @@ export const DayPicker = props => {
                                 props.setMonth(27);
                             }
                         }
-                    }}/>
+                    }} />
                 <Button
                     title='28'
                     onPress={() => {
@@ -473,7 +473,7 @@ export const DayPicker = props => {
                                 props.setMonth(28);
                             }
                         }
-                    }}/>
+                    }} />
             </View>
             {showRow &&
                 <View style={styles.dayRow}>
@@ -491,7 +491,7 @@ export const DayPicker = props => {
                                     props.setMonth(29);
                                 }
                             }
-                        }}/>
+                        }} />
                     {show30 && <Button
                         title='30'
                         onPress={() => {
@@ -506,7 +506,7 @@ export const DayPicker = props => {
                                     props.setMonth(30);
                                 }
                             }
-                        }}/>}
+                        }} />}
                     {show31 && <Button
                         title='31'
                         onPress={() => {
@@ -521,7 +521,7 @@ export const DayPicker = props => {
                                     props.setMonth(31);
                                 }
                             }
-                        }}/>}
+                        }} />}
                 </View>}
         </View>
     );
@@ -806,6 +806,12 @@ export const YearInput = props => {
     );
 }
 
+export const DateButton = props => (
+    <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0, borderColor: 'white' }}>
+        <Text style={{ fontSize: 18.0, color: 'white' }}>{props.dateValue}</Text>
+    </View>
+);
+
 const styles = StyleSheet.create({
     monthSelectView: {
         justifyContent: 'center',
@@ -821,14 +827,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     endDatePicker: {
-        borderColor: 'white', 
+        borderColor: 'white',
         borderRightWidth: 2,
         marginTop: 5.0,
         marginBottom: 20.0,
         paddingHorizontal: 30.0
     },
     startDatePicker: {
-        borderColor: 'white', 
+        borderColor: 'white',
         borderLeftWidth: 2,
         marginTop: 5.0,
         marginBottom: 20.0,
