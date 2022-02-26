@@ -2,12 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Modal, TouchableHighlight, View, Text, TextInput, SafeAreaView, Button, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { DayPicker, MonthPicker, YearInput } from './DatePickers';
-
-const DismissKeyboard = ({ children }) => (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        {children}
-    </TouchableWithoutFeedback>
-);
+import { DismissKeyboard } from '../resources/keyboard';
 
 const calcDateValue = (month, day, year) => {
     let monthValue;

@@ -1,5 +1,6 @@
-import React from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, Button, TouchableOpacity } from 'react-native';
+import { fonts } from 'react-native-elements/dist/config';
 import { TextInput } from 'react-native-gesture-handler';
 import { calcDateValue } from '../resources/dateFunctions';
 
@@ -232,9 +233,6 @@ export const DayPicker = props => {
     );
 };
 
-const setMonth = (month, setsEndDate, startDateValue, endDateValue, day, year, setYMax, setDay) => {
-    
-}
 
 export const MonthPicker = props => {
     let lastDay = 31;
@@ -502,16 +500,48 @@ export const MonthPicker = props => {
 };
 
 export const YearInput = props => {
+
+    const [year, setYear] = useState(new Date().getFullYear() - 2000);
+
     return (
-        <TextInput
-            style={styles.textInput}
-            placeholder='YY'
-            value={props.year}
-            onChangeText={(value) => {
-                props.setYMax(1);
-                props.setYear(parseInt(value, 10));
-            }}
-        />
+        <View style={props.setsEndDate ? styles.endDatePicker : styles.startDatePicker}>
+            <View style={{ flexDirection: 'row' }}>
+                <Text style={{color: 'white', alignSelf: 'center', fontSize: 24, paddingVertical: 10}}>20</Text>
+                <TextInput
+                    style={styles.textInput}
+                    placeholder='YY'
+                    keyboardType='number-pad'
+                    value={props.year}
+                    onChangeText={(value) => {
+                        props.setYMax(1);
+                        setYear(parseInt(value, 10));
+                    }}
+                />
+                <TouchableOpacity 
+                style={{ alignSelf: 'center' }}
+                onPress={() => {
+                    if (props.setsEndDate) {
+                        if (props.calcDateValue(props.month, props.day, year) > props.startDateValue) {
+                            props.setYMax(1);
+                            props.setYear(year);
+                            if (year % 4 === 0 && props.month === 2 && props.day > 28) {
+                                adjustLastDay(28);
+                            }
+                        }
+                    } else {
+                        if (props.calcDateValue(props.month, props.day, year) < props.endDateValue) {
+                            props.setYMax(1);
+                            props.setYear(year);
+                            if (year % 4 === 0 && props.month === 2 && props.day > 28) {
+                                adjustLastDay(28);
+                            }
+                        }
+                    }
+                }}>
+                    <Text style={{ fontSize: 24.0, color: 'white' }}>Set</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
     );
 }
 
@@ -540,7 +570,7 @@ const styles = StyleSheet.create({
         borderRightWidth: 2,
         marginTop: 5.0,
         marginBottom: 20.0,
-        paddingHorizontal: 30.0
+        paddingHorizontal: 30.0,
     },
     startDatePicker: {
         borderColor: 'white',
@@ -548,5 +578,18 @@ const styles = StyleSheet.create({
         marginTop: 5.0,
         marginBottom: 20.0,
         paddingHorizontal: 30.0
+    },
+    textInput: {
+        paddingHorizontal: 3.0,
+        marginLeft: 4.0,
+        marginRight: 12.0,
+        alignSelf: 'center',
+        borderRadius: 4.0,
+        fontSize: 24.0,
+        height: 40.0,
+        borderStyle: 'solid',
+        borderColor: "white",
+        borderWidth: 1,
+        color: 'white'
     }
 })
