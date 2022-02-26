@@ -143,7 +143,11 @@ const CreateProgressMeter = props => {
                                         </View>
                                     </TouchableOpacity>
                                     <Text style={{ fontSize: 20.0, color: 'white' }}>/</Text>
-                                    <TouchableOpacity>
+                                    <TouchableOpacity onPress={() => {
+                                        showMonthPicker(false);
+                                        showDayPicker(false);
+                                        showYearInput(!yearInput);
+                                    }}>
                                         <View style={{ borderWidth: 1, padding: 5.0, margin: 3.0, borderColor: 'white' }}>
                                             <Text style={{ fontSize: 18.0, color: 'white' }}>{year}</Text>
                                         </View>
@@ -152,7 +156,7 @@ const CreateProgressMeter = props => {
                             </View>
                         </View>
                         <View>
-                        <View style={{ alignItems: 'center' }}>
+                            <View style={{ alignItems: 'center' }}>
                                 {monthPicker &&
                                     <View style={{ marginBottom: 10.0 }}>
                                         <MonthPicker
@@ -186,11 +190,20 @@ const CreateProgressMeter = props => {
                                     </View>
                                 }
                                 {yearInput &&
-                                    <YearInput
-                                        visible={yearInput}
-                                        setVisible={showYearInput}
-                                        setYMax={setYMax}
-                                    />
+                                    <View style={{ marginBottom: 10.0 }}>
+                                        <YearInput
+                                            visible={yearInput}
+                                            setVisible={showYearInput}
+                                            setYMax={setYMax}
+                                            month={month}
+                                            day={day}
+                                            setDay={setDay}
+                                            calcDateValue={calcDateValue}
+                                            setsEndDate={true}
+                                            startDateValue={calcDateValue(currentMonth, currentDay, currentYear)}
+                                            setYear={setYear}
+                                        />
+                                    </View>
                                 }
                             </View>
                         </View>
