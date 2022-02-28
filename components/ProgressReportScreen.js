@@ -169,17 +169,23 @@ const ProgressReportScreen = props => {
         <View style={{ flex: 1, backgroundColor: '#2b2b2b' }}>
 
             <SafeAreaView style={styles.container}>
-                <TouchableOpacity
-                    style={{
-                        position: "absolute",
-                        top: -20,
-                        right: 15.0,
-                    }}
-                    onPress={() => {
-                        navigation.navigate('Log History');
-                    }}>
-                    <Text style={{ color: 'white' }}>History</Text>
-                </TouchableOpacity>
+                <View style={{ position: 'absolute', top: -20.0, width: width }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('Home')}
+                        >
+                            <Text style={{ marginLeft: 15.0, color: 'white', fontSize: 16.0 }}>{'< Home'}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+
+                            onPress={() => {
+                                navigation.navigate('Log History');
+                            }}>
+                            <Text style={{ marginRight: 15.0, color: 'white', fontSize: 16.0 }}>{'History >'}</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
                 <View style={styles.header}>
                     <Text style={{ fontSize: 32.0, paddingBottom: 2.0, textAlign: 'center', color: 'white' }}>{props.meterTitle}</Text>
                     <Text style={{ fontSize: 24.0, paddingBottom: 2.0, textAlign: 'center', color: 'white' }}>{goalString}</Text>
@@ -187,7 +193,7 @@ const ProgressReportScreen = props => {
                 </View>
                 <ScrollView
                     style={{ marginBottom: 80.0 }} contentContainerStyle={{ justifyContent: 'flex-start', alignItems: 'center' }}
-                    ref={ref => {this.scrollView = ref}}
+                    ref={ref => { this.scrollView = ref }}
                     onContentSizeChange={() => this.scrollView.scrollToEnd({ animated: true })}
                 >
                     <View style={{ marginTop: 15.0 }}>
@@ -393,11 +399,7 @@ const ProgressReportScreen = props => {
                     <View style={{ height: keyboardSpacer }} />
                 </ScrollView>
                 <View style={styles.buttonsView}>
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate('Home')}
-                    >
-                        <Text style={styles.buttonText}>Home</Text>
-                    </TouchableOpacity>
+
                     <TouchableOpacity
                         onPress={() => {
                             Alert.alert(
