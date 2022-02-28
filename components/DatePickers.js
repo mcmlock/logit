@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Button, TouchableOpacity } from 'react-native';
+import { Dimensions, StyleSheet, View, Text, Button, TouchableOpacity } from 'react-native';
 import { fonts } from 'react-native-elements/dist/config';
 import { TextInput } from 'react-native-gesture-handler';
 import { calcDateValue } from '../resources/dateFunctions';
+
+const { width, height } = Dimensions.get('window');
 
 const setDay = (day, setsEndDate, startDateValue, endDateValue, month, year, setYMax, setDay) => {
     if (setsEndDate) {
@@ -566,18 +568,24 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     endDatePicker: {
+        justifyContent: 'center',
+        alignItems: 'center',
         borderColor: 'white',
         borderRightWidth: 2,
+        width: width * .75,
+        height: 150.0,
         marginTop: 5.0,
-        marginBottom: 20.0,
-        paddingHorizontal: 30.0,
+        marginBottom: 20.0
     },
     startDatePicker: {
+        justifyContent: 'center',
+        alignItems: 'center',
         borderColor: 'white',
         borderLeftWidth: 2,
+        width: width * .80,
+        height: 150.0,
         marginTop: 5.0,
-        marginBottom: 20.0,
-        paddingHorizontal: 30.0
+        marginBottom: 20.0
     },
     textInput: {
         paddingHorizontal: 3.0,
