@@ -19,6 +19,7 @@ const StackNavigator = props => {
 
     const ProgressReportComponent = () => (
         <ProgressReportScreen
+            progressMeters={props.progressMeters}
             meterTitle={props.progressMeters.filter(meter => meter.id === props.selectedMeter)[0].title}
             goal={props.progressMeters.filter(meter => meter.id === props.selectedMeter)[0].goal}
             dueDay={props.progressMeters.filter(meter => meter.id === props.selectedMeter)[0].day}
@@ -28,6 +29,7 @@ const StackNavigator = props => {
             selectedMeter={props.selectedMeter}
             logs={props.logs}
             deleteProgressMeter={props.deleteProgressMeter}
+            editProgressMeter={props.editProgressMeter}
         />
     );
 
@@ -42,7 +44,7 @@ const StackNavigator = props => {
         <Stack.Navigator initialRouteName='Home' screenOptions={{ animationEnabled: false }}>
             <Stack.Screen name="Home" component={HomeComponent} options={{ headerShown: false }} />
             <Stack.Screen name="Progress Report" component={ProgressReportComponent} options={{ headerShown: false }} />
-            <Stack.Screen name="Log History" component={LogHistoryComponent} options={{headerShown: false}} />
+            <Stack.Screen name="Log History" component={LogHistoryComponent} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }

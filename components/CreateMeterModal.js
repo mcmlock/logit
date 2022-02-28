@@ -67,17 +67,37 @@ const CreateProgressMeter = props => {
     const currentDay = new Date().getDate();
     const currentYear = new Date().getFullYear() - 2000;
 
-    const [title, setTitle] = useState('');
-    const [goal, setGoal] = useState(1);
-    const [month, setMonth] = useState(currentMonth + 1 > 12 ? 1 : currentMonth + 1);
-    const [day, setDay] = useState(currentDay);
-    const [year, setYear] = useState(currentMonth === 12 ? currentYear + 1 : currentYear);
-    const [meterColor, setMeterColor] = useState('#1fbaed');
+    const [title, setTitle] = props.editing ? useState(props.title) : useState('');
+    const [goal, setGoal] = props.editing ? useState(props.goal) : useState(0);
+    const [month, setMonth] = props.editing ? useState(props.dueMonth) : useState(currentMonth + 1 > 12 ? 1 : currentMonth + 1);
+    const [day, setDay] = props.editing ? useState(props.dueDay) : useState(currentDay);
+    const [year, setYear] = props.editing ? useState(props.dueYear) : useState(currentMonth === 12 ? currentYear + 1 : currentYear);
+    const [meterColor, setMeterColor] = props.editing ? useState(props.color) : useState('#1fbaed');
+
+    const submitBtnText = props.editing ? 'Save' : 'Create';
 
     const resetModal = () => {
-        setTitle('');
-        showMonthPicker(false);
-        showDayPicker(false);
+        if (props.editing) {
+            setTitle(props.title);
+            setGoal(props.goal);
+            setMonth(props.dueMonth);
+            setDay(props.dueDay);
+            setYear(props.dueYear);
+            setMeterColor('#1fbaed');
+            showMonthPicker(false);
+            showDayPicker(false);
+            showYearInput(false);
+        } else {
+            setTitle('');
+            setGoal(0);
+            setMonth(currentMonth + 1 > 12 ? 1 : currentMonth + 1);
+            setDay(currentDay);
+            setYear(currentMonth === 12 ? currentYear + 1 : currentYear);
+            setMeterColor('#1fbaed');
+            showMonthPicker(false);
+            showDayPicker(false);
+            showYearInput(false);
+        }
     }
 
     const ColorPicker = color => {
@@ -91,6 +111,8 @@ const CreateProgressMeter = props => {
             </TouchableOpacity>
         );
     }
+
+    console.log(props.meter);
 
     return (
         <Modal
@@ -112,6 +134,7 @@ const CreateProgressMeter = props => {
                             <Text style={styles.hoursLabel}>Hours</Text>
                             <TextInput
                                 style={styles.hoursTextInput}
+                                value={goal ? goal.toString() : ''}
                                 placeholder='10000'
                                 placeholderTextColor='#444'
                                 keyboardType='number-pad'
@@ -227,6 +250,7 @@ const CreateProgressMeter = props => {
                                 onPress={() => {
                                     props.toggleModal();
                                     resetModal();
+
                                 }}
                                 style={{ marginHorizontal: 10.0 }}
                             >
@@ -237,6 +261,7 @@ const CreateProgressMeter = props => {
                             <TouchableOpacity
                                 onPress={() => {
                                     const barProperties = {
+                                        id: props.editing ? props.meter.id : null,
                                         title: title,
                                         goal: goal,
                                         month: month,
@@ -251,15 +276,18 @@ const CreateProgressMeter = props => {
                                     }
 
                                     if (barProperties.title !== '' && goal !== '' && dueDateValid) {
-                                        props.createProgressMeter(barProperties);
-                                        props.toggleModal();
-                                        resetModal();
+                                        if (props.editing) {
+                                            props.editProgressMeter(props.meter, barProperties);
+                                        } else {
+                                            props.createProgressMeter(barProperties);
+                                            props.toggleModal();
+                                        }
                                     }
                                 }}
                                 style={{ marginHorizontal: 10.0 }}
                             >
                                 <View style={{ width: 80.0, height: 30, alignItems: 'center' }}>
-                                    <Text style={{ color: 'white', fontSize: 24.0 }}>Create</Text>
+                                    <Text style={{ color: 'white', fontSize: 24.0 }}>{submitBtnText}</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>

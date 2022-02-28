@@ -20,7 +20,7 @@ class Main extends Component {
 
         this.state = {
             idTracker: 1,
-            selectedMeter: null,
+            selectedMeter: 0,
             progressMeters: [
                 {
                     id: 0,
@@ -149,7 +149,7 @@ class Main extends Component {
     };
 
     componentDidMount() {
-        load(this);
+       load(this);
     };
 
     render() {
@@ -163,7 +163,7 @@ class Main extends Component {
         }
 
         const selectMeter = meterId => {
-            this.setState({ selectedMeter: meterId })
+         this.setState({ selectedMeter: meterId })
         }
 
         const createProgressMeter = barProperties => {
@@ -178,6 +178,23 @@ class Main extends Component {
             };
             this.state.progressMeters.push(progressMeter);
             this.setState({ idTracker: (this.state.idTracker + 1), progressMeter: this.state.progressMeters });
+            save();
+        }
+
+        const editProgressMeter = (meter, barProperties) => {
+            const insertPoint = this.state.progressMeters.indexOf(meter);
+          //  console.log(insertPoint);
+            const progressMeter = {
+                id: barProperties.id,
+                title: barProperties.title,
+                goal: barProperties.goal,
+                month: barProperties.month,
+                day: barProperties.day,
+                year: barProperties.year,
+                color: barProperties.color
+            };
+            this.state.progressMeters.splice(insertPoint, 1, progressMeter);
+            this.setState({ progressMeter: this.state.progressMeters });
             save();
         }
 
@@ -264,6 +281,7 @@ class Main extends Component {
                 selectMeter={selectMeter}
                 selectedMeter={this.state.selectedMeter}
                 createProgressMeter={createProgressMeter}
+                editProgressMeter={editProgressMeter}
                 deleteProgressMeter={deleteProgressMeter}
                 createTimeLog={createTimeLog}
             />

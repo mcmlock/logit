@@ -8,8 +8,8 @@ import ProgressMeter from './ProgressMeter';
 const HomeScreen = props => {
 
     const navigation = useNavigation();
-    const [createOpen, setCreateOpen] = useState(false);
 
+    const [createOpen, setCreateOpen] = useState(false);
     const toggleCreateModal = () => {
         setCreateOpen(!createOpen);
     };
@@ -34,6 +34,7 @@ const HomeScreen = props => {
                 visible={createOpen}
                 toggleModal={toggleCreateModal}
                 createProgressMeter={props.createProgressMeter}
+                editing={false}
             />
 
             

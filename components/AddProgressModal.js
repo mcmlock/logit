@@ -27,7 +27,7 @@ export const TimeLogger = props => {
                                 placeholderTextColor="#444"
                                 keyboardType='number-pad'
                                 style={styles.textInput}
-                                value={hourInput}
+                            //    value={hourInput}
                                 onChangeText={value => setHourInput(value)}
                             />
                             <Text style={{ fontSize: 26.0, paddingHorizontal: 8.0, fontWeight: 'bold', color: 'white' }}>:</Text>
@@ -36,7 +36,7 @@ export const TimeLogger = props => {
                                 placeholderTextColor="#444"
                                 keyboardType='number-pad'
                                 style={styles.textInput}
-                                value={minuteInput}
+                            //    value={minuteInput}
                                 onChangeText={value => setMinuteInput(value)}
                             />
                         </View>

@@ -80,17 +80,20 @@ const LogHistoryScreen = props => {
     });
 
     return (
-        <View style={styles.container}>
-            <SafeAreaView style={{ width: '100%' }}>
+        <View style={{ flex: 1, backgroundColor: '#2b2b2b' }}>
+            <SafeAreaView style={styles.container}>
+                <TouchableOpacity
+                    style={{ position: 'absolute', top: -20.0}}
+                    onPress={() => navigation.navigate('Progress Report')}
+                >
+                    <Text style={{ marginLeft: 15.0, color: 'white', fontSize: 16.0 }}>{'< Back'}</Text>
+                </TouchableOpacity>
                 <ScrollView style={{ marginBottom: 80.0, width: '100%' }}>
                     {meterLogs}
                 </ScrollView>
                 <View style={styles.buttonsView}>
-                    <TouchableOpacity
-                        onPress={() => {
-                            navigation.navigate('Progress Report')
-                        }}>
-                        <Text style={styles.btnText}>Back</Text>
+                    <TouchableOpacity>
+                        <Text style={styles.btnText}>Insert</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
@@ -104,7 +107,7 @@ const LogHistoryScreen = props => {
                                 bookType: "xlsx"
                             });
                             const uri = FileSystem.cacheDirectory + 'logs.xlsx';
-                            console.log(`Writing to ${JSON.stringify(uri)} with text: ${wbout}`);
+                       //     console.log(`Writing to ${JSON.stringify(uri)} with text: ${wbout}`);
                             await FileSystem.writeAsStringAsync(uri, wbout, {
                                 encoding: FileSystem.EncodingType.Base64
                             });
@@ -129,8 +132,8 @@ export default LogHistoryScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'flex-start',
-        backgroundColor: '#2b2b2b',
+        marginTop: 80.0,
+        width: '100%',
     },
     logView: {
         marginHorizontal: 40.0,
@@ -149,7 +152,7 @@ const styles = StyleSheet.create({
     btnText: {
         fontSize: 20.0,
         textAlign: 'center',
-        marginHorizontal: 25.0,
+        marginHorizontal: 40.0,
         marginBottom: 10.0,
         color: 'white'
     }

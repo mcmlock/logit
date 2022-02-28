@@ -4,6 +4,7 @@ import { Dimensions, StyleSheet, SafeAreaView, View, Text, Alert, TouchableOpaci
 import { LineGraph } from './LineGraph';
 import { SelectedPointInfo } from './SelectedPointInfoComponent';
 import { DayPicker, MonthPicker, YearInput, DateButton } from './DatePickers';
+import CreateProgressMeter from './CreateMeterModal';
 import { calcDueDateValue, calcDateValue } from '../resources/dateFunctions';
 
 const { width, height } = Dimensions.get('window');
@@ -73,6 +74,11 @@ const ProgressReportScreen = props => {
     const dateRange = ((endDateValue - startDateValue) / 1440) + 1;
     // Adjusting view when keyboard is open
     const [keyboardSpacer, setKeyboardSpacer] = useState(0);
+    // For editing the meter
+    const [createOpen, setCreateOpen] = useState(false);
+    const toggleCreateModal = () => {
+        setCreateOpen(!createOpen);
+    };
 
     useEffect(() => {
         const punchUpView = Keyboard.addListener('keyboardWillShow', () => {
@@ -167,6 +173,20 @@ const ProgressReportScreen = props => {
     return (
 
         <View style={{ flex: 1, backgroundColor: '#2b2b2b' }}>
+            <CreateProgressMeter
+                visible={createOpen}
+                toggleModal={toggleCreateModal}
+                editProgressMeter={props.editProgressMeter}
+                editing={true}
+                meter={props.progressMeters.filter(meter => meter.id === props.selectedMeter)[0]}
+                id={props.selectedMeter}
+                title={props.meterTitle}
+                goal={props.goal}
+                dueMonth={props.dueMonth}
+                dueDay={props.dueDay}
+                dueYear={props.dueYear}
+                color={props.color}
+            />
 
             <SafeAreaView style={styles.container}>
                 <View style={{ position: 'absolute', top: -20.0, width: width }}>
@@ -193,8 +213,8 @@ const ProgressReportScreen = props => {
                 </View>
                 <ScrollView
                     style={{ marginBottom: 80.0 }} contentContainerStyle={{ justifyContent: 'flex-start', alignItems: 'center' }}
-                    ref={ref => { this.scrollView = ref }}
-                    onContentSizeChange={() => this.scrollView.scrollToEnd({ animated: true })}
+                 /*   ref={ref => { this.scrollView = ref }}
+                    onContentSizeChange={() => this.scrollView.scrollToEnd({ animated: true })}*/
                 >
                     <View style={{ marginTop: 15.0 }}>
                         <Text style={styles.range}>{hoursInRange} H {minutesInRange} M Tracked</Text>
@@ -399,7 +419,9 @@ const ProgressReportScreen = props => {
                     <View style={{ height: keyboardSpacer }} />
                 </ScrollView>
                 <View style={styles.buttonsView}>
-
+                    <TouchableOpacity onPress={() => toggleCreateModal()}>
+                        <Text style={styles.buttonText}>Edit</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => {
                             Alert.alert(
@@ -488,7 +510,7 @@ const styles = StyleSheet.create({
     buttonText: {
         fontSize: 20.0,
         textAlign: 'center',
-        marginHorizontal: 25.0,
+        marginHorizontal: 40.0,
         marginBottom: 20.0,
         color: 'white'
     },
