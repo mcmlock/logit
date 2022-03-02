@@ -4,7 +4,7 @@ import { Dimensions, StyleSheet, SafeAreaView, View, Text, Alert, TouchableOpaci
 import { LineGraph } from './LineGraph';
 import { SelectedPointInfo } from './SelectedPointInfoComponent';
 import { DayPicker, MonthPicker, YearInput, DateButton } from './DatePickers';
-import CreateProgressMeter from './CreateMeterModal';
+import CreateProgressMeter from './modals/CreateMeterModal';
 import { calcDueDateValue, calcDateValue } from '../resources/dateFunctions';
 
 const { width, height } = Dimensions.get('window');
@@ -197,7 +197,6 @@ const ProgressReportScreen = props => {
                             <Text style={{ marginLeft: 15.0, color: 'white', fontSize: 16.0 }}>{'< Home'}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-
                             onPress={() => {
                                 navigation.navigate('Log History');
                             }}>

@@ -6,9 +6,9 @@ import { calcDateValue } from '../resources/dateFunctions';
 
 const { width, height } = Dimensions.get('window');
 
-const setDay = (day, setsEndDate, startDateValue, endDateValue, month, year, setYMax, setDay) => {
+const setDay = (day, setsEndDate, startDateValue, endDateValue, month, year, setYMax, setDay, isInsert) => {
     if (setsEndDate) {
-        if (calcDateValue(month, day, year) > startDateValue) {
+        if (isInsert || calcDateValue(month, day, year) > startDateValue) {
             setYMax(1);
             setDay(day);
         }
@@ -69,148 +69,148 @@ export const DayPicker = props => {
                 <Button
                     title='01'
                     onPress={() => {
-                        setDay(1, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(1, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='02'
                     onPress={() => {
-                        setDay(2, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(2, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='03'
                     onPress={() => {
-                        setDay(3, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(3, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='04'
                     onPress={() => {
-                        setDay(4, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(4, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='05'
                     onPress={() => {
-                        setDay(5, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(5, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='06'
                     onPress={() => {
-                        setDay(6, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(6, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='07'
                     onPress={() => {
-                        setDay(7, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(7, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
             </View>
             <View style={styles.dayRow}>
                 <Button
                     title='08'
                     onPress={() => {
-                        setDay(8, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(8, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='09'
                     onPress={() => {
-                        setDay(9, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(9, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='10'
                     onPress={() => {
-                        setDay(10, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(10, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='11'
                     onPress={() => {
-                        setDay(11, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(11, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='12'
                     onPress={() => {
-                        setDay(12, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(12, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='13'
                     onPress={() => {
-                        setDay(13, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(13, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='14'
                     onPress={() => {
-                        setDay(14, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(14, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
             </View>
             <View style={styles.dayRow}>
                 <Button
                     title='15'
                     onPress={() => {
-                        setDay(15, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(15, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='16'
                     onPress={() => {
-                        setDay(16, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(16, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='17'
                     onPress={() => {
-                        setDay(17, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(17, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='18'
                     onPress={() => {
-                        setDay(18, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(18, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='19'
                     onPress={() => {
-                        setDay(19, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(19, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='20'
                     onPress={() => {
-                        setDay(20, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(20, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='21'
                     onPress={() => {
-                        setDay(21, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(21, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
             </View>
             <View style={styles.dayRow}>
                 <Button
                     title='22'
                     onPress={() => {
-                        setDay(22, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(22, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='23'
                     onPress={() => {
-                        setDay(23, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(23, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='24'
                     onPress={() => {
-                        setDay(24, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(24, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='25'
                     onPress={() => {
-                        setDay(25, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(25, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='26'
                     onPress={() => {
-                        setDay(26, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(26, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='27'
                     onPress={() => {
-                        setDay(27, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(27, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='28'
                     onPress={() => {
-                        setDay(28, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                        setDay(28, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
             </View>
             {showRow &&
@@ -218,17 +218,17 @@ export const DayPicker = props => {
                     <Button
                         title='29'
                         onPress={() => {
-                            setDay(29, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                            setDay(29, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                         }} />
                     {show30 && <Button
                         title='30'
                         onPress={() => {
-                            setDay(30, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                            setDay(30, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                         }} />}
                     {show31 && <Button
                         title='31'
                         onPress={() => {
-                            setDay(31, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay);
+                            setDay(31, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                         }} />}
                 </View>}
         </View>
@@ -276,7 +276,7 @@ export const MonthPicker = props => {
                     title='1'
                     onPress={() => {
                         if (props.setsEndDate) {
-                            if (props.calcDateValue(1, props.day, props.year) > props.startDateValue) {
+                            if (props.isInsert || props.calcDateValue(1, props.day, props.year) > props.startDateValue) {
                                 props.setYMax(1);
                                 props.setMonth(1);
                                 adjustLastDay(31);
@@ -293,7 +293,7 @@ export const MonthPicker = props => {
                     title='2'
                     onPress={() => {
                         if (props.setsEndDate) {
-                            if (props.calcDateValue(2, props.day, props.year) > props.startDateValue) {
+                            if (props.isInsert || props.calcDateValue(2, props.day, props.year) > props.startDateValue) {
                                 props.setYMax(1);
                                 props.setMonth(2);
                                 if (props.year % 4 === 0) {
@@ -318,7 +318,7 @@ export const MonthPicker = props => {
                     title='3'
                     onPress={() => {
                         if (props.setsEndDate) {
-                            if (props.calcDateValue(3, props.day, props.year) > props.startDateValue) {
+                            if (props.isInsert || props.calcDateValue(3, props.day, props.year) > props.startDateValue) {
                                 props.setYMax(1);
                                 props.setMonth(3);
                                 adjustLastDay(31);
@@ -335,7 +335,7 @@ export const MonthPicker = props => {
                     title='4'
                     onPress={() => {
                         if (props.setsEndDate) {
-                            if (props.calcDateValue(4, props.day, props.year) > props.startDateValue) {
+                            if (props.isInsert || props.calcDateValue(4, props.day, props.year) > props.startDateValue) {
                                 props.setYMax(1);
                                 props.setMonth(4);
                                 adjustLastDay(30);
@@ -354,7 +354,7 @@ export const MonthPicker = props => {
                     title='5'
                     onPress={() => {
                         if (props.setsEndDate) {
-                            if (props.calcDateValue(5, props.day, props.year) > props.startDateValue) {
+                            if (props.isInsert || props.calcDateValue(5, props.day, props.year) > props.startDateValue) {
                                 props.setYMax(1);
                                 props.setMonth(5);
                                 adjustLastDay(31);
@@ -372,7 +372,7 @@ export const MonthPicker = props => {
                     title='6'
                     onPress={() => {
                         if (props.setsEndDate) {
-                            if (props.calcDateValue(6, props.day, props.year) > props.startDateValue) {
+                            if (props.isInsert || props.calcDateValue(6, props.day, props.year) > props.startDateValue) {
                                 props.setYMax(1);
                                 props.setMonth(6);
                                 adjustLastDay(30);
@@ -390,7 +390,7 @@ export const MonthPicker = props => {
                     title='7'
                     onPress={() => {
                         if (props.setsEndDate) {
-                            if (props.calcDateValue(7, props.day, props.year) > props.startDateValue) {
+                            if (props.isInsert || props.calcDateValue(7, props.day, props.year) > props.startDateValue) {
                                 props.setYMax(1);
                                 props.setMonth(7);
                                 adjustLastDay(31);
@@ -408,7 +408,7 @@ export const MonthPicker = props => {
                     title='8'
                     onPress={() => {
                         if (props.setsEndDate) {
-                            if (props.calcDateValue(8, props.day, props.year) > props.startDateValue) {
+                            if (props.isInsert || props.calcDateValue(8, props.day, props.year) > props.startDateValue) {
                                 props.setYMax(1);
                                 props.setMonth(8);
                                 adjustLastDay(31);
@@ -428,7 +428,7 @@ export const MonthPicker = props => {
                     title='9'
                     onPress={() => {
                         if (props.setsEndDate) {
-                            if (props.calcDateValue(9, props.day, props.year) > props.startDateValue) {
+                            if (props.isInsert || props.calcDateValue(9, props.day, props.year) > props.startDateValue) {
                                 props.setYMax(1);
                                 props.setMonth(9);
                                 adjustLastDay(30);
@@ -446,7 +446,7 @@ export const MonthPicker = props => {
                     title='10'
                     onPress={() => {
                         if (props.setsEndDate) {
-                            if (props.calcDateValue(10, props.day, props.year) > props.startDateValue) {
+                            if (props.isInsert || props.calcDateValue(10, props.day, props.year) > props.startDateValue) {
                                 props.setYMax(1);
                                 props.setMonth(10);
                                 adjustLastDay(31);
@@ -464,7 +464,7 @@ export const MonthPicker = props => {
                     title='11'
                     onPress={() => {
                         if (props.setsEndDate) {
-                            if (props.calcDateValue(11, props.day, props.year) > props.startDateValue) {
+                            if (props.isInsert || props.calcDateValue(11, props.day, props.year) > props.startDateValue) {
                                 props.setYMax(1);
                                 props.setMonth(11);
                                 adjustLastDay(30);
@@ -482,7 +482,7 @@ export const MonthPicker = props => {
                     title='12'
                     onPress={() => {
                         if (props.setsEndDate) {
-                            if (props.calcDateValue(12, props.day, props.year) > props.startDateValue) {
+                            if (props.isInsert || props.calcDateValue(12, props.day, props.year) > props.startDateValue) {
                                 props.setYMax(1);
                                 props.setMonth(12);
                                 adjustLastDay(31);
@@ -523,7 +523,7 @@ export const YearInput = props => {
                 style={{ alignSelf: 'center' }}
                 onPress={() => {
                     if (props.setsEndDate) {
-                        if (props.calcDateValue(props.month, props.day, year) > props.startDateValue) {
+                        if (props.isInsert || props.calcDateValue(props.month, props.day, year) > props.startDateValue) {
                             props.setYMax(1);
                             props.setYear(year);
                             if (year % 4 === 0 && props.month === 2 && props.day > 28) {
@@ -572,17 +572,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderColor: 'white',
         borderRightWidth: 2,
-        width: width * .75,
+        width: width * .70,
         height: 150.0,
         marginTop: 5.0,
-        marginBottom: 20.0
+        marginBottom: 20.0,
     },
     startDatePicker: {
         justifyContent: 'center',
         alignItems: 'center',
         borderColor: 'white',
         borderLeftWidth: 2,
-        width: width * .80,
+        width: width * .70,
         height: 150.0,
         marginTop: 5.0,
         marginBottom: 20.0

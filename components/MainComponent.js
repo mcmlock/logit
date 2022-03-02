@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import StackNavigator from './StackNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { calcDateValueWithTime } from '../resources/dateFunctions';
 
 const load = async (obj) => {
     try {
@@ -205,58 +206,9 @@ class Main extends Component {
             save();
         }
 
-        const createTimeLog = (meterId, hoursRecorded, minutesRecorded, month, day, year, hour, minutes) => {
+        const createTimeLog = (meterId, hoursRecorded, minutesRecorded, month, day, year, hour, minute) => {
 
-            // Calculating the day value
-            let monthValue;
-            switch (month) {
-                case 2:
-                    monthValue = 31 * 1440;
-                    break;
-                case 3:
-                    monthValue = 59 * 1440;
-                    break;
-                case 4:
-                    monthValue = 90 * 1440;
-                    break;
-                case 5:
-                    monthValue = 120 * 1440;
-                    break;
-                case 6:
-                    monthValue = 151 * 1440;
-                    break;
-                case 7:
-                    monthValue = 181 * 1440;
-                    break;
-                case 8:
-                    monthValue = 212 * 1440;
-                    break;
-                case 9:
-                    monthValue = 242 * 1440;
-                    break;
-                case 10:
-                    monthValue = 273 * 1440;
-                    break;
-                case 11:
-                    monthValue = 303 * 1440;
-                    break;
-                case 12:
-                    monthValue = 334 * 1440;
-                    break;
-                default:
-                    monthValue = 0;
-                    break;
-            }
-            let dayValue;
-            if (day > 1) {
-                dayValue = (day - 1) * 1440;
-            } else {
-                dayValue = 0;
-            }
-            let yearValue = year * 1440 * 365;
-            const leapYears = Math.floor(year / 4);
-            yearValue += leapYears * 1440;
-            const dateValue = monthValue + dayValue + yearValue;
+            const dateValue = calcDateValueWithTime(month, day, year, hour, minute)
 
             const newLog = {
                 meterId: meterId,
@@ -266,7 +218,7 @@ class Main extends Component {
                 day: day,
                 year: year,
                 hour: hour,
-                minutes: minutes,
+                minutes: minute,
                 dateValue: dateValue
             }
             this.state.logs.push(newLog);

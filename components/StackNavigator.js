@@ -37,6 +37,7 @@ const StackNavigator = props => {
         <LogHistoryScreen
             logs={props.logs}
             selectedMeter={props.selectedMeter}
+            createTimeLog={props.createTimeLog}
         />
     );
 

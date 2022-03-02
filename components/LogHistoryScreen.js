@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, ScrollView, SafeAreaView, View, TouchableOpacity, Text } from 'react-native';
+import { InsertLog } from './modals/InsertLogModal';
 import XLSX from 'xlsx';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
@@ -8,7 +9,12 @@ import * as Sharing from 'expo-sharing';
 const LogHistoryScreen = props => {
     const navigation = useNavigation();
 
+    const [insertVisible, setInsertVisible] = useState(false);
+
     const logs = props.logs.filter(log => log.meterId === props.selectedMeter);
+    logs.sort(function (a, b) {
+        return a.dateValue - b.dateValue;
+    });
     logs.reverse();
     const meterLogs = logs.map(log => {
         let month;
@@ -81,6 +87,14 @@ const LogHistoryScreen = props => {
 
     return (
         <View style={{ flex: 1, backgroundColor: '#2b2b2b' }}>
+            <InsertLog
+                visible={insertVisible}
+                toggleModal={setInsertVisible}
+                createTimeLog={props.createTimeLog}
+                logs={props.logs}
+                meterId={props.selectedMeter}
+            />
+
             <SafeAreaView style={styles.container}>
                 <TouchableOpacity
                     style={{ position: 'absolute', top: -20.0}}
@@ -92,7 +106,7 @@ const LogHistoryScreen = props => {
                     {meterLogs}
                 </ScrollView>
                 <View style={styles.buttonsView}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => setInsertVisible(!insertVisible)}>
                         <Text style={styles.btnText}>Insert</Text>
                     </TouchableOpacity>
                     <TouchableOpacity

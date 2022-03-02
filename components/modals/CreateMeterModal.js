@@ -1,60 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, Modal, TouchableHighlight, View, Text, TextInput, SafeAreaView, Button, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { DayPicker, MonthPicker, YearInput } from './DatePickers';
-import { DismissKeyboard } from '../resources/keyboard';
-
-const calcDateValue = (month, day, year) => {
-    let monthValue;
-    switch (month) {
-        case 2:
-            monthValue = 31 * 1440;
-            break;
-        case 3:
-            monthValue = 59 * 1440;
-            break;
-        case 4:
-            monthValue = 90 * 1440;
-            break;
-        case 5:
-            monthValue = 120 * 1440;
-            break;
-        case 6:
-            monthValue = 151 * 1440;
-            break;
-        case 7:
-            monthValue = 181 * 1440;
-            break;
-        case 8:
-            monthValue = 212 * 1440;
-            break;
-        case 9:
-            monthValue = 242 * 1440;
-            break;
-        case 10:
-            monthValue = 273 * 1440;
-            break;
-        case 11:
-            monthValue = 303 * 1440;
-            break;
-        case 12:
-            monthValue = 334 * 1440;
-            break;
-        default:
-            monthValue = 0;
-            break;
-    }
-    let dayValue;
-    if (day > 1) {
-        dayValue = (day - 1) * 1440;
-    } else {
-        dayValue = 0;
-    }
-    let yearValue = year * 1440 * 365;
-    const leapYears = Math.floor(year / 4);
-    yearValue += leapYears * 1440;
-    return monthValue + dayValue + yearValue;
-}
+import { StyleSheet, Modal, TouchableOpacity, View, Text, TextInput, SafeAreaView, Button, TouchableWithoutFeedback, Keyboard } from 'react-native';;
+import { DayPicker, MonthPicker, YearInput } from '../DatePickers';
+import { DismissKeyboard } from '../../resources/keyboard';
+import { calcDateValue } from '../../resources/dateFunctions';
 
 const CreateProgressMeter = props => {
 

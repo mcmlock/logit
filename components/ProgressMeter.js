@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Dimensions, View, Text, StyleSheet } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { TimeLogger } from './AddProgressModal';
+import { TimeLogger } from './modals/AddProgressModal';
 
 const { width, height } = Dimensions.get('window');
 
@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
         borderWidth: 1.8,
         borderColor: 'white',
         borderRadius: 16.0,
+        backgroundColor: '#1f1e1e'
     },
     bottomRow: {
         flexDirection: 'row',
@@ -104,13 +105,14 @@ const styles = StyleSheet.create({
         borderWidth: 2.0,
         borderRadius: 4.0,
         borderColor: 'white',
+        backgroundColor: '#212020'
     },
     progress: {
         position: 'absolute',
         alignSelf: 'flex-end',
         paddingRight: 12.0,
         fontSize: 16.0,
-        color: 'white'
+        color: 'white',
     }
 });
 

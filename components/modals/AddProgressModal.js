@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, Modal, Text, View, Button, TextInput, SafeAreaView } from 'react-native';
+import { StyleSheet, Modal, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
-import { DismissKeyboard } from '../resources/keyboard';
+import { DismissKeyboard } from '../../resources/keyboard';
 
 export const TimeLogger = props => {
 
@@ -18,8 +17,8 @@ export const TimeLogger = props => {
         <Modal
             visible={props.visible}
         >
-            <View style={styles.modal}>
-                <DismissKeyboard>
+            <DismissKeyboard>
+                <View style={styles.modal}>
                     <View style={{ borderWidth: 1, paddingHorizontal: 40.0, paddingVertical: 20.0, borderRadius: 5.0, borderColor: 'white' }}>
                         <View style={styles.inputRow}>
                             <TextInput
@@ -27,7 +26,7 @@ export const TimeLogger = props => {
                                 placeholderTextColor="#444"
                                 keyboardType='number-pad'
                                 style={styles.textInput}
-                            //    value={hourInput}
+                                //    value={hourInput}
                                 onChangeText={value => setHourInput(value)}
                             />
                             <Text style={{ fontSize: 26.0, paddingHorizontal: 8.0, fontWeight: 'bold', color: 'white' }}>:</Text>
@@ -36,7 +35,7 @@ export const TimeLogger = props => {
                                 placeholderTextColor="#444"
                                 keyboardType='number-pad'
                                 style={styles.textInput}
-                            //    value={minuteInput}
+                                //    value={minuteInput}
                                 onChangeText={value => setMinuteInput(value)}
                             />
                         </View>
@@ -65,8 +64,8 @@ export const TimeLogger = props => {
                             <Text style={{ color: 'white', fontSize: 20.0, alignSelf: 'center' }}>Back</Text>
                         </TouchableOpacity>
                     </View>
-                </DismissKeyboard>
-            </View>
+                </View>
+            </DismissKeyboard>
         </Modal>
     );
 }
@@ -95,4 +94,5 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         color: 'white'
     }
+
 })

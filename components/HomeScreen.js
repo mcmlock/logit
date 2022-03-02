@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, View, Button, ScrollView, SafeAreaView} from 'react-native';
 import { Icon } from 'react-native-elements';
-import CreateProgressMeter from './CreateMeterModal';
+import CreateProgressMeter from './modals/CreateMeterModal';
 import ProgressMeter from './ProgressMeter';
 
 const HomeScreen = props => {
