@@ -38,6 +38,7 @@ const StackNavigator = props => {
             logs={props.logs}
             selectedMeter={props.selectedMeter}
             createTimeLog={props.createTimeLog}
+            deleteTimeLog={props.deleteTimeLog}
         />
     );
 

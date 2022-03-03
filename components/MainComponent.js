@@ -226,6 +226,12 @@ class Main extends Component {
             save();
         }
 
+        const deleteTimeLog = (dateValue, meterId) => {
+            this.state.logs = this.state.logs.filter(log => log.dateValue !== dateValue || log.meterId !== meterId );
+            this.setState({ logs: this.state.logs });
+            save();
+        }
+
         return (
             <StackNavigator
                 progressMeters={this.state.progressMeters}
@@ -236,6 +242,7 @@ class Main extends Component {
                 editProgressMeter={editProgressMeter}
                 deleteProgressMeter={deleteProgressMeter}
                 createTimeLog={createTimeLog}
+                deleteTimeLog={deleteTimeLog}
             />
         );
     };

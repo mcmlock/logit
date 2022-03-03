@@ -1,7 +1,10 @@
+
+
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, ScrollView, SafeAreaView, View, TouchableOpacity, Text } from 'react-native';
 import { InsertLog } from './modals/InsertLogModal';
+import { SwipeRow } from 'react-native-swipe-list-view';
 import XLSX from 'xlsx';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
@@ -78,11 +81,21 @@ const LogHistoryScreen = props => {
         }
 
         return (
-            <View style={styles.logView}>
-                <Text style={styles.logText}>{month} {day}, 20{log.year} @ {log.hour}:{log.minutes}</Text>
-                <Text style={styles.logText}>{log.hoursRecorded} hours {log.minutesRecorded} minutes</Text>
-            </View>
-        );
+            <SwipeRow rightOpenValue={-100}>
+                <View style={styles.deleteView}>
+                    <TouchableOpacity
+                        style={styles.deleteTouchable}
+                        onPress={() => props.deleteTimeLog(log.dateValue, log.meterId)}
+                    >
+                        <Text style={styles.deleteText}>Delete</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.logView}>
+                    <Text style={styles.logText}>{month} {day}, 20{log.year} @ {log.hour}:{log.minutes}</Text>
+                    <Text style={styles.logText}>{log.hoursRecorded} hours {log.minutesRecorded} minutes</Text>
+                </View>
+            </SwipeRow>
+        )
     });
 
     return (
@@ -97,7 +110,7 @@ const LogHistoryScreen = props => {
 
             <SafeAreaView style={styles.container}>
                 <TouchableOpacity
-                    style={{ position: 'absolute', top: -20.0}}
+                    style={{ position: 'absolute', top: -20.0 }}
                     onPress={() => navigation.navigate('Progress Report')}
                 >
                     <Text style={{ marginLeft: 15.0, color: 'white', fontSize: 16.0 }}>{'< Back'}</Text>
@@ -121,7 +134,7 @@ const LogHistoryScreen = props => {
                                 bookType: "xlsx"
                             });
                             const uri = FileSystem.cacheDirectory + 'logs.xlsx';
-                       //     console.log(`Writing to ${JSON.stringify(uri)} with text: ${wbout}`);
+                            //     console.log(`Writing to ${JSON.stringify(uri)} with text: ${wbout}`);
                             await FileSystem.writeAsStringAsync(uri, wbout, {
                                 encoding: FileSystem.EncodingType.Base64
                             });
@@ -147,11 +160,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         marginTop: 80.0,
-        width: '100%',
     },
     logView: {
-        marginHorizontal: 40.0,
-        marginVertical: 20
+        paddingHorizontal: 40.0,
+        paddingVertical: 20,
+        backgroundColor: '#282828',
     },
     logText: {
         fontSize: 22.0,
@@ -169,5 +182,23 @@ const styles = StyleSheet.create({
         marginHorizontal: 40.0,
         marginBottom: 10.0,
         color: 'white'
+    },
+    deleteView: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        flex: 1,
+    },
+    deleteTouchable: {
+        backgroundColor: '#ed1f37',
+        height: '100%',
+        justifyContent: 'center'
+    },
+    deleteText: {
+        color: 'white',
+        fontWeight: '700',
+        textAlign: 'center',
+        fontSize: 18,
+        width: 100
     }
 })
