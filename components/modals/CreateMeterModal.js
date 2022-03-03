@@ -72,6 +72,7 @@ const CreateProgressMeter = props => {
                                 placeholder='Title Me'
                                 placeholderTextColor='#444'
                                 value={title}
+                                autoCapitalize = {"words"}
                                 style={styles.titleTextInput}
                                 onChangeText={value => setTitle(value)}
                             />
@@ -81,6 +82,7 @@ const CreateProgressMeter = props => {
                             <TextInput
                                 style={styles.hoursTextInput}
                                 value={goal ? goal.toString() : ''}
+                                maxLength={5}
                                 placeholder='10000'
                                 placeholderTextColor='#444'
                                 keyboardType='number-pad'

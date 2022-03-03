@@ -514,6 +514,7 @@ export const YearInput = props => {
                     placeholder='YY'
                     keyboardType='number-pad'
                     value={props.year}
+                    maxLength={2}
                     onChangeText={(value) => {
                         props.setYMax(1);
                         setYear(parseInt(value, 10));

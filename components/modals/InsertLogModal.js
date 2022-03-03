@@ -50,8 +50,9 @@ export const InsertLog = props => {
                                 placeholderTextColor="#444"
                                 keyboardType='number-pad'
                                 style={styles.textInput}
-
+                                maxLength={2}
                                 onChangeText={value => setHourInput(value)}
+                                onChangeText={value => value.substring(0,1) == 0 ? setHourInput(value.substring(1)) : setHourInput(value)}
                             />
                             <Text style={{ fontSize: 26.0, paddingHorizontal: 8.0, fontWeight: 'bold', color: 'white' }}>:</Text>
                             <TextInput
@@ -59,7 +60,8 @@ export const InsertLog = props => {
                                 placeholderTextColor="#444"
                                 keyboardType='number-pad'
                                 style={styles.textInput}
-                                onChangeText={value => setMinuteInput(value)}
+                                maxLength={2}
+                                onChangeText={value => value.substring(0,1) == 0 ? setMinuteInput(value.substring(1)) : setMinuteInput(value)}
                             />
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'center', marginBottom: 15.0 }}>
@@ -69,8 +71,8 @@ export const InsertLog = props => {
                                     placeholderTextColor="#444"
                                     keyboardType='number-pad'
                                     style={styles.tsTextInput}
-
-                                    onChangeText={value => setTSHourInput(value)}
+                                    maxLength={2}
+                                    onChangeText={value => value.substring(0,1) == 0 ? setTSHourInput(value.substring(1)) : setTSHourInput(value)}
                                 />
                                 <Text style={{ fontSize: 18.0, fontWeight: 'bold', color: 'white' }}>:</Text>
                                 <TextInput
@@ -78,7 +80,8 @@ export const InsertLog = props => {
                                     placeholderTextColor="#444"
                                     keyboardType='number-pad'
                                     style={styles.tsTextInput}
-                                    onChangeText={value => setTSMinuteInput(value)}
+                                    maxLength={2}
+                                    onChangeText={value => value.substring(0,1) == 0 ? setTSMinuteInput(value.substring(1)) : setTSMinuteInput(value)}
                                 />
                                 <TouchableOpacity onPress={() => setAM(!am)}>
                                     <View style={{ borderWidth: 1, padding: 5.0, marginLeft: 3.0, marginRight: 15.0, borderColor: 'white', borderRadius: 4.0 }}>
