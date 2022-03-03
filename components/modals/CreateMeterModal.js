@@ -60,8 +60,6 @@ const CreateProgressMeter = props => {
         );
     }
 
-    console.log(props.meter);
-
     return (
         <Modal
             visible={props.visible}

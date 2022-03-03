@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions, View } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 
 const { width, height } = Dimensions.get('window');
@@ -9,8 +9,7 @@ export const LineGraph = props => {
         <LineChart
             fromZero={true}
             onDataPointClick={value => {
-                selectPoint(value.index * 1440 + props.startDateValue)
-
+                props.selectPoint(value.index * 1440 + props.startDateValue)
             }}
             segments={1}
             withInnerLines={false}
@@ -28,7 +27,7 @@ export const LineGraph = props => {
                 ]
             }}
             width={(props.values.length * 50)}
-            height={height * .25}
+            height={height * .25 * (props.highestValue / props.yScale)}
             chartConfig={{
                 backgroundGradientFrom: props.color,
                 backgroundGradientTo: props.color,

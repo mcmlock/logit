@@ -190,7 +190,11 @@ export const InsertLog = props => {
                                         if (tsHourInput < 24 && (hourInput > 0 || minuteInput > 0) && (tsHourInput > 0 || tsMinuteInput > 0)) {
                                             const sameDateAndTime = meterLogs.filter(log => log.dateValue === calcDateValueWithTime(month, day, year, Number(tsHourInput), Number(tsMinuteInput)));
                                             if (sameDateAndTime.length === 0) {
-                                                props.createTimeLog(props.meterId, Number(hourInput), Number(minuteInput), month, day, year, Number(tsHourInput), Number(tsMinuteInput));
+                                                if (tsHourInput == 12) {
+                                                    props.createTimeLog(props.meterId, Number(hourInput), Number(minuteInput), month, day, year, 0, Number(tsMinuteInput));
+                                                } else {
+                                                    props.createTimeLog(props.meterId, Number(hourInput), Number(minuteInput), month, day, year, Number(tsHourInput), Number(tsMinuteInput));
+                                                }
                                             }
                                         }
                                     }

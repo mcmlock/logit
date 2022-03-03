@@ -88,7 +88,7 @@ export const SelectedPointInfo = props => {
     selectedDay = minutesLeft / 1440;
     selectedDay = addDaySuffix(selectedDay);
 
-    const dayLogs = props.logs.filter(log => log.dateValue === props.point - 1440);
+    const dayLogs = props.logs.filter(log => log.dateValue - (log.dateValue % 1440) === props.point - 1440);
     const daysContribution = (dayLogs.reduce((prevVal, currentVal) => prevVal + currentVal.hoursRecorded + (currentVal.minutesRecorded / 60), 0)).toFixed(2);
     const hours = Math.floor(daysContribution);
     const minutesDec = daysContribution - hours;

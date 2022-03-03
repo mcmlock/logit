@@ -150,7 +150,8 @@ class Main extends Component {
     };
 
     componentDidMount() {
-       load(this);
+        load(this);
+    // AsyncStorage.clear();
     };
 
     render() {
@@ -184,7 +185,6 @@ class Main extends Component {
 
         const editProgressMeter = (meter, barProperties) => {
             const insertPoint = this.state.progressMeters.indexOf(meter);
-          //  console.log(insertPoint);
             const progressMeter = {
                 id: barProperties.id,
                 title: barProperties.title,

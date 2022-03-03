@@ -54,6 +54,7 @@ const ProgressReportScreen = props => {
     const navigation = useNavigation();
 
     const [yMax, setYMax] = useState(1);
+    const [highestValue, setHighestValue] = useState(1);
     const [point, selectPoint] = useState(dateValue);
     const [startMonth, setStartMonth] = useState(sMonth);
     const [startDay, setStartDay] = useState(sDay);
@@ -91,19 +92,22 @@ const ProgressReportScreen = props => {
     })
 
     const findDayLogs = (endDateValue, daysFromEnd) => {
-        return logsInRange.filter(log => log.dateValue === endDateValue - (1440 * daysFromEnd));
+        return logsInRange.filter(log => log.dateValue - (log.dateValue % 1440) === endDateValue - (1440 * daysFromEnd));
     }
     const calcDayTotal = day => {
         let hours = 0;
         for (i = 0; i < day.length; i++) {
             hours += day[i].hoursRecorded + (day[i].minutesRecorded / 60);
-            if (hours > yMax) { setYMax(hours) };
+            if (hours > yMax) { 
+                setYMax(hours);
+                setHighestValue(hours); 
+            };
         }
         return hours;
     }
 
     // Gathering the data for the chart
-    const logsInRange = props.logs.filter(log => log.meterId === props.selectedMeter && log.dateValue >= startDateValue && log.dateValue <= endDateValue);
+    const logsInRange = props.logs.filter(log => log.meterId === props.selectedMeter && log.dateValue >= startDateValue && log.dateValue - 1439 <= endDateValue);
 
     const values = [];
     for (let i = 1; i <= dateRange; i++) {
@@ -232,7 +236,7 @@ const ProgressReportScreen = props => {
                         <View style={styles.graphContainer}>
                             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} bounces={false} style={{ borderRadius: 8, backgroundColor: props.color }} contentContainerStyle={styles.graph}>
                                 <View style={{ marginHorizontal: -20 }}>
-                                    <LineGraph selectPoint={selectPoint} startDateValue={startDateValue} values={values} pointsToHide={pointsToHide} color={props.color} />
+                                    <LineGraph selectPoint={selectPoint} highestValue={highestValue} yScale={yScale} startDateValue={startDateValue} values={values} pointsToHide={pointsToHide} color={props.color} />
                                 </View>
                             </ScrollView>
                         </View>
