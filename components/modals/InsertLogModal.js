@@ -51,8 +51,7 @@ export const InsertLog = props => {
                                 keyboardType='number-pad'
                                 style={styles.textInput}
                                 maxLength={2}
-                                onChangeText={value => setHourInput(value)}
-                                onChangeText={value => value.substring(0,1) == 0 ? setHourInput(value.substring(1)) : setHourInput(value)}
+                                onChangeText={value => value.substring(0,1) == 0 && value.length > 1 ? setHourInput(value.substring(1)) : setHourInput(value)}
                             />
                             <Text style={{ fontSize: 26.0, paddingHorizontal: 8.0, fontWeight: 'bold', color: 'white' }}>:</Text>
                             <TextInput

@@ -68,36 +68,43 @@ export const DayPicker = props => {
             <View style={styles.dayRow}>
                 <Button
                     title='01'
+                    color='white'
                     onPress={() => {
                         setDay(1, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='02'
+                    color='white'
                     onPress={() => {
                         setDay(2, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='03'
+                    color='white'
                     onPress={() => {
                         setDay(3, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='04'
+                    color='white'
                     onPress={() => {
                         setDay(4, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='05'
+                    color='white'
                     onPress={() => {
                         setDay(5, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='06'
+                    color='white'
                     onPress={() => {
                         setDay(6, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='07'
+                    color='white'
                     onPress={() => {
                         setDay(7, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
@@ -105,36 +112,43 @@ export const DayPicker = props => {
             <View style={styles.dayRow}>
                 <Button
                     title='08'
+                    color='white'
                     onPress={() => {
                         setDay(8, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='09'
+                    color='white'
                     onPress={() => {
                         setDay(9, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='10'
+                    color='white'
                     onPress={() => {
                         setDay(10, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='11'
+                    color='white'
                     onPress={() => {
                         setDay(11, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='12'
+                    color='white'
                     onPress={() => {
                         setDay(12, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='13'
+                    color='white'
                     onPress={() => {
                         setDay(13, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='14'
+                    color='white'
                     onPress={() => {
                         setDay(14, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
@@ -142,36 +156,43 @@ export const DayPicker = props => {
             <View style={styles.dayRow}>
                 <Button
                     title='15'
+                    color='white'
                     onPress={() => {
                         setDay(15, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='16'
+                    color='white'
                     onPress={() => {
                         setDay(16, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='17'
+                    color='white'
                     onPress={() => {
                         setDay(17, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='18'
+                    color='white'
                     onPress={() => {
                         setDay(18, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='19'
+                    color='white'
                     onPress={() => {
                         setDay(19, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='20'
+                    color='white'
                     onPress={() => {
                         setDay(20, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='21'
+                    color='white'
                     onPress={() => {
                         setDay(21, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
@@ -179,36 +200,43 @@ export const DayPicker = props => {
             <View style={styles.dayRow}>
                 <Button
                     title='22'
+                    color='white'
                     onPress={() => {
                         setDay(22, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='23'
+                    color='white'
                     onPress={() => {
                         setDay(23, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='24'
+                    color='white'
                     onPress={() => {
                         setDay(24, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='25'
+                    color='white'
                     onPress={() => {
                         setDay(25, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='26'
+                    color='white'
                     onPress={() => {
                         setDay(26, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='27'
+                    color='white'
                     onPress={() => {
                         setDay(27, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
                 <Button
                     title='28'
+                    color='white'
                     onPress={() => {
                         setDay(28, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                     }} />
@@ -217,16 +245,19 @@ export const DayPicker = props => {
                 <View style={styles.dayRow}>
                     <Button
                         title='29'
+                        color='white'
                         onPress={() => {
                             setDay(29, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                         }} />
                     {show30 && <Button
                         title='30'
+                        color='white'
                         onPress={() => {
                             setDay(30, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                         }} />}
                     {show31 && <Button
                         title='31'
+                        color='white'
                         onPress={() => {
                             setDay(31, props.setsEndDate, props.startDateValue, props.endDateValue, props.month, props.year, props.setYMax, props.setDay, props.isInsert);
                         }} />}
@@ -274,6 +305,7 @@ export const MonthPicker = props => {
             <View style={styles.monthRow}>
                 <Button
                     title='1'
+                    color='white'
                     onPress={() => {
                         if (props.setsEndDate) {
                             if (props.isInsert || props.calcDateValue(1, props.day, props.year) > props.startDateValue) {
@@ -291,6 +323,7 @@ export const MonthPicker = props => {
                     }} />
                 <Button
                     title='2'
+                    color='white'
                     onPress={() => {
                         if (props.setsEndDate) {
                             if (props.isInsert || props.calcDateValue(2, props.day, props.year) > props.startDateValue) {
@@ -316,6 +349,7 @@ export const MonthPicker = props => {
                     }} />
                 <Button
                     title='3'
+                    color='white'
                     onPress={() => {
                         if (props.setsEndDate) {
                             if (props.isInsert || props.calcDateValue(3, props.day, props.year) > props.startDateValue) {
@@ -333,6 +367,7 @@ export const MonthPicker = props => {
                     }} />
                 <Button
                     title='4'
+                    color='white'
                     onPress={() => {
                         if (props.setsEndDate) {
                             if (props.isInsert || props.calcDateValue(4, props.day, props.year) > props.startDateValue) {
@@ -352,6 +387,7 @@ export const MonthPicker = props => {
             <View style={styles.monthRow}>
                 <Button
                     title='5'
+                    color='white'
                     onPress={() => {
                         if (props.setsEndDate) {
                             if (props.isInsert || props.calcDateValue(5, props.day, props.year) > props.startDateValue) {
@@ -370,6 +406,7 @@ export const MonthPicker = props => {
                 />
                 <Button
                     title='6'
+                    color='white'
                     onPress={() => {
                         if (props.setsEndDate) {
                             if (props.isInsert || props.calcDateValue(6, props.day, props.year) > props.startDateValue) {
@@ -388,6 +425,7 @@ export const MonthPicker = props => {
                 />
                 <Button
                     title='7'
+                    color='white'
                     onPress={() => {
                         if (props.setsEndDate) {
                             if (props.isInsert || props.calcDateValue(7, props.day, props.year) > props.startDateValue) {
@@ -406,6 +444,7 @@ export const MonthPicker = props => {
                 />
                 <Button
                     title='8'
+                    color='white'
                     onPress={() => {
                         if (props.setsEndDate) {
                             if (props.isInsert || props.calcDateValue(8, props.day, props.year) > props.startDateValue) {
@@ -426,6 +465,7 @@ export const MonthPicker = props => {
             <View style={styles.monthRow}>
                 <Button
                     title='9'
+                    color='white'
                     onPress={() => {
                         if (props.setsEndDate) {
                             if (props.isInsert || props.calcDateValue(9, props.day, props.year) > props.startDateValue) {
@@ -444,6 +484,7 @@ export const MonthPicker = props => {
                 />
                 <Button
                     title='10'
+                    color='white'
                     onPress={() => {
                         if (props.setsEndDate) {
                             if (props.isInsert || props.calcDateValue(10, props.day, props.year) > props.startDateValue) {
@@ -462,6 +503,7 @@ export const MonthPicker = props => {
                 />
                 <Button
                     title='11'
+                    color='white'
                     onPress={() => {
                         if (props.setsEndDate) {
                             if (props.isInsert || props.calcDateValue(11, props.day, props.year) > props.startDateValue) {
@@ -480,6 +522,7 @@ export const MonthPicker = props => {
                 />
                 <Button
                     title='12'
+                    color='white'
                     onPress={() => {
                         if (props.setsEndDate) {
                             if (props.isInsert || props.calcDateValue(12, props.day, props.year) > props.startDateValue) {
@@ -575,8 +618,8 @@ const styles = StyleSheet.create({
         borderRightWidth: 2,
         width: width * .70,
         height: 150.0,
-        marginTop: 5.0,
-        marginBottom: 20.0,
+        marginTop: 15.0,
+        marginBottom: 25.0,
     },
     startDatePicker: {
         justifyContent: 'center',
@@ -585,8 +628,8 @@ const styles = StyleSheet.create({
         borderLeftWidth: 2,
         width: width * .70,
         height: 150.0,
-        marginTop: 5.0,
-        marginBottom: 20.0
+        marginTop: 15.0,
+        marginBottom: 25.0
     },
     textInput: {
         paddingHorizontal: 3.0,

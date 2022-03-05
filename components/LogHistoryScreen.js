@@ -81,7 +81,7 @@ const LogHistoryScreen = props => {
         }
 
         return (
-            <SwipeRow rightOpenValue={-100}>
+            <SwipeRow key={log.dateValue} rightOpenValue={-100}>
                 <View style={styles.deleteView}>
                     <TouchableOpacity
                         style={styles.deleteTouchable}
@@ -115,7 +115,7 @@ const LogHistoryScreen = props => {
                 >
                     <Text style={{ marginLeft: 15.0, color: 'white', fontSize: 16.0 }}>{'< Back'}</Text>
                 </TouchableOpacity>
-                <ScrollView style={{ marginBottom: 80.0, width: '100%' }}>
+                <ScrollView style={{ marginBottom: 60.0, width: '100%' }}>
                     {meterLogs}
                 </ScrollView>
                 <View style={styles.buttonsView}>
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     logView: {
         paddingHorizontal: 40.0,
         paddingVertical: 20,
-        backgroundColor: '#282828',
+        backgroundColor: '#2b2b2b',
     },
     logText: {
         fontSize: 22.0,

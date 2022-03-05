@@ -19,6 +19,7 @@ const HomeScreen = props => {
     const progressMeters = props.progressMeters.map(meter => {
         return (
             <ProgressMeter
+                key={meter.id}
                 logs={props.logs}
                 meter={meter}
                 selectMeter={props.selectMeter}
@@ -38,8 +39,8 @@ const HomeScreen = props => {
             />
 
             
-            <SafeAreaView>
-                <ScrollView style={{ height: '100%' }}>
+            <SafeAreaView style={{flex: 1}}>
+                <ScrollView style={{ marginBottom: 60.0 }}>
                     {progressMeters}
                     <View style={{ height: 40}} />
                 </ScrollView>

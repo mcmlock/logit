@@ -89,6 +89,11 @@ const ProgressReportScreen = props => {
         const lowerView = Keyboard.addListener('keyboardWillHide', () => {
             setKeyboardSpacer(0);
         });
+
+        return () => {
+            punchUpView;
+            lowerView;
+        }
     })
 
     const findDayLogs = (endDateValue, daysFromEnd) => {
@@ -215,9 +220,9 @@ const ProgressReportScreen = props => {
                     <Text style={{ fontSize: 24.0, textAlign: 'center', color: 'white' }}>{daysLeft} Days Left</Text>
                 </View>
                 <ScrollView
-                    style={{ marginBottom: 80.0 }} contentContainerStyle={{ justifyContent: 'flex-start', alignItems: 'center' }}
-                 /*   ref={ref => { this.scrollView = ref }}
-                    onContentSizeChange={() => this.scrollView.scrollToEnd({ animated: true })}*/
+                    style={{ marginBottom: 60.0 }} contentContainerStyle={{ justifyContent: 'flex-start', alignItems: 'center' }}
+                    ref={ref => { this.scrollView = ref }}
+                    onContentSizeChange={() => this.scrollView.scrollToEnd({ animated: true })}
                 >
                     <View style={{ marginTop: 15.0 }}>
                         <Text style={styles.range}>{hoursInRange} H {minutesInRange} M Tracked</Text>
